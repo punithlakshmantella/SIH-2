@@ -1,0 +1,43 @@
+from app.models.models import (
+    Role,
+    User,
+    Zone,
+    Road,
+    Camera,
+    CameraHealth,
+    Vehicle,
+    Plate,
+    VehicleDetection,
+    VehicleFeature,
+    TrajectoryEvent,
+    Alert,
+    Watchlist,
+    Case,
+    CaseEvent,
+    TrafficMetric,
+    TrafficFlow,
+    CongestionRecord,
+    AuditLog
+)
+
+__all__ = [
+    "Role",
+    "User",
+    "Zone",
+    "Road",
+    "Camera",
+    "CameraHealth",
+    "Vehicle",
+    "Plate",
+    "VehicleDetection",
+    "VehicleFeature",
+    "TrajectoryEvent",
+    "Alert",
+    "Watchlist",
+    "Case",
+    "CaseEvent",
+    "TrafficMetric",
+    "TrafficFlow",
+    "CongestionRecord",
+    "AuditLog"
+]
