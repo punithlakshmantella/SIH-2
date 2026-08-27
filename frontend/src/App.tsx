@@ -68,7 +68,11 @@ export default function App() {
               <Route path="/investigations/:id" element={<InvestigationDetail />} />
             </Route>
 
-            <Route path="/reports" element={<Reports />} />
+            <Route element={<ProtectedRoute allowedRoles={["Traffic Police", "Authorized Investigator", "Traffic Analyst", "Municipal/Smart City Authority", "Control Room Operator", "System Administrator"]} />}>
+              <Route path="/reports" element={<Reports />} />
+              <Route path="/mobility-reports" element={<Reports />} />
+              <Route path="/traffic-reports" element={<Reports />} />
+            </Route>
 
             <Route element={<ProtectedRoute allowedRoles={["System Administrator"]} />}>
               <Route path="/users" element={<UsersPage />} />

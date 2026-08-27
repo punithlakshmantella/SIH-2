@@ -33,7 +33,7 @@ class User(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     role = relationship("Role", back_populates="users")
-    watchlists = relationship("Watchlist", back_populates="creator")
+    watchlists = relationship("Watchlist", foreign_keys="[Watchlist.created_by]", back_populates="creator")
     cases = relationship("Case", back_populates="assigned_investigator")
     audit_logs = relationship("AuditLog", back_populates="user")
 
@@ -273,12 +273,21 @@ class Watchlist(Base):
     reason_category = Column(String(100), nullable=False)  # stolen, active_investigation, authorized_watchlist, traffic_violator, other
     priority = Column(String(50), default="high")  # low, medium, high, urgent
     notes = Column(Text, nullable=True)
+    case_reference = Column(String(100), nullable=True)
+    status = Column(String(50), default="active")  # active, pending_verification, suspended, expired, resolved, rejected
+    verification_status = Column(String(50), default="verified")  # pending, verified, rejected
+    verified_by = Column(Integer, ForeignKey("users.id"), nullable=True)
+    verified_at = Column(DateTime, nullable=True)
+    effective_from = Column(DateTime, default=datetime.utcnow)
+    expiry_date = Column(DateTime, nullable=True)
+    resolution_notes = Column(Text, nullable=True)
+    resolved_at = Column(DateTime, nullable=True)
     created_by = Column(Integer, ForeignKey("users.id"), nullable=True)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    creator = relationship("User", back_populates="watchlists")
+    creator = relationship("User", foreign_keys=[created_by], back_populates="watchlists")
 
 # 14. Case Model
 class Case(Base):

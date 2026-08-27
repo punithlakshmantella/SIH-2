@@ -74,7 +74,9 @@ def search_vehicles(
     direction: Optional[str] = Query(None, description="Movement direction (NB, SB, EB, WB)"),
     start_time: Optional[datetime] = Query(None, description="Start timestamp"),
     end_time: Optional[datetime] = Query(None, description="End timestamp"),
-    limit: int = Query(25, ge=1, le=100),
+    min_confidence: Optional[float] = Query(None, description="Minimum OCR confidence (0-1)"),
+    detection_status: Optional[str] = Query(None, description="All, Normal, Watchlist, Alert-associated"),
+    limit: int = Query(100, ge=1, le=1000),
     offset: int = Query(0, ge=0),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
@@ -113,9 +115,21 @@ def search_vehicles(
         detection_filters.append(VehicleDetection.timestamp <= end_time)
     if zone_id:
         detection_filters.append(VehicleDetection.camera.has(Camera.zone_id == zone_id))
+    if min_confidence is not None:
+        detection_filters.append(VehicleDetection.ocr_confidence >= min_confidence)
 
     if detection_filters:
         query = query.filter(Vehicle.detections.any(*detection_filters))
+
+    # 4. Status Filter
+    if detection_status:
+        status_lower = detection_status.lower()
+        if status_lower == "watchlist":
+            query = query.filter(Vehicle.is_flagged == True)
+        elif status_lower == "alert-associated":
+            query = query.filter(Vehicle.alert_count > 0)
+        elif status_lower == "normal":
+            query = query.filter(Vehicle.is_flagged == False, Vehicle.alert_count == 0)
 
     vehicles = query.order_by(Vehicle.last_seen_at.desc()).offset(offset).limit(limit).all()
 
@@ -132,6 +146,7 @@ def search_vehicles(
             "color": color,
             "camera_id": camera_id,
             "zone_id": zone_id,
+            "status": detection_status,
             "results_count": len(vehicles)
         },
         ip_address=client_ip

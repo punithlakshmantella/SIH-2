@@ -179,9 +179,9 @@ def seed_database():
             roads_map[r_name] = r.id
 
         # -------------------------------------------------------------
-        # 3. CAMERAS (Structured for Demo Scenario & Real Topology)
+        # 3. CAMERAS (100 Registered: 20 Online Corridors, 80 Offline Expansion Nodes)
         # -------------------------------------------------------------
-        print("[+] Seeding 20 Visakhapatnam CCTV / ANPR Camera nodes...")
+        print("[+] Seeding 100 Visakhapatnam CCTV / ANPR Camera nodes (20 Online, 80 Offline)...")
         cameras_data = [
             # Demo Scenario Specific Nodes (Rural -> Highway -> Toll -> Town -> City)
             ("CAM-RUR-001", "Sabbavaram Rural Outpost Camera", 17.6520, 83.1180, "Sabbavaram Rural Approach Link", "Gajuwaka", "EB", "online", 30.0, 42.0, 95.5, 8.0),
@@ -190,11 +190,11 @@ def seed_database():
             ("CAM-TWN-004", "Gajuwaka Town Center Junction", 17.6890, 83.1860, "NH16 National Highway - South Arterial", "Gajuwaka", "EB", "online", 30.0, 35.0, 94.8, 22.0),
             ("CAM-CTR-005", "Siripuram Circle North ANPR", 17.7180, 83.3080, "Siripuram Circle Express", "City Centre", "NB", "online", 30.0, 32.0, 97.1, 28.0),
 
-            # Additional Visakhapatnam Nodes across zones
+            # Additional Visakhapatnam Core Online Nodes across zones (Total 20 Online)
             ("CAM-AIR-006", "Visakhapatnam Airport Terminal Entry", 17.7220, 83.2210, "Airport Flyover Corridor", "Airport Road", "EB", "online", 30.0, 40.0, 96.0, 16.0),
             ("CAM-AIR-007", "Airport Road NH16 Merge Gate", 17.7310, 83.2280, "Airport Flyover Corridor", "Airport Road", "NB", "online", 30.0, 44.0, 93.5, 20.0),
             ("CAM-NAD-008", "NAD Junction Level-1 Flyover North", 17.7405, 83.2265, "NAD Multi-Level Junction Ring", "NAD Junction", "NB", "online", 30.0, 36.0, 95.0, 34.0),
-            ("CAM-NAD-009", "NAD Junction Underpass Southbound", 17.7390, 83.2250, "NAD Multi-Level Junction Ring", "NAD Junction", "SB", "warning", 24.0, 110.0, 88.0, 30.0),
+            ("CAM-NAD-009", "NAD Junction Underpass Southbound", 17.7390, 83.2250, "NAD Multi-Level Junction Ring", "NAD Junction", "SB", "online", 30.0, 35.0, 92.0, 30.0),
             ("CAM-NAD-010", "NAD West Entry - Gopalapatnam Road", 17.7420, 83.2210, "NAD Multi-Level Junction Ring", "NAD Junction", "WB", "online", 30.0, 39.0, 94.2, 26.0),
             ("CAM-MAD-011", "Maddilapalem RTC Complex Junction", 17.7320, 83.3210, "BRTS Expressway Corridor", "Maddilapalem", "EB", "online", 30.0, 41.0, 95.8, 38.0),
             ("CAM-MAD-012", "AU High School Gate ANPR", 17.7355, 83.3280, "Andhra University Main Road", "Maddilapalem", "NB", "online", 30.0, 33.0, 96.5, 14.0),
@@ -202,11 +202,24 @@ def seed_database():
             ("CAM-MVP-014", "MVP Colony Sector-3 Main Arch", 17.7440, 83.3410, "MVP Sector 4 Main Avenue", "MVP Colony", "NB", "online", 30.0, 30.0, 98.0, 15.0),
             ("CAM-MVP-015", "Beach Road Tenneti Park Overlook", 17.7560, 83.3550, "Beach Road Coastal Promenade", "MVP Colony", "NB", "online", 30.0, 52.0, 92.5, 19.0),
             ("CAM-MVP-016", "RK Beach Promenade South Gate", 17.7150, 83.3250, "Beach Road Coastal Promenade", "MVP Colony", "SB", "online", 30.0, 46.0, 94.1, 21.0),
-            ("CAM-CTR-017", "Jagadamba Junction Cinema Road", 17.7090, 83.2990, "Jagadamba Centre Hub Road", "City Centre", "EB", "warning", 20.0, 95.0, 89.0, 32.0),
+            ("CAM-CTR-017", "Jagadamba Junction Cinema Road", 17.7090, 83.2990, "Jagadamba Centre Hub Road", "City Centre", "EB", "online", 30.0, 38.0, 93.0, 32.0),
             ("CAM-CTR-018", "GVMC Headquarters Gate CCTV", 17.7150, 83.3030, "Siripuram Circle Express", "City Centre", "WB", "online", 30.0, 31.0, 97.4, 23.0),
-            ("CAM-GAJ-019", "Gajuwaka Industrial Estate North", 17.6940, 83.1930, "NH16 National Highway - South Arterial", "Gajuwaka", "NB", "offline", 0.0, 0.0, 0.0, 0.0),
+            ("CAM-GAJ-019", "Gajuwaka Industrial Estate North", 17.6940, 83.1930, "NH16 National Highway - South Arterial", "Gajuwaka", "NB", "online", 30.0, 40.0, 95.0, 22.0),
             ("CAM-CTR-020", "Siripuram INOX Mall Junction", 17.7210, 83.3120, "Siripuram Circle Express", "City Centre", "EB", "online", 30.0, 34.0, 96.8, 29.0)
         ]
+
+        # 80 Registered Municipal Expansion Nodes (Offline / Standby Inventory)
+        expansion_zones = ["Gajuwaka", "NAD Junction", "Maddilapalem", "MVP Colony", "Airport Road", "City Centre"]
+        expansion_roads = list(roads_data)
+        for i in range(21, 101):
+            r_info = expansion_roads[(i - 21) % len(expansion_roads)]
+            c_code = f"CAM-MET-{i:03d}"
+            c_title = f"Vizag Smart City Node #{i:03d} ({r_info[1]})"
+            c_lat = 17.6500 + ((i * 13) % 150) * 0.001
+            c_lng = 83.1200 + ((i * 17) % 250) * 0.001
+            cameras_data.append(
+                (c_code, c_title, c_lat, c_lng, r_info[0], r_info[1], "Both", "offline", 0.0, 0.0, 0.0, 0.0)
+            )
 
         cameras_map = {}
         for c_id, name, lat, lng, road_name, zone_name, direction, status, fps, latency, ocr_acc, vpm in cameras_data:
@@ -224,7 +237,7 @@ def seed_database():
                 ocr_accuracy=ocr_acc,
                 vehicles_per_min=vpm,
                 is_simulation=True,
-                last_heartbeat=datetime.utcnow() - timedelta(minutes=1 if status == "online" else 45)
+                last_heartbeat=datetime.utcnow() - timedelta(minutes=1 if status == "online" else 120)
             )
             db.add(cam)
             cameras_map[c_id] = cam
@@ -235,9 +248,9 @@ def seed_database():
                 timestamp=datetime.utcnow() - timedelta(minutes=5),
                 status=status,
                 latency_ms=latency,
-                packet_loss_pct=0.0 if status == "online" else (5.5 if status == "warning" else 100.0),
+                packet_loss_pct=0.0 if status == "online" else 100.0,
                 fps_actual=fps,
-                error_message=None if status == "online" else ("High network jitter detected" if status == "warning" else "RTSP stream disconnected")
+                error_message=None if status == "online" else "RTSP stream offline / standby node"
             )
             db.add(health)
 
@@ -575,16 +588,15 @@ def seed_database():
             )
             db.add(cong_rec)
 
-        # Origin-Destination Flows
+        # Origin-Destination Flows (City-Scale Ingestion Aggregates)
         od_pairs = [
-            ("CAM-RUR-001", "CAM-HWY-002", "Gajuwaka", "Gajuwaka", 142, 620, 65.0),
-            ("CAM-HWY-002", "CAM-TOL-003", "Gajuwaka", "Gajuwaka", 195, 340, 55.0),
-            ("CAM-TOL-003", "CAM-TWN-004", "Gajuwaka", "Gajuwaka", 188, 480, 48.0),
-            ("CAM-TWN-004", "CAM-CTR-005", "Gajuwaka", "City Centre", 112, 1100, 42.0),
-            ("CAM-AIR-006", "CAM-NAD-008", "Airport Road", "NAD Junction", 168, 540, 52.0),
-            ("CAM-NAD-008", "CAM-MAD-011", "NAD Junction", "Maddilapalem", 210, 890, 44.0),
-            ("CAM-MAD-011", "CAM-MVP-014", "Maddilapalem", "MVP Colony", 134, 450, 46.0),
-            ("CAM-CTR-005", "CAM-MVP-016", "City Centre", "MVP Colony", 156, 720, 38.0)
+            ("CAM-TWN-004", "CAM-NAD-008", "Gajuwaka", "NAD Junction", 8421, 720, 52.0),
+            ("CAM-NAD-008", "CAM-MAD-011", "NAD Junction", "Maddilapalem", 6872, 890, 44.0),
+            ("CAM-MAD-011", "CAM-MVP-014", "Maddilapalem", "MVP Colony", 5921, 450, 46.0),
+            ("CAM-AIR-006", "CAM-NAD-008", "Airport Road", "NAD Junction", 4310, 540, 52.0),
+            ("CAM-CTR-005", "CAM-MVP-016", "City Centre", "MVP Colony", 3780, 680, 41.0),
+            ("CAM-RUR-001", "CAM-HWY-002", "Gajuwaka", "Gajuwaka", 2450, 620, 65.0),
+            ("CAM-HWY-002", "CAM-TOL-003", "Gajuwaka", "Gajuwaka", 2195, 340, 55.0)
         ]
 
         for o_cam, d_cam, o_z, d_z, count, t_sec, avg_s in od_pairs:
@@ -601,12 +613,14 @@ def seed_database():
             )
             db.add(flow)
 
-        # Additional Alerts
+        # Additional Realistic Incidents & Alerts
         extra_alerts = [
-            ("AP31TX9901", "CAM-CTR-017", "watchlist_match", "critical", "Stolen Vehicle Sighted", "Stolen Hyundai Creta passed Jagadamba Junction."),
-            ("TS09UB4432", "CAM-MVP-015", "excessive_speed", "warning", "Excessive Speed Violation", "Vehicle recorded at 98 km/h on Beach Road (Speed limit 50 km/h)."),
-            (None, "CAM-NAD-009", "traffic_spike", "info", "Traffic Volume Spike", "Vehicle density exceeded threshold by 140% during evening peak."),
-            (None, "CAM-GAJ-019", "camera_failure", "warning", "Camera Stream Loss", "RTSP heartbeat lost on Gajuwaka Industrial Estate North.")
+            ("AP39AB1234", "CAM-CTR-018", "watchlist_match", "critical", "Watchlist match", "Authorized watchlist match: White Tata Nexon EV sighted at GVMC Headquarters Gate CCTV."),
+            ("TS09UB4432", "CAM-NAD-008", "impossible_transition", "critical", "Impossible transition", "Vehicle V-0281 flagged: CAM-AIR-007 → CAM-GAJ-019 (Implied speed 214 km/h violates physics)."),
+            (None, "CAM-GAJ-019", "camera_failure", "warning", "Camera offline", "RTSP heartbeat lost on CAM-GAJ-019 (Gajuwaka Industrial Estate North)."),
+            (None, "CAM-NAD-008", "traffic_spike", "info", "Traffic spike", "NAD Junction Multi-Level Ring volume exceeded capacity threshold by 140%."),
+            ("AP31TX9901", "CAM-CTR-017", "watchlist_match", "critical", "Watchlist match", "Stolen White Hyundai Creta detected at Jagadamba Junction Cinema Road."),
+            ("TS09UB4432", "CAM-MVP-015", "excessive_speed", "warning", "Excessive speed", "Vehicle TS09UB4432 recorded at 98 km/h on Beach Road (Speed limit 50 km/h).")
         ]
 
         for plt_num, cam_id, a_type, sev, title, desc in extra_alerts:
@@ -619,8 +633,8 @@ def seed_database():
                 severity=sev,
                 title=title,
                 description=desc,
-                confidence=0.94,
-                timestamp=datetime.utcnow() - timedelta(minutes=random.randint(10, 180)),
+                confidence=0.96,
+                timestamp=datetime.utcnow() - timedelta(minutes=random.randint(2, 45)),
                 is_resolved=False
             )
             db.add(alert)

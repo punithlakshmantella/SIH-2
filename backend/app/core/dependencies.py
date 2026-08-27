@@ -1,10 +1,12 @@
-from fastapi import Depends, HTTPException, status, Request
+import os
+import time
+from collections import defaultdict
+from typing import Callable, List, Optional
+
+from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
-from typing import List, Optional, Callable
-from collections import defaultdict
-import time
 
 from app.core.config import settings
 from app.db.session import get_db
@@ -65,6 +67,70 @@ def get_current_user(
     if not user.is_active:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user account")
     return user
+
+# Permission-based RBAC matrix
+ROLE_PERMISSIONS = {
+    "System Administrator": {
+        "VIEW_TRAFFIC_REPORTS", "PREVIEW_TRAFFIC_DATA", "EXPORT_TRAFFIC_CSV",
+        "VIEW_CAMERA_HEALTH", "VIEW_SURVEILLANCE_ALERTS", "VIEW_INVESTIGATIONS",
+        "MANAGE_USERS", "MANAGE_ROLES", "CHANGE_RBAC", "SYSTEM_CONFIGURATION"
+    },
+    "Traffic Police": {
+        "VIEW_TRAFFIC_REPORTS", "PREVIEW_TRAFFIC_DATA", "EXPORT_TRAFFIC_CSV",
+        "VIEW_CAMERA_HEALTH", "VIEW_SURVEILLANCE_ALERTS", "VIEW_INVESTIGATIONS",
+        "MANAGE_WATCHLIST", "CREATE_CASE"
+    },
+    "Authorized Investigator": {
+        "VIEW_TRAFFIC_REPORTS", "PREVIEW_TRAFFIC_DATA", "EXPORT_TRAFFIC_CSV",
+        "VIEW_SURVEILLANCE_ALERTS", "VIEW_INVESTIGATIONS", "MANAGE_WATCHLIST",
+        "CREATE_CASE", "VERIFY_EVIDENCE"
+    },
+    "Investigator": {
+        "VIEW_TRAFFIC_REPORTS", "PREVIEW_TRAFFIC_DATA", "EXPORT_TRAFFIC_CSV",
+        "VIEW_SURVEILLANCE_ALERTS", "VIEW_INVESTIGATIONS", "MANAGE_WATCHLIST",
+        "CREATE_CASE", "VERIFY_EVIDENCE"
+    },
+    "Traffic Analyst": {
+        "VIEW_TRAFFIC_REPORTS", "PREVIEW_TRAFFIC_DATA", "EXPORT_TRAFFIC_CSV",
+        "VIEW_CAMERA_HEALTH", "VIEW_TRAFFIC_ANALYTICS"
+    },
+    "Auditor": {
+        "VIEW_TRAFFIC_REPORTS", "PREVIEW_TRAFFIC_DATA", "EXPORT_TRAFFIC_CSV",
+        "VIEW_CAMERA_HEALTH", "VIEW_SURVEILLANCE_ALERTS", "VIEW_AUDIT_LOGS"
+    },
+    "Municipal/Smart City Authority": {
+        "VIEW_TRAFFIC_REPORTS", "PREVIEW_TRAFFIC_DATA", "EXPORT_TRAFFIC_CSV",
+        "VIEW_CAMERA_HEALTH", "VIEW_TRAFFIC_ANALYTICS"
+    },
+    "Control Room Operator": {
+        "VIEW_TRAFFIC_REPORTS", "PREVIEW_TRAFFIC_DATA", "VIEW_CAMERA_HEALTH",
+        "VIEW_SURVEILLANCE_ALERTS"
+    },
+    "System Operator": {
+        "VIEW_TRAFFIC_REPORTS", "PREVIEW_TRAFFIC_DATA", "VIEW_CAMERA_HEALTH"
+    }
+}
+
+def require_permission(required_permission: str) -> Callable:
+    """
+    Enforces Permission-Based Access Control at the API layer.
+    """
+    def permission_checker(current_user: User = Depends(get_current_user)) -> User:
+        user_role_name = current_user.role.name if current_user.role else "Unknown"
+
+        # System Administrator override
+        if user_role_name == "System Administrator":
+            return current_user
+
+        user_perms = ROLE_PERMISSIONS.get(user_role_name, set())
+        if required_permission not in user_perms:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Permission denied: Action requires '{required_permission}' permission. User role '{user_role_name}' lacks this permission."
+            )
+        return current_user
+
+    return permission_checker
 
 def require_roles(allowed_roles: List[str]) -> Callable:
     """

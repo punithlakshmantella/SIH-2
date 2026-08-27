@@ -14,6 +14,7 @@ from app.api.routers.analytics import router as analytics_router
 from app.api.routers.simulation import router as simulation_router
 from app.api.routers.cases import router as cases_router
 from app.api.routers.reports import router as reports_router
+from app.api.routers.system_config import router as system_config_router
 
 api_router = APIRouter()
 
@@ -31,3 +32,4 @@ api_router.include_router(analytics_router)
 api_router.include_router(simulation_router)
 api_router.include_router(cases_router)
 api_router.include_router(reports_router)
+api_router.include_router(system_config_router)
