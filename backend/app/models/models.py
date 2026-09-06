@@ -178,6 +178,7 @@ class VehicleDetection(Base):
     crop_url = Column(String(255), nullable=True)
     is_simulated = Column(Boolean, default=True)
     is_low_confidence = Column(Boolean, default=False)
+    frame_offset_seconds = Column(Float, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     camera = relationship("Camera", back_populates="detections")
