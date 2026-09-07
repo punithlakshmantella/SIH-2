@@ -100,6 +100,87 @@ def list_sample_footage(
             "description": "Mud splatter and particulate occlusion across registration numbers",
             "expected_behavior": "Confidence drops, flagged for operator verification",
             "url": "/api/v1/anpr/sample-image/degraded_dirtyplate_ap31tx9901.jpg"
+        },
+        # Real-World Datacluster Indian Plates Dataset
+        {
+            "filename": "dc_license_plates_3HE1J0YIRGRDENVO.jpg",
+            "title": "Dataset: Tamil Nadu Sedan — TN58D5353",
+            "condition": "dataset",
+            "condition_badge": "TAMIL NADU",
+            "ground_truth": "TN58D5353",
+            "description": "Real-world passenger car from Madurai, Tamil Nadu (Datacluster dataset)",
+            "expected_behavior": "High confidence standard read (>95%)",
+            "url": "/api/v1/anpr/sample-image/dc_license_plates_3HE1J0YIRGRDENVO.jpg"
+        },
+        {
+            "filename": "dc_auto_image_000024_fqvRhfiO6i.jpg",
+            "title": "Dataset: Auto Rickshaw — UP84AE9889",
+            "condition": "dataset",
+            "condition_badge": "UP AUTO",
+            "ground_truth": "UP84AE9889",
+            "description": "Commercial three-wheeler auto rickshaw from Uttar Pradesh",
+            "expected_behavior": "Three-wheeler plate localization and OCR",
+            "url": "/api/v1/anpr/sample-image/dc_auto_image_000024_fqvRhfiO6i.jpg"
+        },
+        {
+            "filename": "dc_bus_image_000033_XUH0eV452t.jpg",
+            "title": "Dataset: Transit Bus — GJ01DY6855",
+            "condition": "dataset",
+            "condition_badge": "GUJARAT BUS",
+            "ground_truth": "GJ01DY6855",
+            "description": "State transport transit bus from Ahmedabad, Gujarat",
+            "expected_behavior": "Commercial yellow/white fleet classification",
+            "url": "/api/v1/anpr/sample-image/dc_bus_image_000033_XUH0eV452t.jpg"
+        },
+        {
+            "filename": "dc_license_plates_0RBAQHKIXQMDFYZD.jpg",
+            "title": "Dataset: West Bengal — WB42AX7446",
+            "condition": "dataset",
+            "condition_badge": "WEST BENGAL",
+            "ground_truth": "WB42AX7446",
+            "description": "Standard high-contrast registration plate from West Bengal",
+            "expected_behavior": "Valid RTO format verification",
+            "url": "/api/v1/anpr/sample-image/dc_license_plates_0RBAQHKIXQMDFYZD.jpg"
+        },
+        {
+            "filename": "dc_license_plates_0RRPJCID3RRLSFTI.jpg",
+            "title": "Dataset: Madhya Pradesh — MP07L7524",
+            "condition": "dataset",
+            "condition_badge": "MADHYA PRADESH",
+            "ground_truth": "MP07L7524",
+            "description": "Passenger vehicle from Gwalior, Madhya Pradesh",
+            "expected_behavior": "Optimal OCR character segmentation",
+            "url": "/api/v1/anpr/sample-image/dc_license_plates_0RRPJCID3RRLSFTI.jpg"
+        },
+        {
+            "filename": "dc_license_plates_2DZ4YT4ZJ9XJZSO0.jpg",
+            "title": "Dataset: Rajasthan — RJ11GB1829",
+            "condition": "dataset",
+            "condition_badge": "RAJASTHAN",
+            "ground_truth": "RJ11GB1829",
+            "description": "Multi-axle commercial vehicle from Dholpur, Rajasthan",
+            "expected_behavior": "Accurate state RTO validation",
+            "url": "/api/v1/anpr/sample-image/dc_license_plates_2DZ4YT4ZJ9XJZSO0.jpg"
+        },
+        {
+            "filename": "dc_license_plates_3GKHBM5PWHYXHMTE.jpg",
+            "title": "Dataset: Kerala — KL41L7001",
+            "condition": "dataset",
+            "condition_badge": "KERALA",
+            "ground_truth": "KL41L7001",
+            "description": "Private passenger car from Aluva, Kerala",
+            "expected_behavior": "High sharpness score & format validation",
+            "url": "/api/v1/anpr/sample-image/dc_license_plates_3GKHBM5PWHYXHMTE.jpg"
+        },
+        {
+            "filename": "dc_license_plates_VZUYOAPZ8633ZQTN.jpg",
+            "title": "Dataset: Delhi NCT — DL3CD1210",
+            "condition": "dataset",
+            "condition_badge": "DELHI NCT",
+            "ground_truth": "DL3CD1210",
+            "description": "Metropolitan vehicle from National Capital Territory of Delhi",
+            "expected_behavior": "High confidence OCR read (>96%)",
+            "url": "/api/v1/anpr/sample-image/dc_license_plates_VZUYOAPZ8633ZQTN.jpg"
         }
     ]
 

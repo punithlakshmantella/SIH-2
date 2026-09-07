@@ -10,6 +10,7 @@ import LiveMap from './pages/LiveMap';
 import Cameras from './pages/Cameras';
 import CameraDetail from './pages/CameraDetail';
 import ANPRModule from './pages/ANPRModule';
+import VideoIngestion from './pages/VideoIngestion';
 import Vehicles from './pages/Vehicles';
 import VehicleProfile from './pages/VehicleProfile';
 import TrajectoryView from './pages/TrajectoryView';
@@ -44,6 +45,8 @@ export default function App() {
             <Route path="/cameras" element={<Cameras />} />
             <Route path="/cameras/:id" element={<CameraDetail />} />
             <Route path="/anpr" element={<ANPRModule />} />
+            <Route path="/video-ingestion" element={<VideoIngestion />} />
+            <Route path="/video-tracking" element={<VideoIngestion />} />
 
             {/* Vehicle Intelligence */}
             <Route path="/vehicles" element={<Vehicles />} />

@@ -22,7 +22,8 @@ import {
   AlertCircle,
   HelpCircle,
   Car,
-  Route as RouteIcon
+  Route as RouteIcon,
+  Film
 } from 'lucide-react';
 import { api } from '../services/api';
 import { SampleFootage, ANPRResult } from '../types';
@@ -322,48 +323,59 @@ Timestamp: ${new Date().toISOString()}`;
 
   const cleanSamples = samples.filter(s => s.condition === 'clean');
   const adverseSamples = samples.filter(s => s.condition === 'degraded');
+  const datasetSamples = samples.filter(s => s.condition === 'dataset');
   const activeSampleObj = samples.find(s => s.filename === selectedSample);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* 1. TOP TITLE & MODEL BANNER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white/80 border border-slate-200 backdrop-blur-md">
         <div>
           <div className="flex items-center space-x-2.5">
-            <h1 className="text-xl font-black text-slate-100 uppercase tracking-tight flex items-center space-x-2">
-              <ScanLine className="w-5 h-5 text-cyan-400" />
+            <h1 className="text-xl font-black text-slate-900 uppercase tracking-tight flex items-center space-x-2">
+              <ScanLine className="w-5 h-5 text-cyan-600" />
               <span>ANPR & INDIAN PLATE OCR LAB</span>
             </h1>
             <span className="text-[10px] px-2 py-0.5 rounded-md bg-purple-950/90 text-purple-300 border border-purple-700/80 font-mono font-bold tracking-wider">
               DEMO / SYNTHETIC SAMPLE DATA
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             License plate detection, OpenCV enhancement, and OCR inference for Indian vehicle registration plates.
           </p>
         </div>
 
-        <div className="px-3.5 py-1.5 bg-emerald-950/90 border border-emerald-700/80 text-emerald-300 text-xs font-mono rounded-xl flex items-center space-x-2 shadow-lg shadow-emerald-950/40">
-          <ShieldCheck className="w-4 h-4 text-emerald-400 animate-pulse" />
-          <span className="font-bold">REAL MODEL INFERENCE ACTIVE</span>
+        <div className="flex items-center space-x-2.5">
+          <Link
+            to="/video-ingestion"
+            className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold rounded-xl flex items-center space-x-1.5 transition shadow-md shadow-cyan-600/30"
+          >
+            <Film className="w-3.5 h-3.5" />
+            <span>Upload CCTV Video Stream ➔</span>
+          </Link>
+
+          <div className="px-3.5 py-1.5 bg-emerald-950/90 border border-emerald-700/80 text-emerald-300 text-xs font-mono rounded-xl flex items-center space-x-2 shadow-lg shadow-emerald-950/40">
+            <ShieldCheck className="w-4 h-4 text-emerald-400 animate-pulse" />
+            <span className="font-bold">REAL MODEL INFERENCE ACTIVE</span>
+          </div>
         </div>
       </div>
 
       {/* 2. MODEL METADATA BAR */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-        <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-xl bg-white/70 border border-slate-200">
           <span className="text-[10px] text-slate-500 uppercase block">Plate Detector</span>
-          <span className="font-bold text-slate-200 mt-0.5 block truncate">YOLOv8-Nano / Haar Contour</span>
+          <span className="font-bold text-slate-800 mt-0.5 block truncate">YOLOv8-Nano / Haar Contour</span>
         </div>
-        <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-xl bg-white/70 border border-slate-200">
           <span className="text-[10px] text-slate-500 uppercase block">OCR Engine</span>
-          <span className="font-bold text-cyan-300 mt-0.5 block truncate">StandardANPREngine / PyTesseract</span>
+          <span className="font-bold text-cyan-600 mt-0.5 block truncate">StandardANPREngine / PyTesseract</span>
         </div>
-        <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-xl bg-white/70 border border-slate-200">
           <span className="text-[10px] text-slate-500 uppercase block">Execution Device</span>
-          <span className="font-bold text-slate-200 mt-0.5 block truncate">CPU / AVX2 Accelerated</span>
+          <span className="font-bold text-slate-800 mt-0.5 block truncate">CPU / AVX2 Accelerated</span>
         </div>
-        <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-xl bg-white/70 border border-slate-200">
           <span className="text-[10px] text-slate-500 uppercase block">Target Topology</span>
           <span className="font-bold text-emerald-400 mt-0.5 block truncate">Indian Standard RTO / BH Series</span>
         </div>
@@ -374,10 +386,10 @@ Timestamp: ${new Date().toISOString()}`;
         {/* LEFT COLUMN: SAMPLE FOOTAGE SELECTION & PREPROCESSING CONTROLS */}
         <div className="lg:col-span-5 space-y-4">
           {/* Sample Footage Selector */}
-          <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono flex items-center space-x-1.5">
-                <ImageIcon className="w-4 h-4 text-cyan-400" />
+          <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-xl">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono flex items-center space-x-1.5">
+                <ImageIcon className="w-4 h-4 text-cyan-600" />
                 <span>SELECT SAMPLE FOOTAGE</span>
               </h2>
               <span className="text-[10px] text-slate-500 font-mono">{samples.length} Bundled Datasets</span>
@@ -398,26 +410,26 @@ Timestamp: ${new Date().toISOString()}`;
                     className={`w-full p-3 rounded-xl border text-left transition flex items-center justify-between group ${
                       selectedSample === s.filename
                         ? 'bg-cyan-950/40 border-cyan-500/70 shadow-md shadow-cyan-950/40'
-                        : 'bg-slate-950/60 hover:bg-slate-800/60 border-slate-800/80'
+                        : 'bg-slate-50/60 hover:bg-slate-100/60 border-slate-200/80'
                     }`}
                   >
                     <div className="min-w-0 pr-2">
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs font-bold text-slate-200 group-hover:text-cyan-300 font-mono">{s.ground_truth}</span>
+                        <span className="text-xs font-bold text-slate-800 group-hover:text-cyan-600 font-mono">{s.ground_truth}</span>
                         <span className="text-[9px] px-1.5 py-0.2 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-mono font-bold">
                           CLEAN
                         </span>
                       </div>
-                      <p className="text-[11px] text-slate-400 truncate mt-0.5">{s.description}</p>
+                      <p className="text-[11px] text-slate-500 truncate mt-0.5">{s.description}</p>
                     </div>
-                    <ArrowRight className={`w-3.5 h-3.5 shrink-0 ${selectedSample === s.filename ? 'text-cyan-400' : 'text-slate-600'}`} />
+                    <ArrowRight className={`w-3.5 h-3.5 shrink-0 ${selectedSample === s.filename ? 'text-cyan-600' : 'text-slate-600'}`} />
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Degraded Adverse Condition Samples */}
-            <div className="space-y-2 pt-2 border-t border-slate-800/80">
+            <div className="space-y-2 pt-2 border-t border-slate-200/80">
               <span className="text-[10.5px] font-bold uppercase font-mono text-amber-400 flex items-center space-x-1">
                 <AlertTriangle className="w-3 h-3 text-amber-400" />
                 <span>ADVERSE CONDITIONS (GLARE / BLUR / DIRT)</span>
@@ -431,17 +443,17 @@ Timestamp: ${new Date().toISOString()}`;
                     className={`w-full p-3 rounded-xl border text-left transition flex items-center justify-between group ${
                       selectedSample === s.filename
                         ? 'bg-amber-950/30 border-amber-500/60 shadow-md shadow-amber-950/40'
-                        : 'bg-slate-950/60 hover:bg-slate-800/60 border-slate-800/80'
+                        : 'bg-slate-50/60 hover:bg-slate-100/60 border-slate-200/80'
                     }`}
                   >
                     <div className="min-w-0 pr-2">
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs font-bold text-slate-200 group-hover:text-amber-300 font-mono">{s.ground_truth}</span>
+                        <span className="text-xs font-bold text-slate-800 group-hover:text-amber-300 font-mono">{s.ground_truth}</span>
                         <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-950 text-amber-300 border border-amber-800 font-mono font-bold">
                           {s.condition_badge}
                         </span>
                       </div>
-                      <p className="text-[11px] text-slate-400 truncate mt-0.5">{s.description}</p>
+                      <p className="text-[11px] text-slate-500 truncate mt-0.5">{s.description}</p>
                     </div>
                     <ArrowRight className={`w-3.5 h-3.5 shrink-0 ${selectedSample === s.filename ? 'text-amber-400' : 'text-slate-600'}`} />
                   </button>
@@ -449,53 +461,88 @@ Timestamp: ${new Date().toISOString()}`;
               </div>
             </div>
 
+            {/* Datacluster Real-World Indian Number Plates Dataset */}
+            {datasetSamples.length > 0 && (
+              <div className="space-y-2 pt-2 border-t border-slate-200/80">
+                <span className="text-[10.5px] font-bold uppercase font-mono text-cyan-600 flex items-center space-x-1">
+                  <Sparkles className="w-3 h-3 text-cyan-500" />
+                  <span>DATACLUSTER INDIAN PLATES DATASET ({datasetSamples.length})</span>
+                </span>
+
+                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
+                  {datasetSamples.map(s => (
+                    <button
+                      key={s.filename}
+                      onClick={() => runInference(s.filename)}
+                      className={`w-full p-2.5 rounded-xl border text-left transition flex items-center justify-between group ${
+                        selectedSample === s.filename
+                          ? 'bg-blue-950/40 border-cyan-500/70 shadow-md shadow-blue-950/40'
+                          : 'bg-slate-50/60 hover:bg-slate-100/60 border-slate-200/80'
+                      }`}
+                    >
+                      <div className="min-w-0 pr-2">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs font-bold text-slate-800 group-hover:text-cyan-600 font-mono">{s.ground_truth}</span>
+                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono font-bold">
+                            {s.condition_badge}
+                          </span>
+                        </div>
+                        <p className="text-[10.5px] text-slate-500 truncate mt-0.5">{s.description}</p>
+                      </div>
+                      <ArrowRight className={`w-3.5 h-3.5 shrink-0 ${selectedSample === s.filename ? 'text-cyan-500' : 'text-slate-600'}`} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Preprocessing Toggles */}
-            <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3 pt-3">
+            <div className="p-4 rounded-xl bg-slate-50/80 border border-slate-200 space-y-3 pt-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-300 font-mono flex items-center space-x-1.5">
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="text-xs font-bold text-slate-700 font-mono flex items-center space-x-1.5">
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-cyan-600" />
                   <span>OPENCV ENHANCEMENT CONTROLS</span>
                 </span>
                 <span className="text-[10px] text-slate-500 font-mono">Tunable Filters</span>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-xs text-slate-300 font-mono">
-                <label className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+              <div className="grid grid-cols-2 gap-2 text-xs text-slate-700 font-mono">
+                <label className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg bg-white/60 border border-slate-200">
                   <input
                     type="checkbox"
                     checked={enableClahe}
                     onChange={(e) => setEnableClahe(e.target.checked)}
-                    className="rounded border-slate-700 text-cyan-500 focus:ring-0"
+                    className="rounded border-slate-300 text-cyan-500 focus:ring-0"
                   />
                   <span className="text-[11px]">CLAHE Contrast</span>
                 </label>
 
-                <label className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                <label className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg bg-white/60 border border-slate-200">
                   <input
                     type="checkbox"
                     checked={enableDenoise}
                     onChange={(e) => setEnableDenoise(e.target.checked)}
-                    className="rounded border-slate-700 text-cyan-500 focus:ring-0"
+                    className="rounded border-slate-300 text-cyan-500 focus:ring-0"
                   />
                   <span className="text-[11px]">Bilateral Denoise</span>
                 </label>
 
-                <label className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                <label className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg bg-white/60 border border-slate-200">
                   <input
                     type="checkbox"
                     checked={enableDeskew}
                     onChange={(e) => setEnableDeskew(e.target.checked)}
-                    className="rounded border-slate-700 text-cyan-500 focus:ring-0"
+                    className="rounded border-slate-300 text-cyan-500 focus:ring-0"
                   />
                   <span className="text-[11px]">Geometric Deskew</span>
                 </label>
 
-                <label className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                <label className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg bg-white/60 border border-slate-200">
                   <input
                     type="checkbox"
                     checked={enableContrast}
                     onChange={(e) => setEnableContrast(e.target.checked)}
-                    className="rounded border-slate-700 text-cyan-500 focus:ring-0"
+                    className="rounded border-slate-300 text-cyan-500 focus:ring-0"
                   />
                   <span className="text-[11px]">Norm Stretch</span>
                 </label>
@@ -516,45 +563,45 @@ Timestamp: ${new Date().toISOString()}`;
         {/* RIGHT COLUMN: PIPELINE EXECUTION & BEFORE/AFTER VISUALIZER */}
         <div className="lg:col-span-7 space-y-4">
           {/* Multi-Stage ANPR Pipeline Visualizer */}
-          <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block">
+          <div className="p-4 rounded-2xl bg-white/60 border border-slate-200 space-y-2">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono block">
               AUTOMATIC NUMBER PLATE RECOGNITION (ANPR) PIPELINE
             </span>
             <div className="grid grid-cols-4 sm:grid-cols-7 gap-1 text-[10px] font-mono text-center">
-              <div className="p-1.5 rounded-lg bg-slate-950 border border-cyan-800/80 text-cyan-300">
+              <div className="p-1.5 rounded-lg bg-slate-50 border border-cyan-800/80 text-cyan-600">
                 1. INPUT
               </div>
-              <div className="p-1.5 rounded-lg bg-slate-950 border border-cyan-800/80 text-cyan-300">
+              <div className="p-1.5 rounded-lg bg-slate-50 border border-cyan-800/80 text-cyan-600">
                 2. DETECT
               </div>
-              <div className="p-1.5 rounded-lg bg-slate-950 border border-cyan-800/80 text-cyan-300">
+              <div className="p-1.5 rounded-lg bg-slate-50 border border-cyan-800/80 text-cyan-600">
                 3. CROP
               </div>
-              <div className="p-1.5 rounded-lg bg-slate-950 border border-cyan-800/80 text-cyan-300">
+              <div className="p-1.5 rounded-lg bg-slate-50 border border-cyan-800/80 text-cyan-600">
                 4. ENHANCE
               </div>
-              <div className="p-1.5 rounded-lg bg-slate-950 border border-cyan-800/80 text-cyan-300">
+              <div className="p-1.5 rounded-lg bg-slate-50 border border-cyan-800/80 text-cyan-600">
                 5. OCR READ
               </div>
-              <div className="p-1.5 rounded-lg bg-slate-950 border border-cyan-800/80 text-cyan-300">
+              <div className="p-1.5 rounded-lg bg-slate-50 border border-cyan-800/80 text-cyan-600">
                 6. VALIDATE
               </div>
-              <div className="p-1.5 rounded-lg bg-slate-950 border border-emerald-800/80 text-emerald-300 font-bold">
+              <div className="p-1.5 rounded-lg bg-slate-50 border border-emerald-800/80 text-emerald-300 font-bold">
                 7. RESULT
               </div>
             </div>
           </div>
 
           {/* Before & After Visual Comparison Viewer */}
-          <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono flex items-center space-x-1.5">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
+          <div className="p-5 rounded-2xl bg-white/80 border border-slate-200 space-y-4 shadow-xl">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 font-mono flex items-center space-x-1.5">
+                <Sparkles className="w-4 h-4 text-cyan-600" />
                 <span>BEFORE & AFTER VISUAL COMPARISON</span>
               </h3>
               {result && (
-                <span className="text-xs text-slate-400 font-mono">
-                  Latency: <b className="text-slate-200">{result.execution_time_ms} ms</b>
+                <span className="text-xs text-slate-500 font-mono">
+                  Latency: <b className="text-slate-800">{result.execution_time_ms} ms</b>
                 </span>
               )}
             </div>
@@ -562,7 +609,7 @@ Timestamp: ${new Date().toISOString()}`;
             {loading ? (
               <div className="py-20 text-center space-y-3">
                 <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                <p className="text-xs text-slate-400 font-mono">Executing OpenCV enhancement & character extraction...</p>
+                <p className="text-xs text-slate-500 font-mono">Executing OpenCV enhancement & character extraction...</p>
               </div>
             ) : result ? (
               <div className="space-y-5">
@@ -571,10 +618,10 @@ Timestamp: ${new Date().toISOString()}`;
                   {/* Original Input View */}
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-[11px] font-mono">
-                      <span className="text-slate-400 font-bold uppercase">1. ORIGINAL RAW FOOTAGE</span>
+                      <span className="text-slate-500 font-bold uppercase">1. ORIGINAL RAW FOOTAGE</span>
                       <span className="text-[10px] text-slate-500">{activeSampleObj?.condition_badge || 'Source'}</span>
                     </div>
-                    <div className="h-44 rounded-xl overflow-hidden bg-slate-950 border border-slate-800 relative flex items-center justify-center p-3">
+                    <div className="h-44 rounded-xl overflow-hidden bg-slate-50 border border-slate-200 relative flex items-center justify-center p-3">
                       {result.original_image_base64 ? (
                         <img
                           src={result.original_image_base64}
@@ -583,13 +630,13 @@ Timestamp: ${new Date().toISOString()}`;
                         />
                       ) : (
                         <div className="text-center space-y-2">
-                          <div className="px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-lg font-mono font-bold tracking-widest text-slate-300">
+                          <div className="px-4 py-2 bg-white border border-slate-300 rounded-lg text-lg font-mono font-bold tracking-widest text-slate-700">
                             {result.ground_truth || 'AP39AB1234'}
                           </div>
                           <span className="text-[10px] text-slate-500 font-mono block">Simulated raw sensor frame</span>
                         </div>
                       )}
-                      <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-slate-950/80 text-[10px] text-slate-400 border border-slate-800 font-mono">
+                      <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-slate-50/80 text-[10px] text-slate-500 border border-slate-200 font-mono">
                         RAW INPUT
                       </div>
                     </div>
@@ -598,10 +645,10 @@ Timestamp: ${new Date().toISOString()}`;
                   {/* Enhanced Preprocessed Plate View */}
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-[11px] font-mono">
-                      <span className="text-cyan-300 font-bold uppercase">2. ENHANCED PLATE (OPENCV)</span>
+                      <span className="text-cyan-600 font-bold uppercase">2. ENHANCED PLATE (OPENCV)</span>
                       <span className="text-[10px] text-emerald-400">CLAHE + Denoise</span>
                     </div>
-                    <div className="h-44 rounded-xl overflow-hidden bg-slate-950 border border-cyan-800/80 relative flex items-center justify-center p-3">
+                    <div className="h-44 rounded-xl overflow-hidden bg-slate-50 border border-cyan-800/80 relative flex items-center justify-center p-3">
                       {result.enhanced_image_base64 ? (
                         <img
                           src={result.enhanced_image_base64}
@@ -610,13 +657,13 @@ Timestamp: ${new Date().toISOString()}`;
                         />
                       ) : (
                         <div className="text-center space-y-2">
-                          <div className="px-4 py-2 bg-cyan-950/80 border border-cyan-600 rounded-lg text-lg font-mono font-black tracking-widest text-cyan-300 shadow-inner">
+                          <div className="px-4 py-2 bg-cyan-950/80 border border-cyan-600 rounded-lg text-lg font-mono font-black tracking-widest text-cyan-600 shadow-inner">
                             {result.normalized_plate}
                           </div>
-                          <span className="text-[10px] text-cyan-400 font-mono block">CLAHE Histogram Equalized</span>
+                          <span className="text-[10px] text-cyan-600 font-mono block">CLAHE Histogram Equalized</span>
                         </div>
                       )}
-                      <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-cyan-950/80 text-[10px] text-cyan-300 border border-cyan-800 font-mono">
+                      <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-cyan-950/80 text-[10px] text-cyan-600 border border-cyan-800 font-mono">
                         PROCESSED CROP
                       </div>
                     </div>
@@ -624,12 +671,12 @@ Timestamp: ${new Date().toISOString()}`;
                 </div>
 
                 {/* ANPR RESULT CARD */}
-                <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/80 pb-4">
                     <div>
                       <span className="text-[10px] text-slate-500 uppercase font-mono block">Extracted Registration Plate</span>
                       <div className="flex items-center space-x-3 mt-1">
-                        <span className="text-3xl font-black text-slate-100 font-mono tracking-widest bg-slate-900 px-4 py-1.5 rounded-xl border border-slate-700 shadow-inner">
+                        <span className="text-3xl font-black text-slate-900 font-mono tracking-widest bg-white px-4 py-1.5 rounded-xl border border-slate-300 shadow-inner">
                           {result.normalized_plate}
                         </span>
                         <span className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase border ${
@@ -647,7 +694,7 @@ Timestamp: ${new Date().toISOString()}`;
                       <span className={`text-2xl font-black ${result.is_low_confidence ? 'text-amber-400' : 'text-emerald-400'}`}>
                         {Math.round((result.ocr_confidence || result.confidence) * 100)}%
                       </span>
-                      <div className="text-[10px] text-slate-400 mt-0.5">
+                      <div className="text-[10px] text-slate-500 mt-0.5">
                         Detection: {Math.round(result.detection_confidence * 100)}%
                       </div>
                     </div>
@@ -656,33 +703,33 @@ Timestamp: ${new Date().toISOString()}`;
                   {/* Ground Truth Evaluation & Format Verification */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
                     {/* Ground Truth Check */}
-                    <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800 space-y-1.5">
+                    <div className="p-3.5 rounded-xl bg-white/70 border border-slate-200 space-y-1.5">
                       <span className="text-[10px] text-slate-500 uppercase block">Ground Truth Comparison</span>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400">Ground Truth: <b className="text-slate-200">{result.ground_truth || 'AP39AB1234'}</b></span>
+                        <span className="text-slate-500">Ground Truth: <b className="text-slate-800">{result.ground_truth || 'AP39AB1234'}</b></span>
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                           result.is_match ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-amber-950 text-amber-400 border border-amber-800'
                         }`}>
                           {result.is_match ? '✓ CORRECT' : '⚠ PARTIAL / UNCERTAIN'}
                         </span>
                       </div>
-                      <p className="text-[10.5px] text-slate-400 font-sans leading-tight">
+                      <p className="text-[10.5px] text-slate-500 font-sans leading-tight">
                         {result.is_match ? 'Prediction matches verified reference label.' : 'Optical noise/glare created partial ambiguity on target glyph.'}
                       </p>
                     </div>
 
                     {/* Format Validation */}
-                    <div className="p-3.5 rounded-xl bg-slate-900/70 border border-slate-800 space-y-1.5">
+                    <div className="p-3.5 rounded-xl bg-white/70 border border-slate-200 space-y-1.5">
                       <span className="text-[10px] text-slate-500 uppercase block">Indian Format Syntax</span>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-300 font-bold">{result.format_status}</span>
+                        <span className="text-slate-700 font-bold">{result.format_status}</span>
                         <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                           result.format_valid ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-amber-950 text-amber-400 border border-amber-800'
                         }`}>
                           {result.format_valid ? 'SYNTAX OK' : 'AMBIGUOUS'}
                         </span>
                       </div>
-                      <p className="text-[10.5px] text-slate-400 font-sans leading-tight truncate">
+                      <p className="text-[10.5px] text-slate-500 font-sans leading-tight truncate">
                         {result.format_description}
                       </p>
                     </div>
@@ -697,8 +744,8 @@ Timestamp: ${new Date().toISOString()}`;
                       </span>
                       <div className="flex flex-wrap gap-2 pt-1 font-mono">
                         {result.candidate_characters.map((c, i) => (
-                          <span key={i} className="px-2.5 py-1 rounded bg-slate-950 text-amber-200 border border-amber-800 text-xs">
-                            Candidate: <b className="text-cyan-300">{c.char}</b> ({Math.round(c.confidence * 100)}% opt. conf)
+                          <span key={i} className="px-2.5 py-1 rounded bg-slate-50 text-amber-200 border border-amber-800 text-xs">
+                            Candidate: <b className="text-cyan-600">{c.char}</b> ({Math.round(c.confidence * 100)}% opt. conf)
                           </span>
                         ))}
                       </div>
@@ -707,12 +754,12 @@ Timestamp: ${new Date().toISOString()}`;
 
                   {/* Preprocessing Applied List */}
                   <div className="space-y-1.5 pt-1">
-                    <span className="text-[11px] font-bold text-slate-400 font-mono uppercase block">
+                    <span className="text-[11px] font-bold text-slate-500 font-mono uppercase block">
                       Pipeline Filters Applied ({result.preprocessing_applied.length})
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {result.preprocessing_applied.map((step, i) => (
-                        <span key={i} className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-[10.5px] font-mono text-cyan-300">
+                        <span key={i} className="px-2 py-0.5 rounded bg-white border border-slate-200 text-[10.5px] font-mono text-cyan-600">
                           ✓ {step.replace(/_/g, ' ')}
                         </span>
                       ))}
@@ -720,7 +767,7 @@ Timestamp: ${new Date().toISOString()}`;
                   </div>
 
                   {/* Action Buttons: View Vehicle, View Trajectory, Copy Report */}
-                  <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-800/80">
+                  <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200/80">
                     <Link
                       to={`/vehicles/${result.ground_truth || result.normalized_plate.replace('?', 'B')}`}
                       className="px-3.5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold transition flex items-center space-x-1.5 shadow-md shadow-cyan-600/20"
@@ -732,17 +779,17 @@ Timestamp: ${new Date().toISOString()}`;
 
                     <Link
                       to={`/trajectory?plate=${result.ground_truth || result.normalized_plate.replace('?', 'B')}`}
-                      className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition flex items-center space-x-1.5"
+                      className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 text-xs font-bold border border-slate-300 transition flex items-center space-x-1.5"
                     >
-                      <RouteIcon className="w-3.5 h-3.5 text-cyan-400" />
+                      <RouteIcon className="w-3.5 h-3.5 text-cyan-600" />
                       <span>RECONSTRUCT TRAJECTORY</span>
                     </Link>
 
                     <button
                       onClick={handleCopyReport}
-                      className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 transition flex items-center space-x-1.5 ml-auto"
+                      className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-700 text-xs font-bold border border-slate-300 transition flex items-center space-x-1.5 ml-auto"
                     >
-                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-400" />}
+                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-slate-500" />}
                       <span>{copied ? 'COPIED TO CLIPBOARD' : 'EXPORT REPORT'}</span>
                     </button>
                   </div>
@@ -754,11 +801,11 @@ Timestamp: ${new Date().toISOString()}`;
       </div>
 
       {/* 4. ADVERSE CONDITION BENCHMARK SUMMARY TABLE */}
-      <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3 shadow-lg">
+      <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 space-y-3 shadow-lg">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Activity className="w-4 h-4 text-cyan-400" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
+            <Activity className="w-4 h-4 text-cyan-600" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">
               ANPR BENCHMARK PERFORMANCE (MEAN OCR CONFIDENCE BY CONDITION)
             </h2>
           </div>
@@ -766,31 +813,31 @@ Timestamp: ${new Date().toISOString()}`;
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-mono">
-          <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div className="p-3 rounded-xl bg-slate-50/70 border border-slate-200">
             <span className="text-[10px] text-slate-500 uppercase block">Clean Reference</span>
             <div className="text-lg font-black text-emerald-400 mt-1">96.8%</div>
             <span className="text-[10px] text-slate-500">Daylight frontal</span>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div className="p-3 rounded-xl bg-slate-50/70 border border-slate-200">
             <span className="text-[10px] text-slate-500 uppercase block">Night / Low-Light</span>
             <div className="text-lg font-black text-amber-400 mt-1">86.4%</div>
             <span className="text-[10px] text-slate-500">Underpass noise</span>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div className="p-3 rounded-xl bg-slate-50/70 border border-slate-200">
             <span className="text-[10px] text-slate-500 uppercase block">Motion Blur</span>
             <div className="text-lg font-black text-amber-400 mt-1">78.2%</div>
             <span className="text-[10px] text-slate-500">Speed distortion</span>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div className="p-3 rounded-xl bg-slate-50/70 border border-slate-200">
             <span className="text-[10px] text-slate-500 uppercase block">Toll Glare</span>
             <div className="text-lg font-black text-amber-400 mt-1">61.4%</div>
             <span className="text-[10px] text-slate-500">Floodlight specular</span>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800">
+          <div className="p-3 rounded-xl bg-slate-50/70 border border-slate-200">
             <span className="text-[10px] text-slate-500 uppercase block">Dirty Plate</span>
             <div className="text-lg font-black text-amber-400 mt-1">72.5%</div>
             <span className="text-[10px] text-slate-500">Mud particulate</span>
@@ -800,18 +847,18 @@ Timestamp: ${new Date().toISOString()}`;
 
       {/* 5. SESSION PROCESSING HISTORY */}
       {history.length > 0 && (
-        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+        <div className="p-5 rounded-2xl bg-white/60 border border-slate-200 space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono flex items-center space-x-1.5">
-              <Clock className="w-3.5 h-3.5 text-cyan-400" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono flex items-center space-x-1.5">
+              <Clock className="w-3.5 h-3.5 text-cyan-600" />
               <span>RECENT SESSION INFERENCES</span>
             </h2>
             <span className="text-[10px] text-slate-500 font-mono">Live memory log</span>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="bg-slate-950/80 text-slate-400 font-mono text-[10px] uppercase border-b border-slate-800">
+            <table className="w-full text-left text-xs text-slate-700">
+              <thead className="bg-slate-50/80 text-slate-500 font-mono text-[10px] uppercase border-b border-slate-200">
                 <tr>
                   <th className="p-2.5">Time</th>
                   <th className="p-2.5">Footage Sample</th>
@@ -821,17 +868,17 @@ Timestamp: ${new Date().toISOString()}`;
                   <th className="p-2.5">Ground Truth Result</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 font-mono text-[11px]">
+              <tbody className="divide-y divide-slate-200/60 font-mono text-[11px]">
                 {history.map((h, i) => (
-                  <tr key={i} className="hover:bg-slate-800/40 transition">
-                    <td className="p-2.5 text-slate-400">{h.time}</td>
-                    <td className="p-2.5 font-sans font-medium text-slate-200">{h.sampleName}</td>
+                  <tr key={i} className="hover:bg-slate-100/40 transition">
+                    <td className="p-2.5 text-slate-500">{h.time}</td>
+                    <td className="p-2.5 font-sans font-medium text-slate-800">{h.sampleName}</td>
                     <td className="p-2.5">
-                      <span className="px-2 py-0.5 rounded text-[9.5px] bg-slate-800 text-slate-300">
+                      <span className="px-2 py-0.5 rounded text-[9.5px] bg-slate-100 text-slate-700">
                         {h.condition}
                       </span>
                     </td>
-                    <td className="p-2.5 font-bold text-cyan-400">{h.plate}</td>
+                    <td className="p-2.5 font-bold text-cyan-600">{h.plate}</td>
                     <td className="p-2.5">{Math.round(h.confidence * 100)}%</td>
                     <td className="p-2.5">
                       <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${

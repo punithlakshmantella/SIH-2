@@ -62,7 +62,7 @@ function severityBadge(sev: string) {
     case 'info':
       return 'bg-blue-950/80 text-blue-400 border-blue-800';
     default:
-      return 'bg-slate-800 text-slate-400 border-slate-700';
+      return 'bg-slate-100 text-slate-500 border-slate-300';
   }
 }
 
@@ -73,11 +73,11 @@ function categoryBadge(cat: string) {
     case 'TRAFFIC_VIOLATIONS':
       return 'bg-amber-900/30 text-amber-300 border-amber-800/60';
     case 'INFRASTRUCTURE':
-      return 'bg-slate-800 text-slate-300 border-slate-700';
+      return 'bg-slate-100 text-slate-700 border-slate-300';
     case 'TRAFFIC_ANALYTICS':
-      return 'bg-cyan-900/30 text-cyan-300 border-cyan-800/60';
+      return 'bg-cyan-900/30 text-cyan-600 border-cyan-800/60';
     default:
-      return 'bg-slate-800 text-slate-400 border-slate-700';
+      return 'bg-slate-100 text-slate-500 border-slate-300';
   }
 }
 
@@ -204,17 +204,17 @@ export default function Alerts() {
       {/* HEADER */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-100 flex items-center space-x-2">
+          <h1 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
             <Bell className="w-5 h-5 text-rose-400" />
             <span>Active Surveillance & Anomaly Alerts ({alerts.filter(a => !a.is_resolved).length})</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Automated detection of watchlist matches, traffic violations, camera failures, and traffic anomalies
           </p>
         </div>
 
         <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-emerald-400 shadow-sm">
+          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-mono text-emerald-400 shadow-sm">
             <Wifi className="w-3.5 h-3.5 animate-pulse text-emerald-400" />
             <span>{isConnected ? 'Alert Event Stream Connected' : 'Simulated Stream'}</span>
           </div>
@@ -222,25 +222,25 @@ export default function Alerts() {
           <button
             onClick={fetchAlertsAndSummary}
             disabled={loading}
-            className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition"
+            className="p-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs transition"
             title="Refresh Alerts"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyan-600' : ''}`} />
           </button>
         </div>
       </div>
 
       {/* 2. TOP SUMMARY METRIC CARDS */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Active Alerts</span>
-          <span className="text-2xl font-black font-mono text-slate-100 mt-1 block">
+          <span className="text-2xl font-black font-mono text-slate-900 mt-1 block">
             {summary ? summary.active_alerts : (loading ? '…' : '0')}
           </span>
-          <span className="text-[10px] text-cyan-400 font-mono mt-0.5 block">Pending operator action</span>
+          <span className="text-[10px] text-cyan-600 font-mono mt-0.5 block">Pending operator action</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Security Alerts</span>
           <span className="text-2xl font-black font-mono text-rose-400 mt-1 block">
             {summary ? summary.security_alerts : (loading ? '…' : '0')}
@@ -248,7 +248,7 @@ export default function Alerts() {
           <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">Watchlist / Anomalies</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Traffic Violations</span>
           <span className="text-2xl font-black font-mono text-amber-400 mt-1 block">
             {summary ? summary.traffic_violations : (loading ? '…' : '0')}
@@ -256,7 +256,7 @@ export default function Alerts() {
           <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">Speed / Wrong-way</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Camera Failures</span>
           <span className="text-2xl font-black font-mono text-orange-400 mt-1 block">
             {summary ? summary.camera_failures : (loading ? '…' : '0')}
@@ -264,7 +264,7 @@ export default function Alerts() {
           <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">Offline / Heartbeat loss</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Traffic Anomalies</span>
           <span className="text-2xl font-black font-mono text-indigo-400 mt-1 block">
             {summary ? summary.traffic_anomalies : (loading ? '…' : '0')}
@@ -272,7 +272,7 @@ export default function Alerts() {
           <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">Density & Flow spikes</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Critical Priority</span>
           <span className="text-2xl font-black font-mono text-rose-500 mt-1 block">
             {summary ? summary.critical_alerts : (loading ? '…' : '0')}
@@ -284,15 +284,15 @@ export default function Alerts() {
       {/* 3. CATEGORY TABS & FILTER CONTROLS */}
       <div className="space-y-3">
         {/* Category Tabs */}
-        <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-2">
+        <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
           {CATEGORIES.map(c => (
             <button
               key={c.id}
               onClick={() => setSelectedCategory(c.id)}
               className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium transition ${
                 selectedCategory === c.id
-                  ? 'bg-cyan-900/60 border border-cyan-500 text-cyan-300 shadow-sm'
-                  : 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200'
+                  ? 'bg-cyan-900/60 border border-cyan-500 text-cyan-600 shadow-sm'
+                  : 'bg-white border border-slate-200 text-slate-500 hover:text-slate-800'
               }`}
             >
               {c.label}
@@ -310,7 +310,7 @@ export default function Alerts() {
               placeholder="Search by plate, camera, zone, alert ID..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+              className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
             />
           </div>
 
@@ -318,7 +318,7 @@ export default function Alerts() {
           <select
             value={selectedSeverity}
             onChange={(e) => setSelectedSeverity(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+            className="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="all">All Severities</option>
             <option value="critical">Critical Only</option>
@@ -330,7 +330,7 @@ export default function Alerts() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+            className="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
           >
             <option value="all">All Statuses</option>
             <option value="active">Active Only</option>
@@ -341,7 +341,7 @@ export default function Alerts() {
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+            className="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
           >
             {TIME_RANGES.map(r => (
               <option key={r.value} value={r.value}>{r.label}</option>
@@ -365,12 +365,12 @@ export default function Alerts() {
                 key={a.id} 
                 className={`p-4 rounded-2xl border transition flex flex-col lg:flex-row lg:items-center justify-between gap-4 ${
                   a.is_resolved 
-                    ? 'bg-slate-950/40 border-slate-800/60 opacity-65' 
+                    ? 'bg-slate-50/40 border-slate-200/60 opacity-65' 
                     : a.severity === 'critical'
                       ? 'bg-rose-950/30 border-rose-800/80 shadow-lg shadow-rose-950/20'
                       : a.severity === 'warning' || a.severity === 'high'
                         ? 'bg-orange-950/30 border-orange-800/80'
-                        : 'bg-slate-900/60 border-slate-800'
+                        : 'bg-white/60 border-slate-200'
                 }`}
               >
                 {/* Left Telemetry Section */}
@@ -378,7 +378,7 @@ export default function Alerts() {
                   <div className={`p-3 rounded-2xl mt-0.5 flex-shrink-0 ${
                     a.severity === 'critical' ? 'bg-rose-900/40 text-rose-400' :
                     a.severity === 'warning' || a.severity === 'high' ? 'bg-orange-900/40 text-orange-400' :
-                    'bg-slate-800 text-slate-300'
+                    'bg-slate-100 text-slate-700'
                   }`}>
                     {isWatchlist ? <ShieldAlert className="w-5 h-5" /> :
                      isSpeed ? <Zap className="w-5 h-5" /> :
@@ -396,7 +396,7 @@ export default function Alerts() {
                       <span className={`text-[10px] font-mono px-2 py-0.5 rounded uppercase border ${categoryBadge(a.category)}`}>
                         {a.category.replace('_', ' ')}
                       </span>
-                      <h3 className="text-xs font-bold text-slate-100 font-mono">{a.title}</h3>
+                      <h3 className="text-xs font-bold text-slate-900 font-mono">{a.title}</h3>
                       {a.is_resolved && (
                         <span className="text-[10px] font-mono text-emerald-400 px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-800 flex items-center space-x-1">
                           <CheckCircle2 className="w-3 h-3 inline" />
@@ -405,15 +405,15 @@ export default function Alerts() {
                       )}
                     </div>
 
-                    <p className="text-xs text-slate-300 leading-relaxed font-sans">{a.description}</p>
+                    <p className="text-xs text-slate-700 leading-relaxed font-sans">{a.description}</p>
 
                     {/* Specific Telemetry Details depending on Alert Type */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px] font-mono text-slate-400">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px] font-mono text-slate-500">
                       {/* Vehicle Plate if available */}
                       {a.vehicle_plate && (
                         <div>
                           <span className="text-slate-500 block text-[10px]">Plate Number</span>
-                          <span className="font-bold text-cyan-300 bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
+                          <span className="font-bold text-cyan-600 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-200">
                             {a.vehicle_plate}
                           </span>
                         </div>
@@ -422,7 +422,7 @@ export default function Alerts() {
                       {/* Camera Location */}
                       <div>
                         <span className="text-slate-500 block text-[10px]">Camera Node</span>
-                        <span className="text-slate-200 truncate block max-w-[160px]">
+                        <span className="text-slate-800 truncate block max-w-[160px]">
                           {a.camera_name || a.camera_id}
                         </span>
                       </div>
@@ -463,7 +463,7 @@ export default function Alerts() {
                       {/* Timestamp */}
                       <div>
                         <span className="text-slate-500 block text-[10px]">Timestamp</span>
-                        <span className="text-slate-400">{new Date(a.timestamp).toLocaleTimeString()}</span>
+                        <span className="text-slate-500">{new Date(a.timestamp).toLocaleTimeString()}</span>
                       </div>
                     </div>
 
@@ -497,7 +497,7 @@ export default function Alerts() {
                   {a.vehicle_plate && (
                     <Link
                       to={`/vehicles?plate=${encodeURIComponent(a.vehicle_plate)}`}
-                      className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-medium transition flex items-center space-x-1"
+                      className="px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs font-medium transition flex items-center space-x-1"
                     >
                       <Car className="w-3.5 h-3.5 text-blue-400" />
                       <span>Vehicle</span>
@@ -508,7 +508,7 @@ export default function Alerts() {
                   {a.vehicle_plate && !isCamera && (
                     <Link
                       to={`/trajectory?plate=${encodeURIComponent(a.vehicle_plate)}`}
-                      className="px-3 py-1.5 rounded-xl bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-800 text-xs font-bold transition flex items-center space-x-1"
+                      className="px-3 py-1.5 rounded-xl bg-cyan-950/80 hover:bg-cyan-900 text-cyan-600 border border-cyan-800 text-xs font-bold transition flex items-center space-x-1"
                     >
                       <Route className="w-3.5 h-3.5" />
                       <span>Trajectory</span>
@@ -519,7 +519,7 @@ export default function Alerts() {
                   {isCamera && a.camera_id && (
                     <Link
                       to={`/cameras/${a.camera_id}`}
-                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium transition flex items-center space-x-1"
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 border border-slate-300 text-xs font-medium transition flex items-center space-x-1"
                     >
                       <Camera className="w-3.5 h-3.5 text-emerald-400" />
                       <span>Camera Info</span>
@@ -551,7 +551,7 @@ export default function Alerts() {
                   {/* Full Details Drawer Button */}
                   <button
                     onClick={() => openAlertDetail(a)}
-                    className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
+                    className="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-700 border border-slate-300 transition"
                     title="View Full Telemetry & Timeline"
                   >
                     <Eye className="w-4 h-4" />
@@ -561,7 +561,7 @@ export default function Alerts() {
                   {!a.is_resolved && (
                     <button
                       onClick={() => handleStatusChange(a.id, 'RESOLVED')}
-                      className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-emerald-950/80 hover:text-emerald-300 text-slate-300 text-xs font-medium border border-slate-700 transition"
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-950/80 hover:text-emerald-300 text-slate-700 text-xs font-medium border border-slate-300 transition"
                     >
                       Resolve
                     </button>
@@ -571,9 +571,9 @@ export default function Alerts() {
             );
           })
         ) : (
-          <div className="p-12 text-center text-slate-500 text-xs font-mono bg-slate-900/40 rounded-2xl border border-slate-800 space-y-2">
+          <div className="p-12 text-center text-slate-500 text-xs font-mono bg-white/40 rounded-2xl border border-slate-200 space-y-2">
             <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto" />
-            <p className="text-slate-300 text-sm font-bold">No Alerts Matching Active Filters</p>
+            <p className="text-slate-700 text-sm font-bold">No Alerts Matching Active Filters</p>
             <p className="text-slate-500">All surveillance triggers are currently cleared or filtered out.</p>
           </div>
         )}
@@ -581,16 +581,16 @@ export default function Alerts() {
 
       {/* 5. WATCHLIST MATCH VERIFICATION MODAL */}
       {verifyModalAlert && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-amber-800/80 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 bg-slate-50/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-amber-800/80 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <div className="flex items-center space-x-2 text-amber-300 font-bold font-mono text-sm">
                 <ShieldAlert className="w-5 h-5 text-amber-400" />
                 <span>Verify Watchlist Match: {verifyModalAlert.vehicle_plate}</span>
               </div>
               <button 
                 onClick={() => setVerifyModalAlert(null)}
-                className="text-slate-400 hover:text-slate-200 p-1 rounded-lg"
+                className="text-slate-500 hover:text-slate-800 p-1 rounded-lg"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -601,10 +601,10 @@ export default function Alerts() {
               An optical match does NOT automatically confirm criminal wrongdoing. Compare camera snapshot attributes against registered watchlist record.
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-xs font-mono bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+            <div className="grid grid-cols-2 gap-3 text-xs font-mono bg-slate-50/60 p-4 rounded-xl border border-slate-200">
               <div>
                 <span className="text-slate-500 block text-[10px]">Observed OCR Plate</span>
-                <span className="font-bold text-cyan-300 text-sm">{verifyModalAlert.vehicle_plate}</span>
+                <span className="font-bold text-cyan-600 text-sm">{verifyModalAlert.vehicle_plate}</span>
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px]">Expected Watchlist Plate</span>
@@ -620,22 +620,22 @@ export default function Alerts() {
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px]">Camera Node</span>
-                <span className="text-slate-300">{verifyModalAlert.camera_name || verifyModalAlert.camera_id}</span>
+                <span className="text-slate-700">{verifyModalAlert.camera_name || verifyModalAlert.camera_id}</span>
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px]">Detection Timestamp</span>
-                <span className="text-slate-300">{new Date(verifyModalAlert.timestamp).toLocaleString()}</span>
+                <span className="text-slate-700">{new Date(verifyModalAlert.timestamp).toLocaleString()}</span>
               </div>
             </div>
 
             <div className="space-y-1">
-              <label className="block text-xs font-medium text-slate-300">Verification Notes</label>
+              <label className="block text-xs font-medium text-slate-700">Verification Notes</label>
               <textarea
                 rows={2}
                 placeholder="Enter operator observation notes or reason for escalation..."
                 value={verifyNotes}
                 onChange={(e) => setVerifyNotes(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500 font-mono"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 focus:outline-none focus:border-amber-500 font-mono"
               />
             </div>
 
@@ -652,7 +652,7 @@ export default function Alerts() {
               <button
                 disabled={verifyActionLoading}
                 onClick={() => handleVerifySubmit('FALSE_MATCH')}
-                className="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition flex items-center justify-center space-x-1"
+                className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-700 text-xs font-bold transition flex items-center justify-center space-x-1"
               >
                 <X className="w-3.5 h-3.5" />
                 <span>False Match</span>
@@ -673,31 +673,31 @@ export default function Alerts() {
 
       {/* 6. DETAILED ALERT TELEMETRY DRAWER */}
       {selectedAlert && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex justify-end">
-          <div className="bg-slate-900 border-l border-slate-800 w-full max-w-xl h-full p-6 overflow-y-auto space-y-6 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="fixed inset-0 bg-slate-50/80 backdrop-blur-sm z-50 flex justify-end">
+          <div className="bg-white border-l border-slate-200 w-full max-w-xl h-full p-6 overflow-y-auto space-y-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
               <div>
-                <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider block">Alert Telemetry Inspector</span>
-                <h2 className="text-base font-bold text-slate-100 font-mono mt-0.5">{selectedAlert.title}</h2>
+                <span className="text-[10px] font-mono text-cyan-600 uppercase tracking-wider block">Alert Telemetry Inspector</span>
+                <h2 className="text-base font-bold text-slate-900 font-mono mt-0.5">{selectedAlert.title}</h2>
               </div>
               <button 
                 onClick={() => setSelectedAlert(null)}
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300"
+                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-700 text-slate-700"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Severity & Status Controls */}
-            <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono">
+            <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono">
               <div>
                 <span className="text-slate-500 block text-[10px]">Current Lifecycle</span>
-                <span className="font-bold text-cyan-400">{selectedAlert.status}</span>
+                <span className="font-bold text-cyan-600">{selectedAlert.status}</span>
               </div>
               <div className="flex items-center space-x-1.5">
                 <button
                   onClick={() => handleStatusChange(selectedAlert.id, 'ACKNOWLEDGED')}
-                  className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px]"
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-700 text-slate-800 text-[11px]"
                 >
                   Acknowledge
                 </button>
@@ -717,11 +717,11 @@ export default function Alerts() {
             </div>
 
             {/* Evidence & ANPR Extraction Panel */}
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
-              <span className="text-xs font-bold text-slate-300 font-mono uppercase block">Optical Evidence & Telemetry</span>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+              <span className="text-xs font-bold text-slate-700 font-mono uppercase block">Optical Evidence & Telemetry</span>
               
-              <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800/80 text-center text-xs font-mono text-slate-500">
-                <div className="text-2xl font-black text-cyan-400 tracking-widest py-2 bg-slate-950 rounded-lg border border-slate-800 inline-block px-4 mb-2">
+              <div className="p-3 bg-white/60 rounded-xl border border-slate-200/80 text-center text-xs font-mono text-slate-500">
+                <div className="text-2xl font-black text-cyan-600 tracking-widest py-2 bg-slate-50 rounded-lg border border-slate-200 inline-block px-4 mb-2">
                   {selectedAlert.vehicle_plate || 'NO PLATE'}
                 </div>
                 <p className="text-[10px] text-slate-500">
@@ -732,7 +732,7 @@ export default function Alerts() {
               <div className="grid grid-cols-2 gap-2 text-xs font-mono">
                 <div>
                   <span className="text-slate-500 block text-[10px]">Vehicle Classification</span>
-                  <span className="text-slate-200 capitalize">{selectedAlert.vehicle_type || 'Motor Car'} ({selectedAlert.vehicle_color || 'White'})</span>
+                  <span className="text-slate-800 capitalize">{selectedAlert.vehicle_type || 'Motor Car'} ({selectedAlert.vehicle_color || 'White'})</span>
                 </div>
                 <div>
                   <span className="text-slate-500 block text-[10px]">Optical Confidence</span>
@@ -740,11 +740,11 @@ export default function Alerts() {
                 </div>
                 <div>
                   <span className="text-slate-500 block text-[10px]">Corridor / Zone</span>
-                  <span className="text-slate-300">{selectedAlert.zone_name || 'Visakhapatnam'}</span>
+                  <span className="text-slate-700">{selectedAlert.zone_name || 'Visakhapatnam'}</span>
                 </div>
                 <div>
                   <span className="text-slate-500 block text-[10px]">Speed Recorded</span>
-                  <span className="text-slate-200">{selectedAlert.speed_observed_kmh ? `${selectedAlert.speed_observed_kmh} km/h` : 'N/A'}</span>
+                  <span className="text-slate-800">{selectedAlert.speed_observed_kmh ? `${selectedAlert.speed_observed_kmh} km/h` : 'N/A'}</span>
                 </div>
               </div>
             </div>
@@ -752,18 +752,18 @@ export default function Alerts() {
             {/* Vehicle Movement Timeline */}
             {selectedAlert.timeline && selectedAlert.timeline.length > 0 && (
               <div className="space-y-3">
-                <span className="text-xs font-bold text-slate-300 font-mono uppercase block">
+                <span className="text-xs font-bold text-slate-700 font-mono uppercase block">
                   Recent Checkpoint Sightings ({selectedAlert.timeline.length})
                 </span>
                 <div className="space-y-2">
                   {selectedAlert.timeline.map((item: any, idx: number) => (
-                    <div key={idx} className="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between text-xs font-mono">
+                    <div key={idx} className="p-2.5 rounded-xl bg-slate-50/70 border border-slate-200 flex items-center justify-between text-xs font-mono">
                       <div>
-                        <div className="text-slate-200 font-bold">{item.camera_id}</div>
+                        <div className="text-slate-800 font-bold">{item.camera_id}</div>
                         <div className="text-[10px] text-slate-500">{item.camera_name} • {item.zone_name}</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-cyan-400">{item.time_str}</div>
+                        <div className="text-cyan-600">{item.time_str}</div>
                         <div className="text-[10px] text-slate-500">{item.speed_kmh} km/h</div>
                       </div>
                     </div>
@@ -773,33 +773,33 @@ export default function Alerts() {
             )}
 
             {/* Quick System Links */}
-            <div className="space-y-2 pt-2 border-t border-slate-800">
-              <span className="text-xs font-bold text-slate-400 font-mono uppercase block">Investigative Drill-Down</span>
+            <div className="space-y-2 pt-2 border-t border-slate-200">
+              <span className="text-xs font-bold text-slate-500 font-mono uppercase block">Investigative Drill-Down</span>
               <div className="grid grid-cols-2 gap-2">
                 {selectedAlert.vehicle_plate && (
                   <>
                     <Link
                       to={`/vehicles?plate=${encodeURIComponent(selectedAlert.vehicle_plate)}`}
-                      className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-between font-mono"
+                      className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 text-xs font-bold transition flex items-center justify-between font-mono"
                     >
                       <span>Vehicle Registry</span>
-                      <ChevronRight className="w-4 h-4 text-slate-400" />
+                      <ChevronRight className="w-4 h-4 text-slate-500" />
                     </Link>
                     <Link
                       to={`/trajectory?plate=${encodeURIComponent(selectedAlert.vehicle_plate)}`}
-                      className="p-2.5 rounded-xl bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-800 text-xs font-bold transition flex items-center justify-between font-mono"
+                      className="p-2.5 rounded-xl bg-cyan-950 hover:bg-cyan-900 text-cyan-600 border border-cyan-800 text-xs font-bold transition flex items-center justify-between font-mono"
                     >
                       <span>Trajectory View</span>
-                      <ChevronRight className="w-4 h-4 text-cyan-400" />
+                      <ChevronRight className="w-4 h-4 text-cyan-600" />
                     </Link>
                   </>
                 )}
                 <Link
                   to="/congestion"
-                  className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-between font-mono"
+                  className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 text-xs font-bold transition flex items-center justify-between font-mono"
                 >
                   <span>Congestion Radar</span>
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                  <ChevronRight className="w-4 h-4 text-slate-500" />
                 </Link>
                 <Link
                   to="/investigations"
@@ -816,45 +816,45 @@ export default function Alerts() {
       )}
 
       {/* 7. RELATED SYSTEMS FOOTER NAVIGATION */}
-      <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-800">
+      <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-200">
         <Link
           to="/vehicles"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <Car className="w-4 h-4 text-blue-400" />
           <span>Vehicle Registry</span>
         </Link>
         <Link
           to="/trajectory"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
-          <Route className="w-4 h-4 text-cyan-400" />
+          <Route className="w-4 h-4 text-cyan-600" />
           <span>Trajectory Reconstruction</span>
         </Link>
         <Link
           to="/traffic-flow"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <GitFork className="w-4 h-4 text-indigo-400" />
           <span>Origin-Destination Flows</span>
         </Link>
         <Link
           to="/congestion"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <Flame className="w-4 h-4 text-rose-400" />
           <span>Congestion Radar</span>
         </Link>
         <Link
           to="/cameras"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <Camera className="w-4 h-4 text-emerald-400" />
           <span>Camera Network</span>
         </Link>
         <Link
           to="/investigations"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <FileText className="w-4 h-4 text-amber-400" />
           <span>Case Management</span>

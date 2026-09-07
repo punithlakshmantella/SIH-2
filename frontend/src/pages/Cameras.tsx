@@ -256,19 +256,19 @@ export default function Cameras() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12">
       {/* 1. TOP HEADER & TELEMETRY BANNER */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white/80 border border-slate-200 backdrop-blur-md">
         <div>
           <div className="flex items-center space-x-2.5">
-            <h1 className="text-xl font-black text-slate-100 uppercase tracking-tight flex items-center space-x-2">
-              <CameraIcon className="w-5 h-5 text-cyan-400" />
+            <h1 className="text-xl font-black text-slate-900 uppercase tracking-tight flex items-center space-x-2">
+              <CameraIcon className="w-5 h-5 text-cyan-600" />
               <span>CAMERA SENSOR NETWORK</span>
-              <span className="text-cyan-400 font-mono font-normal">({summary.total} TOTAL)</span>
+              <span className="text-cyan-600 font-mono font-normal">({summary.total} TOTAL)</span>
             </h1>
             <span className="text-[10px] px-2 py-0.5 rounded-md bg-purple-950/90 text-purple-300 border border-purple-700/80 font-mono font-bold tracking-wider">
               DEMO / SYNTHETIC TELEMETRY
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Real-time status, optical character recognition confidence, network latency, and stream throughput per sensor node
           </p>
         </div>
@@ -277,9 +277,9 @@ export default function Cameras() {
           <button
             onClick={fetchCamerasAndZones}
             disabled={loading}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition"
+            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 border border-slate-300 text-xs font-semibold transition"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-600' : ''}`} />
             <span>Refresh Telemetry</span>
           </button>
         </div>
@@ -288,13 +288,13 @@ export default function Cameras() {
       {/* 2. DYNAMIC SUMMARY & OPERATIONAL METRICS BAR */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
         {/* Total & Online Breakdown */}
-        <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
-          <span className="text-[11px] font-bold text-slate-400 uppercase font-mono">Sensors Online</span>
+        <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 flex flex-col justify-between">
+          <span className="text-[11px] font-bold text-slate-500 uppercase font-mono">Sensors Online</span>
           <div className="mt-2">
             <div className="text-2xl font-black text-emerald-400 font-mono">
-              {summary.online} <span className="text-sm font-normal text-slate-400 font-mono">/ {summary.total}</span>
+              {summary.online} <span className="text-sm font-normal text-slate-500 font-mono">/ {summary.total}</span>
             </div>
-            <div className="text-[10px] text-slate-400 mt-1 font-mono flex items-center space-x-2">
+            <div className="text-[10px] text-slate-500 mt-1 font-mono flex items-center space-x-2">
               <span className="text-amber-400 font-semibold">{summary.warning} Warning</span>
               <span>•</span>
               <span className="text-rose-400 font-semibold">{summary.offline} Offline</span>
@@ -303,13 +303,13 @@ export default function Cameras() {
         </div>
 
         {/* Health Breakdown */}
-        <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
-          <span className="text-[11px] font-bold text-slate-400 uppercase font-mono">Health Status</span>
+        <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 flex flex-col justify-between">
+          <span className="text-[11px] font-bold text-slate-500 uppercase font-mono">Health Status</span>
           <div className="mt-2">
-            <div className="text-2xl font-black text-slate-100 font-mono">
+            <div className="text-2xl font-black text-slate-900 font-mono">
               {summary.healthyCount} <span className="text-xs font-semibold text-emerald-400">HEALTHY</span>
             </div>
-            <div className="text-[10px] text-slate-400 mt-1 font-mono flex items-center space-x-2">
+            <div className="text-[10px] text-slate-500 mt-1 font-mono flex items-center space-x-2">
               <span className="text-amber-400 font-semibold">{summary.degradedCount} Degraded</span>
               <span>•</span>
               <span className="text-rose-400 font-semibold">{summary.offlineHealthCount} Offline</span>
@@ -318,52 +318,52 @@ export default function Cameras() {
         </div>
 
         {/* Average Stream FPS */}
-        <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
-          <span className="text-[11px] font-bold text-slate-400 uppercase font-mono">Average FPS</span>
+        <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 flex flex-col justify-between">
+          <span className="text-[11px] font-bold text-slate-500 uppercase font-mono">Average FPS</span>
           <div className="mt-2">
-            <div className="text-2xl font-black text-cyan-400 font-mono">
-              {summary.avgFps} <span className="text-xs font-normal text-slate-400 font-sans">FPS</span>
+            <div className="text-2xl font-black text-cyan-600 font-mono">
+              {summary.avgFps} <span className="text-xs font-normal text-slate-500 font-sans">FPS</span>
             </div>
-            <div className="text-[10px] text-slate-400 mt-1">
+            <div className="text-[10px] text-slate-500 mt-1">
               Active streams nominal
             </div>
           </div>
         </div>
 
         {/* Average Network Latency */}
-        <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
-          <span className="text-[11px] font-bold text-slate-400 uppercase font-mono">Average Latency</span>
+        <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 flex flex-col justify-between">
+          <span className="text-[11px] font-bold text-slate-500 uppercase font-mono">Average Latency</span>
           <div className="mt-2">
-            <div className="text-2xl font-black text-slate-100 font-mono">
-              {summary.avgLatency} <span className="text-xs font-normal text-slate-400 font-sans">ms</span>
+            <div className="text-2xl font-black text-slate-900 font-mono">
+              {summary.avgLatency} <span className="text-xs font-normal text-slate-500 font-sans">ms</span>
             </div>
-            <div className="text-[10px] text-slate-400 mt-1">
+            <div className="text-[10px] text-slate-500 mt-1">
               Edge-to-core roundtrip
             </div>
           </div>
         </div>
 
         {/* Average OCR Confidence */}
-        <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between">
-          <span className="text-[11px] font-bold text-slate-400 uppercase font-mono">OCR Confidence</span>
+        <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 flex flex-col justify-between">
+          <span className="text-[11px] font-bold text-slate-500 uppercase font-mono">OCR Confidence</span>
           <div className="mt-2">
-            <div className="text-2xl font-black text-cyan-300 font-mono">
+            <div className="text-2xl font-black text-cyan-600 font-mono">
               {summary.avgOcr}%
             </div>
-            <div className="text-[10px] text-slate-400 mt-1">
+            <div className="text-[10px] text-slate-500 mt-1">
               Operational confidence
             </div>
           </div>
         </div>
 
         {/* Health Overview Callout Box */}
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-cyan-950/40 border border-slate-800 flex flex-col justify-between">
-          <span className="text-[11px] font-bold text-cyan-400 uppercase font-mono">Node Health Ratio</span>
+        <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-cyan-950/40 border border-slate-200 flex flex-col justify-between">
+          <span className="text-[11px] font-bold text-cyan-600 uppercase font-mono">Node Health Ratio</span>
           <div className="mt-2">
-            <div className="text-2xl font-black text-slate-100 font-mono">
+            <div className="text-2xl font-black text-slate-900 font-mono">
               {summary.total > 0 ? Math.round((summary.healthyCount / summary.total) * 100) : 0}%
             </div>
-            <div className="text-[10px] text-slate-400 mt-1">
+            <div className="text-[10px] text-slate-500 mt-1">
               Network operating ratio
             </div>
           </div>
@@ -371,11 +371,11 @@ export default function Cameras() {
       </div>
 
       {/* 3. CAMERA HEALTH OVERVIEW & ANOMALY CALLOUTS */}
-      <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+      <div className="p-4 rounded-2xl bg-white/60 border border-slate-200 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Activity className="w-4 h-4 text-cyan-400" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono">
+            <Activity className="w-4 h-4 text-cyan-600" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono">
               CAMERA HEALTH OVERVIEW & NOTABLE ANOMALIES
             </h2>
           </div>
@@ -389,16 +389,16 @@ export default function Cameras() {
           {lowestOcr && (
             <div
               onClick={() => setSearch(lowestOcr.id)}
-              className="p-3 rounded-xl bg-slate-950/70 border border-amber-900/60 hover:border-amber-500/60 transition cursor-pointer flex items-center justify-between group"
+              className="p-3 rounded-xl bg-slate-50/70 border border-amber-900/60 hover:border-amber-500/60 transition cursor-pointer flex items-center justify-between group"
             >
               <div>
                 <span className="text-[10px] uppercase font-mono text-amber-400 font-bold block">
                   Lowest OCR Performance
                 </span>
-                <div className="font-mono font-bold text-slate-200 group-hover:text-cyan-300 transition mt-0.5">
+                <div className="font-mono font-bold text-slate-800 group-hover:text-cyan-600 transition mt-0.5">
                   {lowestOcr.id} — <span className="text-amber-400">{lowestOcr.ocr_accuracy}%</span>
                 </div>
-                <div className="text-[10.5px] text-slate-400 truncate max-w-[200px]">
+                <div className="text-[10.5px] text-slate-500 truncate max-w-[200px]">
                   {lowestOcr.name}
                 </div>
               </div>
@@ -412,16 +412,16 @@ export default function Cameras() {
           {highestLatency && (
             <div
               onClick={() => setSearch(highestLatency.id)}
-              className="p-3 rounded-xl bg-slate-950/70 border border-amber-900/60 hover:border-amber-500/60 transition cursor-pointer flex items-center justify-between group"
+              className="p-3 rounded-xl bg-slate-50/70 border border-amber-900/60 hover:border-amber-500/60 transition cursor-pointer flex items-center justify-between group"
             >
               <div>
                 <span className="text-[10px] uppercase font-mono text-amber-400 font-bold block">
                   Highest Network Latency
                 </span>
-                <div className="font-mono font-bold text-slate-200 group-hover:text-cyan-300 transition mt-0.5">
+                <div className="font-mono font-bold text-slate-800 group-hover:text-cyan-600 transition mt-0.5">
                   {highestLatency.id} — <span className="text-amber-400">{highestLatency.latency_ms} ms</span>
                 </div>
-                <div className="text-[10.5px] text-slate-400 truncate max-w-[200px]">
+                <div className="text-[10.5px] text-slate-500 truncate max-w-[200px]">
                   {highestLatency.name}
                 </div>
               </div>
@@ -435,16 +435,16 @@ export default function Cameras() {
           {lowestFps && (
             <div
               onClick={() => setSearch(lowestFps.id)}
-              className="p-3 rounded-xl bg-slate-950/70 border border-amber-900/60 hover:border-amber-500/60 transition cursor-pointer flex items-center justify-between group"
+              className="p-3 rounded-xl bg-slate-50/70 border border-amber-900/60 hover:border-amber-500/60 transition cursor-pointer flex items-center justify-between group"
             >
               <div>
                 <span className="text-[10px] uppercase font-mono text-amber-400 font-bold block">
                   Lowest Stream Rate
                 </span>
-                <div className="font-mono font-bold text-slate-200 group-hover:text-cyan-300 transition mt-0.5">
+                <div className="font-mono font-bold text-slate-800 group-hover:text-cyan-600 transition mt-0.5">
                   {lowestFps.id} — <span className="text-amber-400">{lowestFps.fps} FPS</span>
                 </div>
-                <div className="text-[10.5px] text-slate-400 truncate max-w-[200px]">
+                <div className="text-[10.5px] text-slate-500 truncate max-w-[200px]">
                   {lowestFps.name}
                 </div>
               </div>
@@ -457,7 +457,7 @@ export default function Cameras() {
       </div>
 
       {/* 4. COMPREHENSIVE FILTER & SORT CONTROLS */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white/80 p-3.5 rounded-2xl border border-slate-200 text-xs">
         {/* Search Bar */}
         <div className="relative flex-1 min-w-[220px]">
           <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5 pointer-events-none" />
@@ -466,12 +466,12 @@ export default function Cameras() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by Camera ID (e.g. CAM-NAD-009), Name, Corridor..."
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-8 py-1.5 text-xs text-slate-200 placeholder-slate-500 font-mono focus:outline-none focus:border-cyan-500 transition"
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-8 py-1.5 text-xs text-slate-800 placeholder-slate-500 font-mono focus:outline-none focus:border-cyan-500 transition"
           />
           {search && (
             <button
               onClick={() => setSearch('')}
-              className="absolute right-2.5 top-2 text-slate-500 hover:text-slate-300 text-xs"
+              className="absolute right-2.5 top-2 text-slate-500 hover:text-slate-700 text-xs"
             >
               ✕
             </button>
@@ -484,7 +484,7 @@ export default function Cameras() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as any)}
-            className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+            className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
           >
             <option value="all">All Statuses ({cameras.length})</option>
             <option value="online">Online ({summary.online})</option>
@@ -496,7 +496,7 @@ export default function Cameras() {
           <select
             value={healthFilter}
             onChange={(e) => setHealthFilter(e.target.value as any)}
-            className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+            className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
           >
             <option value="all">All Health ({cameras.length})</option>
             <option value="healthy">Healthy ({summary.healthyCount})</option>
@@ -508,7 +508,7 @@ export default function Cameras() {
           <select
             value={zoneFilter}
             onChange={(e) => setZoneFilter(e.target.value)}
-            className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+            className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
           >
             <option value="all">All Zones ({zones.length || 6})</option>
             {zones.map(z => (
@@ -517,12 +517,12 @@ export default function Cameras() {
           </select>
 
           {/* Sort By Dropdown */}
-          <div className="flex items-center space-x-1.5 bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1 text-xs">
-            <ArrowUpDown className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 text-xs">
+            <ArrowUpDown className="w-3.5 h-3.5 text-cyan-600" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-transparent text-slate-200 focus:outline-none text-xs"
+              className="bg-transparent text-slate-800 focus:outline-none text-xs"
             >
               <option value="id">Sort: Camera ID</option>
               <option value="ocr_asc">Sort: Lowest OCR Performance</option>
@@ -539,8 +539,8 @@ export default function Cameras() {
 
       {/* 5. CAMERA SENSOR GRID */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between px-1 text-xs text-slate-400">
-          <span>Showing <b className="text-slate-200">{processedCameras.length}</b> of {cameras.length} camera nodes</span>
+        <div className="flex items-center justify-between px-1 text-xs text-slate-500">
+          <span>Showing <b className="text-slate-800">{processedCameras.length}</b> of {cameras.length} camera nodes</span>
           {(search || statusFilter !== 'all' || healthFilter !== 'all' || zoneFilter !== 'all') && (
             <button
               onClick={() => {
@@ -550,7 +550,7 @@ export default function Cameras() {
                 setZoneFilter('all');
                 setSortBy('id');
               }}
-              className="text-cyan-400 hover:underline font-mono"
+              className="text-cyan-600 hover:underline font-mono"
             >
               Reset Filters
             </button>
@@ -565,19 +565,19 @@ export default function Cameras() {
             return (
               <div
                 key={c.id}
-                className={`p-4 rounded-2xl bg-slate-900/70 border transition flex flex-col justify-between space-y-3.5 group hover:bg-slate-900/90 ${
+                className={`p-4 rounded-2xl bg-white/70 border transition flex flex-col justify-between space-y-3.5 group hover:bg-white/90 ${
                   healthInfo.health === 'degraded' 
                     ? 'border-amber-900/70 hover:border-amber-600/80 shadow-lg shadow-amber-950/20' 
                     : healthInfo.health === 'offline'
                     ? 'border-rose-900/70 hover:border-rose-600/80 shadow-lg shadow-rose-950/20'
-                    : 'border-slate-800 hover:border-slate-700'
+                    : 'border-slate-200 hover:border-slate-300'
                 }`}
               >
                 {/* Card Header */}
                 <div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <span className="text-xs font-mono font-bold text-cyan-400">{c.id}</span>
+                      <span className="text-xs font-mono font-bold text-cyan-600">{c.id}</span>
                       <span className={`px-2 py-0.5 rounded text-[9.5px] font-bold uppercase font-mono ${
                         c.status === 'online' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' :
                         c.status === 'warning' ? 'bg-amber-950 text-amber-400 border border-amber-800' :
@@ -593,11 +593,11 @@ export default function Cameras() {
                     </span>
                   </div>
 
-                  <h3 className="text-sm font-bold text-slate-100 mt-2 group-hover:text-cyan-300 transition">
+                  <h3 className="text-sm font-bold text-slate-900 mt-2 group-hover:text-cyan-600 transition">
                     {c.name}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    {c.road_name || 'Corridor Link'} • <span className="text-slate-300 font-medium">{c.zone_name}</span>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    {c.road_name || 'Corridor Link'} • <span className="text-slate-700 font-medium">{c.zone_name}</span>
                   </p>
                 </div>
 
@@ -607,7 +607,7 @@ export default function Cameras() {
                     {healthInfo.issues.map((issue, idx) => (
                       <span
                         key={idx}
-                        className="text-[9px] px-2 py-0.5 rounded bg-slate-950 text-amber-300 border border-amber-800/80 font-mono font-bold tracking-tight"
+                        className="text-[9px] px-2 py-0.5 rounded bg-slate-50 text-amber-300 border border-amber-800/80 font-mono font-bold tracking-tight"
                       >
                         ⚠️ {issue}
                       </span>
@@ -616,22 +616,22 @@ export default function Cameras() {
                 )}
 
                 {/* Telemetry Metrics Grid */}
-                <div className="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-800/80 text-[11px] font-mono text-slate-300 bg-slate-950/40 rounded-xl px-2.5">
+                <div className="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-200/80 text-[11px] font-mono text-slate-700 bg-slate-50/40 rounded-xl px-2.5">
                   <div>
                     <span className="text-slate-500 block text-[9px] uppercase font-mono">FPS Rate</span>
-                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.fps < 25 ? 'text-amber-400' : 'text-slate-200'}`}>
+                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.fps < 25 ? 'text-amber-400' : 'text-slate-800'}`}>
                       {c.fps} FPS
                     </span>
                   </div>
                   <div>
                     <span className="text-slate-500 block text-[9px] uppercase font-mono">Latency</span>
-                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.latency_ms > 70 ? 'text-amber-400' : 'text-slate-200'}`}>
+                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.latency_ms > 70 ? 'text-amber-400' : 'text-slate-800'}`}>
                       {isOffline ? 'N/A' : `${c.latency_ms} ms`}
                     </span>
                   </div>
                   <div>
                     <span className="text-slate-500 block text-[9px] uppercase font-mono">OCR Conf</span>
-                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.ocr_accuracy < 93 ? 'text-amber-400' : 'text-cyan-400'}`}>
+                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.ocr_accuracy < 93 ? 'text-amber-400' : 'text-cyan-600'}`}>
                       {isOffline ? 'N/A' : `${c.ocr_accuracy}%`}
                     </span>
                   </div>
@@ -647,7 +647,7 @@ export default function Cameras() {
 
                   <Link
                     to={`/cameras/${c.id}`}
-                    className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-cyan-400 hover:text-cyan-300 font-bold border border-slate-700 transition group-hover:border-cyan-600/60"
+                    className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-700 text-xs text-cyan-600 hover:text-cyan-600 font-bold border border-slate-300 transition group-hover:border-cyan-600/60"
                   >
                     <span>VIEW TELEMETRY</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
@@ -659,9 +659,9 @@ export default function Cameras() {
         </div>
 
         {processedCameras.length === 0 && (
-          <div className="p-12 text-center rounded-2xl bg-slate-900/40 border border-slate-800 space-y-2">
+          <div className="p-12 text-center rounded-2xl bg-white/40 border border-slate-200 space-y-2">
             <CameraIcon className="w-8 h-8 text-slate-600 mx-auto" />
-            <p className="text-xs text-slate-400">No camera sensor nodes matched your filter criteria.</p>
+            <p className="text-xs text-slate-500">No camera sensor nodes matched your filter criteria.</p>
             <button
               onClick={() => {
                 setSearch('');
@@ -669,7 +669,7 @@ export default function Cameras() {
                 setHealthFilter('all');
                 setZoneFilter('all');
               }}
-              className="text-xs text-cyan-400 hover:underline font-mono font-bold"
+              className="text-xs text-cyan-600 hover:underline font-mono font-bold"
             >
               Clear All Filters
             </button>

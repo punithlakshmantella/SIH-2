@@ -23,12 +23,12 @@ export default function ProtectedRoute({ allowedRoles }: ProtectedRouteProps) {
           <ShieldAlert className="w-8 h-8" />
         </div>
         <div className="max-w-md space-y-2">
-          <h2 className="text-xl font-bold text-slate-100">403 — Access Denied (RBAC Protected)</h2>
-          <p className="text-xs text-slate-400 leading-relaxed">
-            Your current role <span className="text-cyan-400 font-semibold font-mono">[{user?.role}]</span> does not have authorization to access this operational module.
+          <h2 className="text-xl font-bold text-slate-900">403 — Access Denied (RBAC Protected)</h2>
+          <p className="text-xs text-slate-500 leading-relaxed">
+            Your current role <span className="text-cyan-600 font-semibold font-mono">[{user?.role}]</span> does not have authorization to access this operational module.
           </p>
-          <div className="p-3 bg-slate-900/80 border border-slate-800 rounded-xl text-left text-[11px] text-slate-400 space-y-1 mt-3">
-            <span className="font-semibold text-slate-300">Authorized Roles for this route:</span>
+          <div className="p-3 bg-white/80 border border-slate-200 rounded-xl text-left text-[11px] text-slate-500 space-y-1 mt-3">
+            <span className="font-semibold text-slate-700">Authorized Roles for this route:</span>
             <ul className="list-disc list-inside text-rose-400/90 font-mono">
               {allowedRoles.map((r, i) => <li key={i}>{r}</li>)}
             </ul>

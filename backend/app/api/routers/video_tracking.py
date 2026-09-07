@@ -15,7 +15,7 @@ from Levenshtein import distance as lev_distance
 
 from app.db.session import get_db, engine
 from app.core.dependencies import get_current_user
-from app.models.models import User, Vehicle, VehicleDetection, Camera
+from app.models.models import User, Vehicle, VehicleDetection, Camera, Watchlist, Alert
 from app.engines.anpr import anpr_engine
 
 router = APIRouter(prefix="/video-tracking", tags=["Video Tracking"])
@@ -82,14 +82,32 @@ def process_single_video(
                         
                         detected_plate = result.normalized_plate.strip().upper().replace(" ", "")
                         
-                        # Fuzzy match instead of exact match
-                        if is_match(detected_plate, target_plate_clean, threshold=2) or target_plate_clean in detected_plate:
+                        # Fuzzy match or match all if wildcard
+                        matches = (
+                            not target_plate_clean 
+                            or target_plate_clean in ["*", "ALL"] 
+                            or is_match(detected_plate, target_plate_clean, threshold=2) 
+                            or target_plate_clean in detected_plate
+                        )
+                        
+                        if matches and detected_plate:
                             # Deduplication check
                             if last_detection_time is None or (frame_offset_seconds - last_detection_time > DEDUP_WINDOW_SECONDS):
                                 
+                                # Resolve vehicle
+                                curr_v = db.query(Vehicle).filter(Vehicle.primary_plate == detected_plate).first()
+                                if not curr_v:
+                                    curr_v = Vehicle(
+                                        primary_plate=detected_plate,
+                                        first_seen_at=datetime.utcnow(),
+                                        last_seen_at=datetime.utcnow()
+                                    )
+                                    db.add(curr_v)
+                                    db.flush()
+                                
                                 detection = VehicleDetection(
                                     camera_id=camera_id,
-                                    vehicle_id=vehicle_id,
+                                    vehicle_id=curr_v.id,
                                     raw_plate_text=result.raw_text,
                                     normalized_plate_text=detected_plate,
                                     ocr_confidence=result.ocr_confidence,
@@ -99,13 +117,31 @@ def process_single_video(
                                     frame_offset_seconds=frame_offset_seconds
                                 )
                                 db.add(detection)
+                                db.flush()
                                 
+                                # Watchlist Match Hook
+                                watchlist_entry = db.query(Watchlist).filter(
+                                    Watchlist.plate_number == detected_plate,
+                                    Watchlist.is_active == True
+                                ).first()
+                                
+                                if watchlist_entry:
+                                    alert = Alert(
+                                        vehicle_id=curr_v.id,
+                                        detection_id=detection.id,
+                                        camera_id=camera_id,
+                                        alert_type="watchlist_match",
+                                        severity="high",
+                                        title="Watchlisted Vehicle Detected (Video Tracking)",
+                                        description=f"Vehicle {detected_plate} matched via Video Tracking on camera {camera_id}. Reason: {watchlist_entry.reason_category}",
+                                        is_resolved=False
+                                    )
+                                    db.add(alert)
+
                                 # Update vehicle location
-                                vehicle = db.query(Vehicle).filter(Vehicle.id == vehicle_id).first()
-                                if vehicle:
-                                    vehicle.last_seen_at = datetime.utcnow()
-                                    vehicle.last_camera_id = camera_id
-                                    vehicle.total_detections += 1
+                                curr_v.last_seen_at = datetime.utcnow()
+                                curr_v.last_camera_id = camera_id
+                                curr_v.total_detections += 1
                                 
                                 db.commit()
                                 db.refresh(detection)
@@ -183,25 +219,40 @@ async def track_vehicle_in_videos(
     Process multiple videos to find a specific vehicle by license plate and update its location.
     Runs asynchronously in the background using a ThreadPoolExecutor to handle processing quickly.
     """
-    if len(videos) != len(camera_ids):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Mismatched inputs: Received {len(videos)} videos but {len(camera_ids)} camera IDs."
-        )
+    # Normalize camera_ids in case passed as comma-separated or single list
+    resolved_camera_ids: List[str] = []
+    for cid in camera_ids:
+        if "," in cid:
+            resolved_camera_ids.extend([c.strip() for c in cid.split(",") if c.strip()])
+        elif cid.strip():
+            resolved_camera_ids.append(cid.strip())
+
+    if len(videos) != len(resolved_camera_ids):
+        # If user supplied 1 camera_id for multiple videos, broadcast it
+        if len(resolved_camera_ids) == 1 and len(videos) > 1:
+            resolved_camera_ids = resolved_camera_ids * len(videos)
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Mismatched inputs: Received {len(videos)} video(s) but {len(resolved_camera_ids)} camera ID(s)."
+            )
 
     target_plate_clean = target_plate.strip().upper().replace(" ", "")
     
-    # Initialize vehicle if not present
-    vehicle = db.query(Vehicle).filter(Vehicle.primary_plate == target_plate_clean).first()
-    if not vehicle:
-        vehicle = Vehicle(
-            primary_plate=target_plate_clean,
-            first_seen_at=datetime.utcnow(),
-            last_seen_at=datetime.utcnow()
-        )
-        db.add(vehicle)
-        db.commit()
-        db.refresh(vehicle)
+    # Initialize vehicle if specific plate provided
+    vehicle_id = 1
+    if target_plate_clean and target_plate_clean not in ["*", "ALL"]:
+        vehicle = db.query(Vehicle).filter(Vehicle.primary_plate == target_plate_clean).first()
+        if not vehicle:
+            vehicle = Vehicle(
+                primary_plate=target_plate_clean,
+                first_seen_at=datetime.utcnow(),
+                last_seen_at=datetime.utcnow()
+            )
+            db.add(vehicle)
+            db.commit()
+            db.refresh(vehicle)
+        vehicle_id = vehicle.id
         
     # Save files to temp on disk for background processing
     video_paths = []

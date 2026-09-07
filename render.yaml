@@ -1,0 +1,43 @@
+services:
+  # 1. PostgreSQL Database
+  - type: psql
+    name: cityvision-db
+    plan: free
+    region: ohio
+    databaseName: cityvision
+    user: cityvision
+
+  # 2. Redis Instance
+  - type: redis
+    name: cityvision-redis
+    plan: free
+    region: ohio
+
+  # 3. FastAPI Web Service (Backend)
+  - type: web
+    name: cityvision-backend
+    env: docker
+    region: ohio
+    plan: free
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    healthCheckPath: /docs
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: cityvision-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: cityvision-redis
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      # Overriding standard docker start to skip celery in this single container for free tier
+      - key: PORT
+        value: 8000
+    
+  # Note: For Celery background workers (if needed beyond FastAPI BackgroundTasks), 
+  # a separate "worker" service should be defined identically to the web service, 
+  # overriding the Docker command to `celery -A app.core.celery_app worker`

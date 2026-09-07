@@ -22,7 +22,8 @@ import {
   X,
   ChevronRight,
   ShieldCheck,
-  Building2
+  Building2,
+  Film
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { UserRole } from '../types';
@@ -62,7 +63,7 @@ function SimulationToggle() {
       className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold flex items-center space-x-1.5 border transition ${
         running
           ? 'bg-purple-950/80 text-purple-300 border-purple-800 shadow-md shadow-purple-950/50'
-          : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
+          : 'bg-white text-slate-500 border-slate-200 hover:text-slate-800'
       }`}
       title={running ? 'Click to pause synthetic camera stream' : 'Click to start synthetic multi-camera stream'}
     >
@@ -104,6 +105,7 @@ export default function AppLayout() {
         { name: "Live City GIS Map", path: "/live-map", icon: Map },
         { name: "Camera Network", path: "/cameras", icon: Camera },
         { name: "ANPR / OCR Lab", path: "/anpr", icon: ScanLine },
+        { name: "Video Ingestion", path: "/video-ingestion", icon: Film, badge: "NEW" },
       ]
     },
     {
@@ -159,33 +161,33 @@ export default function AppLayout() {
       case "System Administrator": return "bg-purple-950/80 text-purple-300 border-purple-800";
       case "Traffic Police": return "bg-blue-950/80 text-blue-300 border-blue-800";
       case "Authorized Investigator": return "bg-rose-950/80 text-rose-300 border-rose-800";
-      case "Control Room Operator": return "bg-cyan-950/80 text-cyan-300 border-cyan-800";
+      case "Control Room Operator": return "bg-cyan-950/80 text-cyan-600 border-cyan-800";
       case "Traffic Analyst": return "bg-emerald-950/80 text-emerald-300 border-emerald-800";
       case "Municipal/Smart City Authority": return "bg-amber-950/80 text-amber-300 border-amber-800";
-      default: return "bg-slate-800 text-slate-300 border-slate-700";
+      default: return "bg-slate-100 text-slate-700 border-slate-300";
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex selection:bg-cyan-500 selection:text-black">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex selection:bg-cyan-500 selection:text-black">
       {/* Left Sidebar */}
       <aside 
         className={`${
           sidebarOpen ? 'w-64' : 'w-20'
-        } transition-all duration-300 ease-in-out bg-slate-900/90 backdrop-blur-md border-r border-slate-800 flex flex-col fixed inset-y-0 left-0 z-40`}
+        } transition-all duration-300 ease-in-out bg-white/90 backdrop-blur-md border-r border-slate-200 flex flex-col fixed inset-y-0 left-0 z-40`}
       >
         {/* Brand Header */}
-        <div className="h-16 px-4 flex items-center justify-between border-b border-slate-800/80 bg-slate-950/40">
+        <div className="h-16 px-4 flex items-center justify-between border-b border-slate-200/80 bg-slate-50/40">
           <div className="flex items-center space-x-3 overflow-hidden">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex-shrink-0 flex items-center justify-center shadow-lg shadow-cyan-500/20">
               <Camera className="w-5 h-5 text-slate-950 font-bold" />
             </div>
             {sidebarOpen && (
               <div className="flex flex-col">
-                <span className="font-bold text-sm tracking-wider text-slate-100 uppercase">
+                <span className="font-bold text-sm tracking-wider text-slate-900 uppercase">
                   City Vision
                 </span>
-                <span className="text-[10px] text-cyan-400 font-mono flex items-center space-x-1">
+                <span className="text-[10px] text-cyan-600 font-mono flex items-center space-x-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
                   <span>VISAKHAPATNAM</span>
                 </span>
@@ -194,7 +196,7 @@ export default function AppLayout() {
           </div>
           <button 
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition"
+            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition"
           >
             {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
@@ -220,8 +222,8 @@ export default function AppLayout() {
                     className={({ isActive }) =>
                       `flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                         isActive
-                          ? 'bg-gradient-to-r from-cyan-500/20 to-blue-600/10 text-cyan-300 border border-cyan-500/30 shadow-sm'
-                          : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border border-transparent'
+                          ? 'bg-gradient-to-r from-cyan-500/20 to-blue-600/10 text-cyan-600 border border-cyan-500/30 shadow-sm'
+                          : 'text-slate-500 hover:text-slate-800 hover:bg-slate-100/60 border border-transparent'
                       } ${isUnauthorized ? 'opacity-50' : ''}`
                     }
                     title={!sidebarOpen ? item.name : undefined}
@@ -244,15 +246,15 @@ export default function AppLayout() {
         </div>
 
         {/* User Card & Logout */}
-        <div className="p-3 border-t border-slate-800 bg-slate-950/50">
+        <div className="p-3 border-t border-slate-200 bg-slate-50/50">
           {sidebarOpen ? (
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2.5 overflow-hidden">
-                <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center flex-shrink-0 text-xs font-bold text-cyan-400">
+                <div className="w-8 h-8 rounded-full bg-slate-100 border border-slate-300 flex items-center justify-center flex-shrink-0 text-xs font-bold text-cyan-600">
                   {user?.full_name?.charAt(0) || 'U'}
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-xs font-medium text-slate-200 truncate">
+                  <span className="text-xs font-medium text-slate-800 truncate">
                     {user?.full_name || 'Officer'}
                   </span>
                   <span className="text-[10px] text-slate-500 truncate">
@@ -262,7 +264,7 @@ export default function AppLayout() {
               </div>
               <button
                 onClick={handleLogout}
-                className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 rounded-lg transition"
+                className="p-1.5 text-slate-500 hover:text-rose-400 hover:bg-rose-950/40 rounded-lg transition"
                 title="Logout"
               >
                 <LogOut className="w-4 h-4" />
@@ -271,7 +273,7 @@ export default function AppLayout() {
           ) : (
             <button
               onClick={handleLogout}
-              className="w-full flex items-center justify-center p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 rounded-lg transition"
+              className="w-full flex items-center justify-center p-2 text-slate-500 hover:text-rose-400 hover:bg-rose-950/40 rounded-lg transition"
               title="Logout"
             >
               <LogOut className="w-4 h-4" />
@@ -287,13 +289,13 @@ export default function AppLayout() {
         }`}
       >
         {/* Top Operational Header */}
-        <header className="h-16 border-b border-slate-800 bg-slate-900/60 backdrop-blur-md sticky top-0 z-30 px-6 flex items-center justify-between">
+        <header className="h-16 border-b border-slate-200 bg-white/60 backdrop-blur-md sticky top-0 z-30 px-6 flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-xs text-slate-400 font-mono">
-              <Building2 className="w-4 h-4 text-cyan-400" />
+            <div className="flex items-center space-x-2 text-xs text-slate-500 font-mono">
+              <Building2 className="w-4 h-4 text-cyan-600" />
               <span>GVMC Smart City Command Center</span>
               <ChevronRight className="w-3 h-3 text-slate-600" />
-              <span className="text-slate-200 capitalize">
+              <span className="text-slate-800 capitalize">
                 {location.pathname.replace('/', '').replace('-', ' ') || 'Dashboard'}
               </span>
             </div>

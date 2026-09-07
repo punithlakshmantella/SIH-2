@@ -158,11 +158,11 @@ export default function Vehicles() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-100 flex items-center space-x-2">
-            <Car className="w-5 h-5 text-cyan-400" />
+          <h1 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
+            <Car className="w-5 h-5 text-cyan-600" />
             <span>Vehicle Intelligence & Registry</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Multi-criteria ANPR detection registry, hit histories, and verified single-vehicle trajectories
           </p>
         </div>
@@ -181,7 +181,7 @@ export default function Vehicles() {
                   .finally(() => setLoading(false));
               }, 50);
             }}
-            className="px-3 py-1.5 rounded-xl bg-cyan-950/80 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-700 text-xs font-mono font-bold transition flex items-center space-x-1.5 shadow-lg shadow-cyan-900/20"
+            className="px-3 py-1.5 rounded-xl bg-cyan-950/80 hover:bg-cyan-900/80 text-cyan-600 border border-cyan-700 text-xs font-mono font-bold transition flex items-center space-x-1.5 shadow-lg shadow-cyan-900/20"
           >
             <span>🎯 Load Demo Vehicle (AP39AB1234)</span>
           </button>
@@ -189,16 +189,16 @@ export default function Vehicles() {
       </div>
 
       {/* Multi-Criteria Filter Panel */}
-      <form onSubmit={handleSearch} className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-xl">
-        <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-300 font-mono flex items-center space-x-1.5">
-            <Filter className="w-3.5 h-3.5 text-cyan-400" />
+      <form onSubmit={handleSearch} className="p-5 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-xl">
+        <div className="flex items-center justify-between border-b border-slate-200/80 pb-3">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono flex items-center space-x-1.5">
+            <Filter className="w-3.5 h-3.5 text-cyan-600" />
             <span>Multi-Criteria Search Parameters</span>
           </span>
           <button
             type="button"
             onClick={resetFilters}
-            className="text-[11px] text-slate-400 hover:text-slate-200 transition underline flex items-center space-x-1"
+            className="text-[11px] text-slate-500 hover:text-slate-800 transition underline flex items-center space-x-1"
           >
             <RefreshCw className="w-3 h-3" />
             <span>Reset Filters</span>
@@ -208,7 +208,7 @@ export default function Vehicles() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Plate */}
           <div className="lg:col-span-2">
-            <label className="block text-[11px] text-slate-400 mb-1 uppercase font-mono">License Plate (Full or Partial)</label>
+            <label className="block text-[11px] text-slate-500 mb-1 uppercase font-mono">License Plate (Full or Partial)</label>
             <div className="relative">
               <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
               <input
@@ -216,18 +216,18 @@ export default function Vehicles() {
                 value={plate}
                 onChange={(e) => setPlate(e.target.value)}
                 placeholder="e.g. AP39, AP39AB1234..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-100 uppercase font-mono focus:outline-none focus:border-cyan-500 shadow-inner"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 uppercase font-mono focus:outline-none focus:border-cyan-500 shadow-inner"
               />
             </div>
           </div>
 
           {/* Vehicle Type */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 uppercase font-mono">Classification</label>
+            <label className="block text-[11px] text-slate-500 mb-1 uppercase font-mono">Classification</label>
             <select
               value={vehicleType}
               onChange={(e) => setVehicleType(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 capitalize"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 capitalize"
             >
               <option value="all">All Vehicle Types</option>
               <option value="car">Car / Sedan / SUV</option>
@@ -240,11 +240,11 @@ export default function Vehicles() {
 
           {/* Color */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 uppercase font-mono">Paint Color</label>
+            <label className="block text-[11px] text-slate-500 mb-1 uppercase font-mono">Paint Color</label>
             <select
               value={color}
               onChange={(e) => setColor(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 capitalize"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 capitalize"
             >
               <option value="all">All Colors</option>
               <option value="white">White</option>
@@ -258,11 +258,11 @@ export default function Vehicles() {
 
           {/* Zone */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 uppercase font-mono">Operational Zone</label>
+            <label className="block text-[11px] text-slate-500 mb-1 uppercase font-mono">Operational Zone</label>
             <select
               value={selectedZone}
               onChange={(e) => setSelectedZone(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
             >
               <option value="all">All Zones</option>
               {zones.map(z => (
@@ -273,11 +273,11 @@ export default function Vehicles() {
 
           {/* Direction */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 uppercase font-mono">Direction</label>
+            <label className="block text-[11px] text-slate-500 mb-1 uppercase font-mono">Direction</label>
             <select
               value={direction}
               onChange={(e) => setDirection(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
             >
               <option value="all">All Directions</option>
               <option value="NB">Northbound (NB)</option>
@@ -289,11 +289,11 @@ export default function Vehicles() {
 
           {/* Detection Status */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 uppercase font-mono">Detection Status</label>
+            <label className="block text-[11px] text-slate-500 mb-1 uppercase font-mono">Detection Status</label>
             <select
               value={detectionStatus}
               onChange={(e) => setDetectionStatus(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
             >
               <option value="all">All Statuses</option>
               <option value="normal">Normal / Unflagged</option>
@@ -304,11 +304,11 @@ export default function Vehicles() {
 
           {/* Min OCR Confidence */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 uppercase font-mono">Min OCR Confidence</label>
+            <label className="block text-[11px] text-slate-500 mb-1 uppercase font-mono">Min OCR Confidence</label>
             <select
               value={minConfidence}
               onChange={(e) => setMinConfidence(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
             >
               <option value="0">Any Confidence</option>
               <option value="80">&ge; 80%</option>
@@ -319,26 +319,26 @@ export default function Vehicles() {
 
           {/* Time Range */}
           <div className="lg:col-span-2">
-            <label className="block text-[11px] text-slate-400 mb-1 uppercase font-mono">Detection Time Range</label>
+            <label className="block text-[11px] text-slate-500 mb-1 uppercase font-mono">Detection Time Range</label>
             <div className="flex items-center space-x-2">
               <input
                 type="time"
                 value={timeFrom}
                 onChange={(e) => setTimeFrom(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
               />
               <span className="text-slate-500 text-xs">to</span>
               <input
                 type="time"
                 value={timeTo}
                 onChange={(e) => setTimeTo(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
               />
             </div>
           </div>
         </div>
 
-        <div className="flex justify-end pt-3 border-t border-slate-800/80 mt-4">
+        <div className="flex justify-end pt-3 border-t border-slate-200/80 mt-4">
           <button
             type="submit"
             disabled={loading}
@@ -357,9 +357,9 @@ export default function Vehicles() {
       )}
 
       {/* Results Controls & Summary */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-900/40 border border-slate-800">
-        <div className="text-sm text-slate-300 flex items-center space-x-2">
-          <Layers className="w-4 h-4 text-cyan-400" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-white/40 border border-slate-200">
+        <div className="text-sm text-slate-700 flex items-center space-x-2">
+          <Layers className="w-4 h-4 text-cyan-600" />
           <span>
             {vehicles.length === 0 
               ? 'No vehicles found matching criteria.' 
@@ -369,14 +369,14 @@ export default function Vehicles() {
         </div>
 
         <div className="flex items-center space-x-3">
-          <label className="text-xs text-slate-400 font-mono">Sort By:</label>
+          <label className="text-xs text-slate-500 font-mono">Sort By:</label>
           <select
             value={sortBy}
             onChange={(e) => {
               setSortBy(e.target.value);
               setCurrentPage(1);
             }}
-            className="bg-slate-950 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-cyan-500"
+            className="bg-slate-50 border border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-800 focus:outline-none focus:border-cyan-500"
           >
             <option value="last_seen_desc">Last Seen (Newest)</option>
             <option value="first_seen_asc">First Seen (Oldest)</option>
@@ -390,7 +390,7 @@ export default function Vehicles() {
       {loading ? (
         <div className="py-20 flex flex-col items-center justify-center space-y-3">
           <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-xs text-slate-400 font-mono">Querying intelligence registry...</p>
+          <p className="text-xs text-slate-500 font-mono">Querying intelligence registry...</p>
         </div>
       ) : (
         <>
@@ -399,21 +399,21 @@ export default function Vehicles() {
             {paginatedVehicles.map((v) => (
               <div 
                 key={v.id} 
-                className={`rounded-2xl bg-slate-900/70 border transition flex flex-col overflow-hidden ${
+                className={`rounded-2xl bg-white/70 border transition flex flex-col overflow-hidden ${
                   v.is_flagged
                     ? 'border-rose-900/80 shadow-lg shadow-rose-950/20 bg-gradient-to-br from-slate-900 to-rose-950/10'
                     : v.primary_plate === 'AP39AB1234'
                       ? 'border-cyan-500/50 shadow-lg shadow-cyan-950/20 bg-gradient-to-br from-slate-900 to-cyan-950/20'
-                      : 'border-slate-800 hover:border-slate-700'
+                      : 'border-slate-200 hover:border-slate-300'
                 }`}
               >
                 <div className="p-5 flex-grow space-y-3">
                   <div className="flex items-start justify-between">
                     <div>
-                      <span className="text-xl font-mono font-black text-cyan-400 tracking-wider">
+                      <span className="text-xl font-mono font-black text-cyan-600 tracking-wider">
                         {v.primary_plate}
                       </span>
-                      <p className="text-[11px] text-slate-300 capitalize mt-1 flex items-center space-x-1.5">
+                      <p className="text-[11px] text-slate-700 capitalize mt-1 flex items-center space-x-1.5">
                         <span className="inline-block w-2.5 h-2.5 rounded-full border border-slate-600 shadow-sm" style={{ backgroundColor: v.color }}></span>
                         <span>{v.color} {v.make || ''} {v.model || ''} ({v.vehicle_type})</span>
                       </p>
@@ -436,18 +436,18 @@ export default function Vehicles() {
                   </div>
 
                   {/* Computed Statistics */}
-                  <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-400 py-3 border-y border-slate-800/60 bg-slate-950/40 p-3 rounded-xl mt-4">
+                  <div className="grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-500 py-3 border-y border-slate-200/60 bg-slate-50/40 p-3 rounded-xl mt-4">
                     <div>
                       <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Detections</span>
-                      <span className="text-slate-200 font-bold text-sm">{v.total_detections}</span>
+                      <span className="text-slate-800 font-bold text-sm">{v.total_detections}</span>
                     </div>
                     <div>
                       <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Cameras Visited</span>
-                      <span className="text-slate-200 font-bold text-sm">{v.cameras_visited_count}</span>
+                      <span className="text-slate-800 font-bold text-sm">{v.cameras_visited_count}</span>
                     </div>
                     <div>
                       <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Distance</span>
-                      <span className="text-cyan-400 font-bold text-sm">
+                      <span className="text-cyan-600 font-bold text-sm">
                         {v.total_detections > 1 ? `${v.total_distance_km} km` : 'N/A'}
                       </span>
                     </div>
@@ -460,21 +460,21 @@ export default function Vehicles() {
                   </div>
 
                   <div className="space-y-1.5 pt-1">
-                    <div className="text-[11px] text-slate-400 flex items-center justify-between">
+                    <div className="text-[11px] text-slate-500 flex items-center justify-between">
                       <span className="uppercase text-[9px] text-slate-500 font-bold">First Seen</span>
                       <span className="font-mono">
                         {v.first_seen_at ? new Date(v.first_seen_at).toLocaleString() : 'N/A'}
                       </span>
                     </div>
-                    <div className="text-[11px] text-slate-400 flex items-center justify-between">
+                    <div className="text-[11px] text-slate-500 flex items-center justify-between">
                       <span className="uppercase text-[9px] text-slate-500 font-bold">Last Seen</span>
                       <span className="font-mono">
                         {v.last_seen_at ? new Date(v.last_seen_at).toLocaleString() : 'N/A'}
                       </span>
                     </div>
-                    <div className="text-[11px] text-slate-400 flex items-center justify-between">
+                    <div className="text-[11px] text-slate-500 flex items-center justify-between">
                       <span className="uppercase text-[9px] text-slate-500 font-bold">Location</span>
-                      <span className="truncate max-w-[170px] text-slate-300" title={v.last_camera_name || v.last_zone_name}>
+                      <span className="truncate max-w-[170px] text-slate-700" title={v.last_camera_name || v.last_zone_name}>
                         {v.last_zone_name || 'City'} • {v.last_camera_name?.split(' ')[0] || ''}
                       </span>
                     </div>
@@ -482,17 +482,17 @@ export default function Vehicles() {
                 </div>
 
                 {/* Action Links */}
-                <div className="grid grid-cols-2 gap-[1px] bg-slate-800 border-t border-slate-800">
+                <div className="grid grid-cols-2 gap-[1px] bg-slate-100 border-t border-slate-200">
                   <Link
                     to={`/vehicles/${v.primary_plate}`}
-                    className="py-3 px-3 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-cyan-300 text-xs font-bold transition flex items-center justify-center space-x-1.5 uppercase tracking-wide"
+                    className="py-3 px-3 bg-white hover:bg-slate-100 text-slate-700 hover:text-cyan-600 text-xs font-bold transition flex items-center justify-center space-x-1.5 uppercase tracking-wide"
                   >
                     <span>Profile & Hits</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </Link>
                   <Link
                     to={`/trajectory?plate=${v.primary_plate}`}
-                    className="py-3 px-3 bg-slate-900 hover:bg-slate-800 text-cyan-400 hover:text-cyan-300 text-xs font-bold transition flex items-center justify-center space-x-1.5 uppercase tracking-wide"
+                    className="py-3 px-3 bg-white hover:bg-slate-100 text-cyan-600 hover:text-cyan-600 text-xs font-bold transition flex items-center justify-center space-x-1.5 uppercase tracking-wide"
                   >
                     <Route className="w-3.5 h-3.5" />
                     <span>Trajectory</span>
@@ -504,25 +504,25 @@ export default function Vehicles() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-between pt-6 border-t border-slate-800">
-              <span className="text-xs text-slate-400 font-mono">
+            <div className="flex items-center justify-between pt-6 border-t border-slate-200">
+              <span className="text-xs text-slate-500 font-mono">
                 Showing {((currentPage - 1) * itemsPerPage) + 1}–{Math.min(currentPage * itemsPerPage, vehicles.length)} of {vehicles.length}
               </span>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
-                  className="p-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 disabled:opacity-30 hover:bg-slate-800 transition"
+                  className="p-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 disabled:opacity-30 hover:bg-slate-100 transition"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <div className="text-xs font-mono text-slate-300 px-2">
+                <div className="text-xs font-mono text-slate-700 px-2">
                   Page {currentPage} of {totalPages}
                 </div>
                 <button
                   onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
-                  className="p-1.5 rounded-lg bg-slate-900 border border-slate-700 text-slate-300 disabled:opacity-30 hover:bg-slate-800 transition"
+                  className="p-1.5 rounded-lg bg-white border border-slate-300 text-slate-700 disabled:opacity-30 hover:bg-slate-100 transition"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>

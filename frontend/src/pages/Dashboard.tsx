@@ -236,19 +236,19 @@ export default function Dashboard() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-8">
       {/* Top Banner & Command Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-slate-900/80 border border-slate-800 backdrop-blur-md">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-white/80 border border-slate-200 backdrop-blur-md">
         <div>
           <div className="flex items-center space-x-2.5">
-            <h1 className="text-xl font-black text-slate-100 uppercase tracking-tight flex items-center space-x-2">
+            <h1 className="text-xl font-black text-slate-900 uppercase tracking-tight flex items-center space-x-2">
               <span>CITY VISION</span>
-              <span className="text-cyan-400 font-mono">—</span>
-              <span className="text-cyan-300 font-extrabold">VISAKHAPATNAM</span>
+              <span className="text-cyan-600 font-mono">—</span>
+              <span className="text-cyan-600 font-extrabold">VISAKHAPATNAM</span>
             </h1>
             <span className="text-[10px] px-2 py-0.5 rounded-md bg-purple-950/90 text-purple-300 border border-purple-700/80 font-mono font-bold tracking-wider">
               DEMO / SYNTHETIC DATA
             </span>
           </div>
-          <p className="text-xs text-slate-400 mt-1 flex items-center space-x-1.5">
+          <p className="text-xs text-slate-500 mt-1 flex items-center space-x-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
             <span>City-Wide Multi-Camera ANPR Trajectory & Traffic Analytics Command Center</span>
           </p>
@@ -277,9 +277,9 @@ export default function Dashboard() {
           <button
             onClick={fetchStats}
             disabled={loading}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold transition"
+            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 border border-slate-300 text-xs font-semibold transition"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-600' : ''}`} />
             <span>Refresh</span>
           </button>
         </div>
@@ -296,8 +296,8 @@ export default function Dashboard() {
       <div>
         <div className="flex items-center justify-between mb-3 px-1">
           <div className="flex items-center space-x-2">
-            <Activity className="w-4 h-4 text-cyan-400" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">
+            <Activity className="w-4 h-4 text-cyan-600" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 font-mono">
               CITY STATUS
             </h2>
           </div>
@@ -308,22 +308,22 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3.5">
           {/* 1. CAMERA NETWORK */}
-          <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between group">
-            <div className="flex items-center justify-between text-slate-400">
-              <span className="text-xs font-bold tracking-tight uppercase text-slate-300">Camera Network</span>
-              <CameraIcon className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
+          <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 hover:border-slate-300 transition flex flex-col justify-between group">
+            <div className="flex items-center justify-between text-slate-500">
+              <span className="text-xs font-bold tracking-tight uppercase text-slate-700">Camera Network</span>
+              <CameraIcon className="w-4 h-4 text-cyan-600 group-hover:scale-110 transition-transform" />
             </div>
             <div className="mt-3">
               <div className="flex items-baseline space-x-1.5">
-                <span className="text-2xl font-black text-slate-100 font-mono">
+                <span className="text-2xl font-black text-slate-900 font-mono">
                   {stats ? `${stats.cameras.online} / ${stats.cameras.total}` : '--'}
                 </span>
                 <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 font-mono font-bold">
                   ONLINE
                 </span>
               </div>
-              <div className="flex items-center space-x-2 text-[10px] text-slate-400 mt-2 font-mono">
-                <span className="text-slate-300 font-medium">
+              <div className="flex items-center space-x-2 text-[10px] text-slate-500 mt-2 font-mono">
+                <span className="text-slate-700 font-medium">
                   {stats ? stats.cameras.total : 0} REGISTERED
                 </span>
                 <span>•</span>
@@ -335,80 +335,80 @@ export default function Dashboard() {
           </div>
 
           {/* 2. DETECTIONS STREAM */}
-          <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between group">
-            <div className="flex items-center justify-between text-slate-400">
-              <span className="text-xs font-bold tracking-tight uppercase text-slate-300">Detections Stream</span>
+          <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 hover:border-slate-300 transition flex flex-col justify-between group">
+            <div className="flex items-center justify-between text-slate-500">
+              <span className="text-xs font-bold tracking-tight uppercase text-slate-700">Detections Stream</span>
               <Car className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform" />
             </div>
             <div className="mt-3">
-              <div className={`text-2xl font-black text-slate-100 font-mono transition-all ${livePulse ? 'text-cyan-400 scale-105' : ''}`}>
+              <div className={`text-2xl font-black text-slate-900 font-mono transition-all ${livePulse ? 'text-cyan-600 scale-105' : ''}`}>
                 {stats ? stats.vehicles_detected_today.toLocaleString() : '--'}
               </div>
-              <div className="text-[10.5px] text-slate-400 mt-1.5">
+              <div className="text-[10.5px] text-slate-500 mt-1.5">
                 Vehicle/ANPR detections
               </div>
             </div>
           </div>
 
           {/* 3. ACTIVE ALERTS */}
-          <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between group">
-            <div className="flex items-center justify-between text-slate-400">
-              <span className="text-xs font-bold tracking-tight uppercase text-slate-300">Active Alerts</span>
+          <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 hover:border-slate-300 transition flex flex-col justify-between group">
+            <div className="flex items-center justify-between text-slate-500">
+              <span className="text-xs font-bold tracking-tight uppercase text-slate-700">Active Alerts</span>
               <Bell className="w-4 h-4 text-rose-400 group-hover:scale-110 transition-transform" />
             </div>
             <div className="mt-3">
               <div className="text-2xl font-black text-rose-400 font-mono">
                 {stats ? stats.active_alerts : '--'}
               </div>
-              <div className="text-[10.5px] text-slate-400 mt-1.5">
+              <div className="text-[10.5px] text-slate-500 mt-1.5">
                 Events requiring attention
               </div>
             </div>
           </div>
 
           {/* 4. WATCHLIST MATCHES */}
-          <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between group">
-            <div className="flex items-center justify-between text-slate-400">
-              <span className="text-xs font-bold tracking-tight uppercase text-slate-300">Watchlist Matches</span>
+          <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 hover:border-slate-300 transition flex flex-col justify-between group">
+            <div className="flex items-center justify-between text-slate-500">
+              <span className="text-xs font-bold tracking-tight uppercase text-slate-700">Watchlist Matches</span>
               <ShieldAlert className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
             </div>
             <div className="mt-3">
               <div className="text-2xl font-black text-amber-400 font-mono">
                 {stats ? stats.blacklist_matches : '--'}
               </div>
-              <div className="text-[10.5px] text-slate-400 mt-1.5">
+              <div className="text-[10.5px] text-slate-500 mt-1.5">
                 Authorized watchlist matches
               </div>
             </div>
           </div>
 
           {/* 5. AVG FLOW SPEED */}
-          <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between group">
-            <div className="flex items-center justify-between text-slate-400">
-              <span className="text-xs font-bold tracking-tight uppercase text-slate-300">Avg Flow Speed</span>
+          <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 hover:border-slate-300 transition flex flex-col justify-between group">
+            <div className="flex items-center justify-between text-slate-500">
+              <span className="text-xs font-bold tracking-tight uppercase text-slate-700">Avg Flow Speed</span>
               <Gauge className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
             </div>
             <div className="mt-3">
               <div className="text-2xl font-black text-emerald-400 font-mono">
                 {stats ? `${stats.avg_speed_kmh} km/h` : '--'}
               </div>
-              <div className="text-[10.5px] text-slate-400 mt-1.5">
+              <div className="text-[10.5px] text-slate-500 mt-1.5">
                 Arterial roads
               </div>
             </div>
           </div>
 
           {/* 6. CONGESTED ROADS */}
-          <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition flex flex-col justify-between group">
-            <div className="flex items-center justify-between text-slate-400">
-              <span className="text-xs font-bold tracking-tight uppercase text-slate-300">Congested Roads</span>
+          <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 hover:border-slate-300 transition flex flex-col justify-between group">
+            <div className="flex items-center justify-between text-slate-500">
+              <span className="text-xs font-bold tracking-tight uppercase text-slate-700">Congested Roads</span>
               <Flame className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
             </div>
             <div className="mt-3">
               <div className="text-2xl font-black text-orange-400 font-mono">
                 {stats ? `${stats.congested_roads.congested} / ${stats.congested_roads.total}` : '--'}
               </div>
-              <div className="text-[10.5px] text-slate-400 mt-1.5">
+              <div className="text-[10.5px] text-slate-500 mt-1.5">
                 High-occupancy corridors
               </div>
             </div>
@@ -417,16 +417,16 @@ export default function Dashboard() {
       </div>
 
       {/* SECTION: LIVE CITY SITUATION (Interactive GIS Map) */}
-      <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
+      <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <div className="flex items-center space-x-2">
-              <MapPin className="w-4 h-4 text-cyan-400" />
-              <h2 className="text-sm font-black text-slate-100 uppercase tracking-tight font-mono">
+              <MapPin className="w-4 h-4 text-cyan-600" />
+              <h2 className="text-sm font-black text-slate-900 uppercase tracking-tight font-mono">
                 LIVE CITY SITUATION
               </h2>
             </div>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-500 mt-0.5">
               Live GIS spatial overview of sensor telemetry, traffic velocity corridors, and hotlist alerts
             </p>
           </div>
@@ -441,20 +441,20 @@ export default function Dashboard() {
         </div>
 
         {/* Map Container with Overlay Legends */}
-        <div className="relative rounded-xl overflow-hidden border border-slate-800">
+        <div className="relative rounded-xl overflow-hidden border border-slate-200">
           <div ref={mapContainerRef} className="w-full h-[360px] z-0" />
 
           {/* Map Overlay HUD Legend */}
-          <div className="absolute bottom-3 left-3 right-3 sm:right-auto z-10 p-3 rounded-xl bg-slate-950/85 backdrop-blur-md border border-slate-800 text-[11px] text-slate-300 space-y-2 shadow-2xl">
+          <div className="absolute bottom-3 left-3 right-3 sm:right-auto z-10 p-3 rounded-xl bg-slate-50/85 backdrop-blur-md border border-slate-200 text-[11px] text-slate-700 space-y-2 shadow-2xl">
             <div className="flex items-center space-x-4 flex-wrap gap-y-1">
-              <span className="font-mono font-bold text-slate-400 uppercase text-[10px]">Traffic Status:</span>
+              <span className="font-mono font-bold text-slate-500 uppercase text-[10px]">Traffic Status:</span>
               <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span><span>Low</span></span>
               <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span><span>Moderate</span></span>
               <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-orange-500"></span><span>High</span></span>
               <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-rose-500"></span><span>Severe</span></span>
             </div>
-            <div className="flex items-center space-x-4 flex-wrap gap-y-1 border-t border-slate-800/80 pt-1.5">
-              <span className="font-mono font-bold text-slate-400 uppercase text-[10px]">Camera Status:</span>
+            <div className="flex items-center space-x-4 flex-wrap gap-y-1 border-t border-slate-200/80 pt-1.5">
+              <span className="font-mono font-bold text-slate-500 uppercase text-[10px]">Camera Status:</span>
               <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span><span>Online ({stats?.cameras.online || 0})</span></span>
               <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span><span>Warning ({stats?.cameras.warning || 0})</span></span>
               <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-rose-500"></span><span>Offline ({stats?.cameras.offline || 0})</span></span>
@@ -466,25 +466,25 @@ export default function Dashboard() {
       {/* SECTION: TWO-COLUMN INTELLIGENCE GRID: MAJOR FLOWS & RECENT INCIDENTS */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* MAJOR TRAFFIC FLOWS */}
-        <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between space-y-4">
+        <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 flex flex-col justify-between space-y-4">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
               <div className="flex items-center space-x-2">
-                <TrendingUp className="w-4 h-4 text-cyan-400" />
-                <h2 className="text-sm font-black text-slate-100 uppercase tracking-tight font-mono">
+                <TrendingUp className="w-4 h-4 text-cyan-600" />
+                <h2 className="text-sm font-black text-slate-900 uppercase tracking-tight font-mono">
                   MAJOR TRAFFIC FLOWS
                 </h2>
               </div>
               <Link
                 to="/traffic-flow"
-                className="text-[11px] font-bold text-cyan-400 hover:text-cyan-300 flex items-center space-x-1 transition"
+                className="text-[11px] font-bold text-cyan-600 hover:text-cyan-600 flex items-center space-x-1 transition"
               >
                 <span>VIEW OD ANALYTICS</span>
                 <ArrowRight className="w-3 h-3" />
               </Link>
             </div>
 
-            <p className="text-xs text-slate-400 mt-2">
+            <p className="text-xs text-slate-500 mt-2">
               Primary origin → destination arterial corridors ranked by vehicle density
             </p>
 
@@ -494,19 +494,19 @@ export default function Dashboard() {
                   <div
                     key={flow.id || index}
                     onClick={() => navigate('/traffic-flow')}
-                    className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/90 hover:border-cyan-500/60 hover:bg-slate-900/90 transition cursor-pointer group flex items-center justify-between"
+                    className="p-3 rounded-xl bg-slate-50/60 border border-slate-200/90 hover:border-cyan-500/60 hover:bg-white/90 transition cursor-pointer group flex items-center justify-between"
                   >
                     <div className="flex items-center space-x-3 min-w-0">
-                      <div className="w-6 h-6 rounded-lg bg-cyan-950/80 border border-cyan-800 text-cyan-400 font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                      <div className="w-6 h-6 rounded-lg bg-cyan-950/80 border border-cyan-800 text-cyan-600 font-mono font-bold text-xs flex items-center justify-center shrink-0">
                         {index + 1}
                       </div>
                       <div className="min-w-0">
-                        <div className="flex items-center space-x-2 text-xs font-bold text-slate-200 group-hover:text-cyan-300 transition truncate">
+                        <div className="flex items-center space-x-2 text-xs font-bold text-slate-800 group-hover:text-cyan-600 transition truncate">
                           <span className="truncate">{flow.origin_name}</span>
-                          <span className="text-cyan-400 font-mono">→</span>
+                          <span className="text-cyan-600 font-mono">→</span>
                           <span className="truncate">{flow.dest_name}</span>
                         </div>
-                        <div className="text-[10px] text-slate-400 mt-0.5 flex items-center space-x-2 font-mono">
+                        <div className="text-[10px] text-slate-500 mt-0.5 flex items-center space-x-2 font-mono">
                           <span>Avg {flow.avg_speed_kmh} km/h</span>
                           <span>•</span>
                           <span>{Math.round(flow.avg_travel_time_sec / 60)} min travel time</span>
@@ -515,17 +515,17 @@ export default function Dashboard() {
                     </div>
 
                     <div className="text-right shrink-0 pl-3">
-                      <div className="text-xs font-black text-cyan-400 font-mono">
+                      <div className="text-xs font-black text-cyan-600 font-mono">
                         {flow.vehicle_count.toLocaleString()}
                       </div>
-                      <div className="text-[10px] text-slate-400 uppercase font-mono">
+                      <div className="text-[10px] text-slate-500 uppercase font-mono">
                         vehicles
                       </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="p-4 rounded-xl bg-slate-950/40 text-center text-xs text-slate-500 font-mono">
+                <div className="p-4 rounded-xl bg-slate-50/40 text-center text-xs text-slate-500 font-mono">
                   Loading major traffic movements...
                 </div>
               )}
@@ -535,21 +535,21 @@ export default function Dashboard() {
           <div className="pt-2">
             <Link
               to="/traffic-flow"
-              className="w-full py-2 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-200 text-xs font-bold border border-slate-700 transition flex items-center justify-center space-x-1.5"
+              className="w-full py-2 px-3 rounded-xl bg-slate-100/80 hover:bg-slate-100 text-slate-800 text-xs font-bold border border-slate-300 transition flex items-center justify-center space-x-1.5"
             >
               <span>VIEW OD ANALYTICS</span>
-              <ArrowRight className="w-3.5 h-3.5 text-cyan-400" />
+              <ArrowRight className="w-3.5 h-3.5 text-cyan-600" />
             </Link>
           </div>
         </div>
 
         {/* RECENT INCIDENTS */}
-        <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 flex flex-col justify-between space-y-4">
+        <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 flex flex-col justify-between space-y-4">
           <div>
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
               <div className="flex items-center space-x-2">
                 <Bell className="w-4 h-4 text-rose-400" />
-                <h2 className="text-sm font-black text-slate-100 uppercase tracking-tight font-mono">
+                <h2 className="text-sm font-black text-slate-900 uppercase tracking-tight font-mono">
                   RECENT INCIDENTS
                 </h2>
               </div>
@@ -562,7 +562,7 @@ export default function Dashboard() {
               </Link>
             </div>
 
-            <p className="text-xs text-slate-400 mt-2">
+            <p className="text-xs text-slate-500 mt-2">
               Latest critical events, watchlist detections, and sensor network notifications
             </p>
 
@@ -575,7 +575,7 @@ export default function Dashboard() {
                     <div
                       key={incident.id}
                       onClick={() => navigate(incident.target_url || '/alerts')}
-                      className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/90 hover:border-slate-700 hover:bg-slate-900/90 transition cursor-pointer group flex items-start justify-between space-x-3"
+                      className="p-3 rounded-xl bg-slate-50/60 border border-slate-200/90 hover:border-slate-300 hover:bg-white/90 transition cursor-pointer group flex items-start justify-between space-x-3"
                     >
                       <div className="flex items-start space-x-3 min-w-0">
                         <div className={`p-1.5 rounded-lg border shrink-0 mt-0.5 ${meta.badgeBg}`}>
@@ -583,26 +583,26 @@ export default function Dashboard() {
                         </div>
                         <div className="min-w-0">
                           <div className="flex items-center space-x-2">
-                            <span className="text-xs font-bold text-slate-200 group-hover:text-cyan-300 transition truncate">
+                            <span className="text-xs font-bold text-slate-800 group-hover:text-cyan-600 transition truncate">
                               {incident.title}
                             </span>
-                            <span className="text-[9.5px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono">
+                            <span className="text-[9.5px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-700 font-mono">
                               {incident.vehicle_plate || incident.camera_id || 'System'}
                             </span>
                           </div>
-                          <p className="text-[10.5px] text-slate-400 mt-0.5 line-clamp-1">
+                          <p className="text-[10.5px] text-slate-500 mt-0.5 line-clamp-1">
                             {incident.description}
                           </p>
                           <div className="text-[10px] text-slate-500 mt-1 font-mono flex items-center space-x-2">
                             <span>Node: {incident.camera_name || incident.camera_id}</span>
                             <span>•</span>
-                            <span className="capitalize text-slate-400">Severity: {incident.severity}</span>
+                            <span className="capitalize text-slate-500">Severity: {incident.severity}</span>
                           </div>
                         </div>
                       </div>
 
                       <div className="text-right shrink-0">
-                        <span className="text-[10px] font-mono text-slate-400 bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">
+                        <span className="text-[10px] font-mono text-slate-500 bg-white/80 px-2 py-0.5 rounded border border-slate-200">
                           {new Date(incident.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                         </span>
                       </div>
@@ -610,7 +610,7 @@ export default function Dashboard() {
                   );
                 })
               ) : (
-                <div className="p-4 rounded-xl bg-slate-950/40 text-center text-xs text-slate-500 font-mono">
+                <div className="p-4 rounded-xl bg-slate-50/40 text-center text-xs text-slate-500 font-mono">
                   No active incidents flagged
                 </div>
               )}
@@ -620,7 +620,7 @@ export default function Dashboard() {
           <div className="pt-2">
             <Link
               to="/alerts"
-              className="w-full py-2 px-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-slate-200 text-xs font-bold border border-slate-700 transition flex items-center justify-center space-x-1.5"
+              className="w-full py-2 px-3 rounded-xl bg-slate-100/80 hover:bg-slate-100 text-slate-800 text-xs font-bold border border-slate-300 transition flex items-center justify-center space-x-1.5"
             >
               <span>VIEW ALL ALERTS</span>
               <ArrowRight className="w-3.5 h-3.5 text-rose-400" />
@@ -630,11 +630,11 @@ export default function Dashboard() {
       </div>
 
       {/* SECTION: LIVE REAL-TIME ANPR INGESTION STREAM */}
-      <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4">
+      <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Activity className="w-4 h-4 text-cyan-400" />
-            <h2 className="text-sm font-black text-slate-100 uppercase tracking-tight font-mono">
+            <Activity className="w-4 h-4 text-cyan-600" />
+            <h2 className="text-sm font-black text-slate-900 uppercase tracking-tight font-mono">
               LIVE REAL-TIME ANPR INGESTION STREAM
             </h2>
           </div>
@@ -645,8 +645,8 @@ export default function Dashboard() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-slate-950/70 text-slate-400 uppercase font-mono text-[10px] border-b border-slate-800">
+          <table className="w-full text-left text-xs text-slate-700">
+            <thead className="bg-slate-50/70 text-slate-500 uppercase font-mono text-[10px] border-b border-slate-200">
               <tr>
                 <th className="py-2.5 px-3">Plate Number</th>
                 <th className="py-2.5 px-3">Camera Node</th>
@@ -657,11 +657,11 @@ export default function Dashboard() {
                 <th className="py-2.5 px-3">Time</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 font-sans">
+            <tbody className="divide-y divide-slate-200/60 font-sans">
               {stats?.recent_detections && stats.recent_detections.length > 0 ? (
                 stats.recent_detections.map((det) => (
-                  <tr key={det.id} className="hover:bg-slate-800/40 transition">
-                    <td className="py-2.5 px-3 font-mono font-bold text-cyan-400">
+                  <tr key={det.id} className="hover:bg-slate-100/40 transition">
+                    <td className="py-2.5 px-3 font-mono font-bold text-cyan-600">
                       <div className="flex items-center space-x-2">
                         <Link to={`/vehicles/${det.normalized_plate_text}`} className="hover:underline">
                           {det.normalized_plate_text}
@@ -671,16 +671,16 @@ export default function Dashboard() {
                             SYNTHETIC
                           </span>
                         ) : (
-                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800 font-mono">
+                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-600 border border-cyan-800 font-mono">
                             VERIFIED
                           </span>
                         )}
                       </div>
                     </td>
-                    <td className="py-2.5 px-3 text-slate-300 truncate max-w-[150px]">
+                    <td className="py-2.5 px-3 text-slate-700 truncate max-w-[150px]">
                       {det.camera_name || det.camera_id}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-400">{det.zone_name}</td>
+                    <td className="py-2.5 px-3 text-slate-500">{det.zone_name}</td>
                     <td className="py-2.5 px-3 capitalize">
                       <span className="inline-block w-2 h-2 rounded-full mr-1.5 border border-slate-600" style={{ backgroundColor: det.vehicle_color }}></span>
                       {det.vehicle_color} {det.vehicle_type}

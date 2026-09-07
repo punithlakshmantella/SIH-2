@@ -38,6 +38,9 @@ frontend/dist-ssr/
 
 # SQLite & Databases
 *.db
+*.db-shm
+*.db-wal
+*.db*
 *.sqlite3
 cityvision.db
 postgres_data/

@@ -68,13 +68,13 @@ function statusBadge(statusStr: string) {
     case 'pending':
       return 'bg-amber-950/80 text-amber-400 border-amber-800 font-bold';
     case 'suspended':
-      return 'bg-slate-800 text-slate-400 border-slate-700';
+      return 'bg-slate-100 text-slate-500 border-slate-300';
     case 'expired':
       return 'bg-rose-950/80 text-rose-400 border-rose-800';
     case 'resolved':
-      return 'bg-cyan-950/80 text-cyan-400 border-cyan-800';
+      return 'bg-cyan-950/80 text-cyan-600 border-cyan-800';
     default:
-      return 'bg-slate-800 text-slate-400 border-slate-700';
+      return 'bg-slate-100 text-slate-500 border-slate-300';
   }
 }
 
@@ -87,9 +87,9 @@ function priorityBadge(pri: string) {
     case 'medium':
       return 'bg-amber-950/80 text-amber-400 border-amber-800 font-bold';
     case 'low':
-      return 'bg-slate-800 text-slate-400 border-slate-700';
+      return 'bg-slate-100 text-slate-500 border-slate-300';
     default:
-      return 'bg-slate-800 text-slate-400 border-slate-700';
+      return 'bg-slate-100 text-slate-500 border-slate-300';
   }
 }
 
@@ -270,17 +270,17 @@ export default function Watchlist() {
       {/* HEADER */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-100 flex items-center space-x-2">
+          <h1 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
             <ShieldAlert className="w-5 h-5 text-rose-400" />
             <span>Surveillance Watchlist Management</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Authorized vehicle watchlist management for ANPR-based surveillance alerts (Police, Investigator, Admin only)
           </p>
         </div>
 
         <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-cyan-400 shadow-sm">
+          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-mono text-cyan-600 shadow-sm">
             <Lock className="w-3.5 h-3.5" />
             <span>RBAC Protected</span>
           </div>
@@ -288,10 +288,10 @@ export default function Watchlist() {
           <button
             onClick={fetchWatchlistAndSummary}
             disabled={loading}
-            className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition"
+            className="p-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs transition"
             title="Refresh Watchlist"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyan-600' : ''}`} />
           </button>
         </div>
       </div>
@@ -319,15 +319,15 @@ export default function Watchlist() {
 
       {/* 2. SUMMARY KPI GRID */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Total Entries</span>
-          <span className="text-2xl font-black font-mono text-slate-100 mt-1 block">
+          <span className="text-2xl font-black font-mono text-slate-900 mt-1 block">
             {summary ? summary.total_entries : (loading ? '…' : '0')}
           </span>
           <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">Registered records</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Active Targets</span>
           <span className="text-2xl font-black font-mono text-emerald-400 mt-1 block">
             {summary ? summary.active_count : (loading ? '…' : '0')}
@@ -335,7 +335,7 @@ export default function Watchlist() {
           <span className="text-[10px] text-emerald-500 font-mono mt-0.5 block">Live ANPR monitoring</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Pending Verification</span>
           <span className="text-2xl font-black font-mono text-amber-400 mt-1 block">
             {summary ? summary.pending_verification_count : (loading ? '…' : '0')}
@@ -343,15 +343,15 @@ export default function Watchlist() {
           <span className="text-[10px] text-amber-500 font-mono mt-0.5 block">Awaiting 2nd officer</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Expiring Soon</span>
-          <span className={`text-2xl font-black font-mono mt-1 block ${summary?.expiring_soon_count > 0 ? 'text-orange-400' : 'text-slate-300'}`}>
+          <span className={`text-2xl font-black font-mono mt-1 block ${summary?.expiring_soon_count > 0 ? 'text-orange-400' : 'text-slate-700'}`}>
             {summary ? summary.expiring_soon_count : (loading ? '…' : '0')}
           </span>
           <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">&le; 7 days remaining</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Urgent Priority</span>
           <span className="text-2xl font-black font-mono text-rose-400 mt-1 block">
             {summary ? summary.urgent_count : (loading ? '…' : '0')}
@@ -359,7 +359,7 @@ export default function Watchlist() {
           <span className="text-[10px] text-rose-500 font-mono mt-0.5 block">Immediate alarm trigger</span>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-slate-900/70 border border-slate-800">
+        <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
           <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Linked Cases</span>
           <span className="text-2xl font-black font-mono text-indigo-400 mt-1 block">
             {summary ? summary.linked_investigations_count : (loading ? '…' : '0')}
@@ -369,11 +369,11 @@ export default function Watchlist() {
       </div>
 
       {/* 3. REGISTER NEW PLATE FORM */}
-      <form onSubmit={handleAddPlate} className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4 shadow-lg">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+      <form onSubmit={handleAddPlate} className="p-5 rounded-2xl bg-white/80 border border-slate-200 space-y-4 shadow-lg">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
           <div className="flex items-center space-x-2">
-            <Plus className="w-4 h-4 text-cyan-400" />
-            <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+            <Plus className="w-4 h-4 text-cyan-600" />
+            <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
               Register New License Plate to Watchlist
             </h2>
           </div>
@@ -402,24 +402,24 @@ export default function Watchlist() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Plate Number */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 font-mono">Plate Number *</label>
+            <label className="block text-[11px] text-slate-500 mb-1 font-mono">Plate Number *</label>
             <input
               type="text"
               value={plate}
               onChange={(e) => handlePlateChange(e.target.value)}
               placeholder="e.g. AP39AB1234"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 uppercase font-mono tracking-wider focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 uppercase font-mono tracking-wider focus:outline-none focus:border-cyan-500"
               required
             />
           </div>
 
           {/* Reason Category */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 font-mono">Reason Category *</label>
+            <label className="block text-[11px] text-slate-500 mb-1 font-mono">Reason Category *</label>
             <select
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-cyan-500 font-mono"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="stolen">Stolen Vehicle</option>
               <option value="active_investigation">Active Investigation</option>
@@ -432,11 +432,11 @@ export default function Watchlist() {
 
           {/* Alert Priority */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 font-mono">Alert Priority *</label>
+            <label className="block text-[11px] text-slate-500 mb-1 font-mono">Alert Priority *</label>
             <select
               value={priority}
               onChange={(e) => setPriority(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-cyan-500 font-mono"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-cyan-500 font-mono"
             >
               <option value="urgent">Urgent (Critical Alarm)</option>
               <option value="high">High</option>
@@ -447,58 +447,58 @@ export default function Watchlist() {
 
           {/* Case / Reference ID */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 font-mono">Case / Reference ID</label>
+            <label className="block text-[11px] text-slate-500 mb-1 font-mono">Case / Reference ID</label>
             <input
               type="text"
               value={caseRef}
               onChange={(e) => setCaseRef(e.target.value)}
               placeholder="e.g. BEL-2026-0914"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 font-mono focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 font-mono focus:outline-none focus:border-cyan-500"
             />
           </div>
 
           {/* Effective From */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 font-mono">Effective From</label>
+            <label className="block text-[11px] text-slate-500 mb-1 font-mono">Effective From</label>
             <input
               type="date"
               value={effectiveFrom}
               onChange={(e) => setEffectiveFrom(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 font-mono focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 font-mono focus:outline-none focus:border-cyan-500"
             />
           </div>
 
           {/* Expiry Date */}
           <div>
-            <label className="block text-[11px] text-slate-400 mb-1 font-mono">Expiry Date</label>
+            <label className="block text-[11px] text-slate-500 mb-1 font-mono">Expiry Date</label>
             <input
               type="date"
               value={expiryDate}
               onChange={(e) => setExpiryDate(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 font-mono focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 font-mono focus:outline-none focus:border-cyan-500"
             />
           </div>
 
           {/* Notes */}
           <div className="sm:col-span-2">
-            <label className="block text-[11px] text-slate-400 mb-1 font-mono">Operational Context / Notes</label>
+            <label className="block text-[11px] text-slate-500 mb-1 font-mono">Operational Context / Notes</label>
             <input
               type="text"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Investigation lead, alert routing instructions..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-cyan-500 font-mono"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-cyan-500 font-mono"
             />
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between pt-2 border-t border-slate-800 gap-3">
-          <label className="flex items-center space-x-2 text-xs text-slate-400 font-mono cursor-pointer">
+        <div className="flex flex-wrap items-center justify-between pt-2 border-t border-slate-200 gap-3">
+          <label className="flex items-center space-x-2 text-xs text-slate-500 font-mono cursor-pointer">
             <input
               type="checkbox"
               checked={autoVerify}
               onChange={(e) => setAutoVerify(e.target.checked)}
-              className="rounded bg-slate-950 border-slate-800 text-cyan-500 focus:ring-0"
+              className="rounded bg-slate-50 border-slate-200 text-cyan-500 focus:ring-0"
             />
             <span>Authorized Immediate Activation (Skip 2nd Officer Approval)</span>
           </label>
@@ -524,7 +524,7 @@ export default function Watchlist() {
             placeholder="Search by plate, case reference, notes, officer..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+            className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
           />
         </div>
 
@@ -532,7 +532,7 @@ export default function Watchlist() {
         <select
           value={selectedStatus}
           onChange={(e) => setSelectedStatus(e.target.value)}
-          className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+          className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
         >
           {STATUS_FILTERS.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}
         </select>
@@ -541,7 +541,7 @@ export default function Watchlist() {
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+          className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
         >
           {REASON_CATEGORIES.map(r => <option key={r.id} value={r.id}>{r.label}</option>)}
         </select>
@@ -550,7 +550,7 @@ export default function Watchlist() {
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+          className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
         >
           <option value="newest">Newest First</option>
           <option value="priority">Highest Priority First</option>
@@ -560,17 +560,17 @@ export default function Watchlist() {
       </div>
 
       {/* 5. WATCHLIST TABLE */}
-      <div className="p-5 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-md">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+      <div className="p-5 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-md">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+          <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
             Active Surveillance Targets ({sortedWatchlist.length})
           </h2>
           <span className="text-[10px] text-slate-500 font-mono">Enforcing access control & audit logging</span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300 font-mono">
-            <thead className="bg-slate-950/80 text-slate-400 text-[10px] uppercase border-b border-slate-800">
+          <table className="w-full text-left text-xs text-slate-700 font-mono">
+            <thead className="bg-slate-50/80 text-slate-500 text-[10px] uppercase border-b border-slate-200">
               <tr>
                 <th className="p-3">Plate</th>
                 <th className="p-3">Status</th>
@@ -582,15 +582,15 @@ export default function Watchlist() {
                 <th className="p-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-200/60">
               {sortedWatchlist.map((item) => {
                 return (
-                  <tr key={item.id} className="hover:bg-slate-800/30 transition">
+                  <tr key={item.id} className="hover:bg-slate-100/30 transition">
                     
                     {/* Plate with Demo Badge */}
                     <td className="p-3">
                       <div className="flex items-center space-x-1.5">
-                        <span className="font-bold text-cyan-300 text-sm tracking-wider">{item.plate_number}</span>
+                        <span className="font-bold text-cyan-600 text-sm tracking-wider">{item.plate_number}</span>
                         {item.is_demo && (
                           <span className="px-1.5 py-0.5 rounded bg-amber-950/90 text-amber-300 border border-amber-800 text-[9px] font-bold">
                             DEMO
@@ -607,7 +607,7 @@ export default function Watchlist() {
                     </td>
 
                     {/* Reason */}
-                    <td className="p-3 capitalize text-slate-200">
+                    <td className="p-3 capitalize text-slate-800">
                       {item.reason_category.replace(/_/g, ' ')}
                     </td>
 
@@ -636,7 +636,7 @@ export default function Watchlist() {
                     <td className="p-3">
                       {item.expiry_date ? (
                         <div className="space-y-0.5">
-                          <span className="text-slate-300">{new Date(item.expiry_date).toLocaleDateString()}</span>
+                          <span className="text-slate-700">{new Date(item.expiry_date).toLocaleDateString()}</span>
                           {item.is_expiring_soon && (
                             <span className="block text-[9px] text-orange-400 font-bold">
                               ⚠ {item.days_until_expiry}d left
@@ -649,7 +649,7 @@ export default function Watchlist() {
                     </td>
 
                     {/* Registered By */}
-                    <td className="p-3 text-slate-400">
+                    <td className="p-3 text-slate-500">
                       {item.creator_name || 'System Administrator'}
                     </td>
 
@@ -675,7 +675,7 @@ export default function Watchlist() {
                         {item.status === 'active' && (
                           <button
                             onClick={() => handleStatusTransition(item.id, 'suspended')}
-                            className="p-1.5 text-slate-400 hover:text-amber-300 transition"
+                            className="p-1.5 text-slate-500 hover:text-amber-300 transition"
                             title="Suspend alert generation"
                           >
                             <PauseCircle className="w-4 h-4" />
@@ -686,7 +686,7 @@ export default function Watchlist() {
                         {(item.status === 'suspended' || item.status === 'expired') && (
                           <button
                             onClick={() => handleStatusTransition(item.id, 'active')}
-                            className="p-1.5 text-slate-400 hover:text-emerald-300 transition"
+                            className="p-1.5 text-slate-500 hover:text-emerald-300 transition"
                             title="Reactivate entry"
                           >
                             <PlayCircle className="w-4 h-4" />
@@ -700,7 +700,7 @@ export default function Watchlist() {
                               setResolveModalEntry(item);
                               setActionNotes('');
                             }}
-                            className="p-1.5 text-slate-400 hover:text-cyan-300 transition"
+                            className="p-1.5 text-slate-500 hover:text-cyan-600 transition"
                             title="Mark as resolved (e.g. vehicle recovered)"
                           >
                             <CheckCircle2 className="w-4 h-4" />
@@ -710,7 +710,7 @@ export default function Watchlist() {
                         {/* View Drawer */}
                         <button
                           onClick={() => setSelectedEntry(item)}
-                          className="p-1.5 text-slate-400 hover:text-cyan-400 transition"
+                          className="p-1.5 text-slate-500 hover:text-cyan-600 transition"
                           title="View Full Surveillance Context"
                         >
                           <Eye className="w-4 h-4" />
@@ -727,9 +727,9 @@ export default function Watchlist() {
 
       {/* 6. VERIFICATION MODAL (2-Person Approval) */}
       {verifyModalEntry && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-amber-800/80 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 bg-slate-50/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-amber-800/80 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <div className="flex items-center space-x-2 text-amber-300 font-bold font-mono text-sm">
                 <ShieldCheck className="w-5 h-5 text-amber-400" />
                 <span>Authorize Watchlist Target: {verifyModalEntry.plate_number}</span>
@@ -742,14 +742,14 @@ export default function Watchlist() {
               Confirming this record authorizes live ANPR cameras to trigger automated law-enforcement alarms across Visakhapatnam.
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-xs font-mono bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+            <div className="grid grid-cols-2 gap-3 text-xs font-mono bg-slate-50/60 p-4 rounded-xl border border-slate-200">
               <div>
                 <span className="text-slate-500 block text-[10px]">Target Plate</span>
-                <span className="font-bold text-cyan-300">{verifyModalEntry.plate_number}</span>
+                <span className="font-bold text-cyan-600">{verifyModalEntry.plate_number}</span>
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px]">Reason Category</span>
-                <span className="font-bold text-slate-200 capitalize">{verifyModalEntry.reason_category.replace(/_/g, ' ')}</span>
+                <span className="font-bold text-slate-800 capitalize">{verifyModalEntry.reason_category.replace(/_/g, ' ')}</span>
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px]">Priority Level</span>
@@ -762,13 +762,13 @@ export default function Watchlist() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">Approval / Rejection Notes</label>
+              <label className="block text-xs font-medium text-slate-700 mb-1">Approval / Rejection Notes</label>
               <textarea
                 rows={2}
                 placeholder="Enter authorization verification remarks..."
                 value={actionNotes}
                 onChange={(e) => setActionNotes(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-amber-500 font-mono"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 focus:outline-none focus:border-amber-500 font-mono"
               />
             </div>
 
@@ -797,28 +797,28 @@ export default function Watchlist() {
 
       {/* 7. RESOLUTION MODAL */}
       {resolveModalEntry && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-cyan-800/80 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div className="flex items-center space-x-2 text-cyan-300 font-bold font-mono text-sm">
-                <CheckCircle2 className="w-5 h-5 text-cyan-400" />
+        <div className="fixed inset-0 bg-slate-50/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-cyan-800/80 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div className="flex items-center space-x-2 text-cyan-600 font-bold font-mono text-sm">
+                <CheckCircle2 className="w-5 h-5 text-cyan-600" />
                 <span>Resolve Watchlist Entry: {resolveModalEntry.plate_number}</span>
               </div>
               <button onClick={() => setResolveModalEntry(null)}><X className="w-4 h-4" /></button>
             </div>
 
-            <p className="text-xs text-slate-300">
+            <p className="text-xs text-slate-700">
               Marking this target as resolved archives the surveillance trigger while preserving historical ANPR detections and case audit trails.
             </p>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1 font-mono">Resolution Reason / Summary *</label>
+              <label className="block text-xs font-medium text-slate-700 mb-1 font-mono">Resolution Reason / Summary *</label>
               <textarea
                 rows={3}
                 placeholder="e.g. Vehicle recovered by Traffic Police, Case #BEL-2026 closed..."
                 value={actionNotes}
                 onChange={(e) => setActionNotes(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
                 required
               />
             </div>
@@ -826,7 +826,7 @@ export default function Watchlist() {
             <div className="flex justify-end space-x-2 pt-2">
               <button
                 onClick={() => setResolveModalEntry(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold"
+                className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold"
               >
                 Cancel
               </button>
@@ -844,13 +844,13 @@ export default function Watchlist() {
 
       {/* 8. DETAILED WATCHLIST SLIDE-OVER DRAWER */}
       {selectedEntry && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex justify-end">
-          <div className="bg-slate-900 border-l border-slate-800 w-full max-w-xl h-full p-6 overflow-y-auto space-y-6 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="fixed inset-0 bg-slate-50/80 backdrop-blur-sm z-50 flex justify-end">
+          <div className="bg-white border-l border-slate-200 w-full max-w-xl h-full p-6 overflow-y-auto space-y-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
               <div>
-                <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider block">Watchlist Target Telemetry</span>
+                <span className="text-[10px] font-mono text-cyan-600 uppercase tracking-wider block">Watchlist Target Telemetry</span>
                 <div className="flex items-center space-x-2 mt-0.5">
-                  <h2 className="text-lg font-black text-slate-100 font-mono tracking-wider">{selectedEntry.plate_number}</h2>
+                  <h2 className="text-lg font-black text-slate-900 font-mono tracking-wider">{selectedEntry.plate_number}</h2>
                   {selectedEntry.is_demo && (
                     <span className="px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 text-[10px] font-bold">
                       DEMO / TEST
@@ -860,14 +860,14 @@ export default function Watchlist() {
               </div>
               <button 
                 onClick={() => setSelectedEntry(null)}
-                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300"
+                className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-700 text-slate-700"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {/* Target Status Header */}
-            <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono">
+            <div className="grid grid-cols-2 gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono">
               <div>
                 <span className="text-slate-500 block text-[10px]">Surveillance Status</span>
                 <span className={`px-2 py-0.5 rounded text-[10px] uppercase border inline-block mt-1 ${statusBadge(selectedEntry.status)}`}>
@@ -882,7 +882,7 @@ export default function Watchlist() {
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px]">Reason Category</span>
-                <span className="font-bold text-slate-200 capitalize mt-1 block">{selectedEntry.reason_category.replace(/_/g, ' ')}</span>
+                <span className="font-bold text-slate-800 capitalize mt-1 block">{selectedEntry.reason_category.replace(/_/g, ' ')}</span>
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px]">Case Reference</span>
@@ -891,17 +891,17 @@ export default function Watchlist() {
             </div>
 
             {/* Verification & Lifecycle History */}
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2.5 text-xs font-mono">
-              <span className="text-xs font-bold text-slate-300 uppercase block font-mono">Audit &amp; Verification Chain</span>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5 text-xs font-mono">
+              <span className="text-xs font-bold text-slate-700 uppercase block font-mono">Audit &amp; Verification Chain</span>
               
               <div className="grid grid-cols-2 gap-2 text-[11px]">
                 <div>
                   <span className="text-slate-500 block text-[10px]">Registered By</span>
-                  <span className="text-slate-300">{selectedEntry.creator_name || 'System'}</span>
+                  <span className="text-slate-700">{selectedEntry.creator_name || 'System'}</span>
                 </div>
                 <div>
                   <span className="text-slate-500 block text-[10px]">Registered At</span>
-                  <span className="text-slate-300">{new Date(selectedEntry.created_at).toLocaleString()}</span>
+                  <span className="text-slate-700">{new Date(selectedEntry.created_at).toLocaleString()}</span>
                 </div>
                 <div>
                   <span className="text-slate-500 block text-[10px]">Verification Status</span>
@@ -909,64 +909,64 @@ export default function Watchlist() {
                 </div>
                 <div>
                   <span className="text-slate-500 block text-[10px]">Verified By</span>
-                  <span className="text-slate-300">{selectedEntry.verified_by_name || 'System Admin Override'}</span>
+                  <span className="text-slate-700">{selectedEntry.verified_by_name || 'System Admin Override'}</span>
                 </div>
                 <div>
                   <span className="text-slate-500 block text-[10px]">Effective Date</span>
-                  <span className="text-slate-300">{selectedEntry.effective_from ? new Date(selectedEntry.effective_from).toLocaleDateString() : 'Immediate'}</span>
+                  <span className="text-slate-700">{selectedEntry.effective_from ? new Date(selectedEntry.effective_from).toLocaleDateString() : 'Immediate'}</span>
                 </div>
                 <div>
                   <span className="text-slate-500 block text-[10px]">Expiry Date</span>
-                  <span className="text-slate-300">{selectedEntry.expiry_date ? new Date(selectedEntry.expiry_date).toLocaleDateString() : 'Permanent'}</span>
+                  <span className="text-slate-700">{selectedEntry.expiry_date ? new Date(selectedEntry.expiry_date).toLocaleDateString() : 'Permanent'}</span>
                 </div>
               </div>
 
               {selectedEntry.notes && (
-                <div className="pt-2 border-t border-slate-900 text-slate-400 text-[11px]">
+                <div className="pt-2 border-t border-slate-900 text-slate-500 text-[11px]">
                   <strong>Notes:</strong> {selectedEntry.notes}
                 </div>
               )}
             </div>
 
             {/* ANPR Sightings Context */}
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2.5 text-xs font-mono">
-              <span className="text-xs font-bold text-slate-300 uppercase block font-mono">Live ANPR Detection Context</span>
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5 text-xs font-mono">
+              <span className="text-xs font-bold text-slate-700 uppercase block font-mono">Live ANPR Detection Context</span>
               <div className="grid grid-cols-2 gap-2 text-[11px]">
                 <div>
                   <span className="text-slate-500 block text-[10px]">Total Detections</span>
-                  <span className="text-cyan-400 font-bold text-sm">{selectedEntry.detection_count} hits</span>
+                  <span className="text-cyan-600 font-bold text-sm">{selectedEntry.detection_count} hits</span>
                 </div>
                 <div>
                   <span className="text-slate-500 block text-[10px]">Last Sighting Camera</span>
-                  <span className="text-slate-200">{selectedEntry.last_camera_name || selectedEntry.last_camera_id || 'Siripuram Circle'}</span>
+                  <span className="text-slate-800">{selectedEntry.last_camera_name || selectedEntry.last_camera_id || 'Siripuram Circle'}</span>
                 </div>
               </div>
             </div>
 
             {/* Quick Cross-Module Links */}
-            <div className="space-y-2 pt-2 border-t border-slate-800">
-              <span className="text-xs font-bold text-slate-400 font-mono uppercase block">Investigative Drill-Down</span>
+            <div className="space-y-2 pt-2 border-t border-slate-200">
+              <span className="text-xs font-bold text-slate-500 font-mono uppercase block">Investigative Drill-Down</span>
               <div className="grid grid-cols-2 gap-2">
                 <Link
                   to={`/vehicles?plate=${encodeURIComponent(selectedEntry.plate_number)}`}
-                  className="p-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-between font-mono"
+                  className="p-3 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 text-xs font-bold transition flex items-center justify-between font-mono"
                 >
                   <div className="flex items-center space-x-2">
                     <Car className="w-4 h-4 text-blue-400" />
                     <span>Vehicle Profile</span>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                  <ChevronRight className="w-4 h-4 text-slate-500" />
                 </Link>
 
                 <Link
                   to={`/trajectory?plate=${encodeURIComponent(selectedEntry.plate_number)}`}
-                  className="p-3 rounded-xl bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-800 text-xs font-bold transition flex items-center justify-between font-mono"
+                  className="p-3 rounded-xl bg-cyan-950 hover:bg-cyan-900 text-cyan-600 border border-cyan-800 text-xs font-bold transition flex items-center justify-between font-mono"
                 >
                   <div className="flex items-center space-x-2">
-                    <Route className="w-4 h-4 text-cyan-400" />
+                    <Route className="w-4 h-4 text-cyan-600" />
                     <span>Trajectory</span>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-cyan-400" />
+                  <ChevronRight className="w-4 h-4 text-cyan-600" />
                 </Link>
 
                 <Link
@@ -998,38 +998,38 @@ export default function Watchlist() {
       )}
 
       {/* 9. FOOTER CROSS-MODULE NAVIGATION */}
-      <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-800">
+      <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-200">
         <Link
           to="/vehicles"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <Car className="w-4 h-4 text-blue-400" />
           <span>Vehicle Registry</span>
         </Link>
         <Link
           to="/trajectory"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
-          <Route className="w-4 h-4 text-cyan-400" />
+          <Route className="w-4 h-4 text-cyan-600" />
           <span>Trajectory Reconstruction</span>
         </Link>
         <Link
           to="/alerts"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <Bell className="w-4 h-4 text-rose-400" />
           <span>Surveillance Alerts</span>
         </Link>
         <Link
           to="/investigations"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <FileText className="w-4 h-4 text-amber-400" />
           <span>Investigation Case Files</span>
         </Link>
         <Link
           to="/cameras"
-          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold transition"
+          className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <Camera className="w-4 h-4 text-emerald-400" />
           <span>Camera Sensor Network</span>

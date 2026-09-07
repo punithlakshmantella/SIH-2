@@ -193,7 +193,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="text-center py-24 text-xs font-mono text-slate-500">
-        <RefreshCw className="w-6 h-6 animate-spin mx-auto text-cyan-400 mb-2" />
+        <RefreshCw className="w-6 h-6 animate-spin mx-auto text-cyan-600 mb-2" />
         <span>Loading system environment &amp; node configuration...</span>
       </div>
     );
@@ -212,7 +212,7 @@ export default function SettingsPage() {
 
       {/* TOAST NOTIFICATION */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 bg-slate-900 border border-emerald-500/80 text-emerald-300 px-4 py-3 rounded-2xl shadow-2xl z-50 flex items-center space-x-2 text-xs font-mono animate-bounce">
+        <div className="fixed bottom-6 right-6 bg-white border border-emerald-500/80 text-emerald-300 px-4 py-3 rounded-2xl shadow-2xl z-50 flex items-center space-x-2 text-xs font-mono animate-bounce">
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>
@@ -221,27 +221,27 @@ export default function SettingsPage() {
       {/* 1. HEADER */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-100 flex items-center space-x-2">
-            <Settings className="w-5 h-5 text-cyan-400" />
+          <h1 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
+            <Settings className="w-5 h-5 text-cyan-600" />
             <span>System Environment &amp; Node Configuration</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Platform telemetry parameters, Visakhapatnam GIS grid parameters, and engine configs
           </p>
         </div>
 
         <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono">
+          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-mono">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="text-slate-300">{env.environment || 'Production Simulation'}</span>
+            <span className="text-slate-700">{env.environment || 'Production Simulation'}</span>
           </div>
 
           <button
             onClick={fetchConfig}
-            className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition"
+            className="p-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs transition"
             title="Reload Config from API"
           >
-            <RefreshCw className="w-4 h-4 text-cyan-400" />
+            <RefreshCw className="w-4 h-4 text-cyan-600" />
           </button>
         </div>
       </div>
@@ -258,11 +258,11 @@ export default function SettingsPage() {
       <form onSubmit={handleSaveConfig} className="space-y-6">
 
         {/* 2. SYSTEM ENVIRONMENT & TARGET METROPOLITAN CITY */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-lg">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-lg">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
-              <Globe className="w-4 h-4 text-cyan-400" />
-              <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+              <Globe className="w-4 h-4 text-cyan-600" />
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
                 System Environment &amp; Target Metropolitan Area
               </h2>
             </div>
@@ -272,34 +272,34 @@ export default function SettingsPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
-            <div className="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800">
+            <div className="p-3.5 bg-slate-50/70 rounded-xl border border-slate-200">
               <span className="text-slate-500 block text-[10px]">Target Metropolitan City</span>
-              <span className="font-bold text-cyan-400 text-sm mt-0.5 block">{env.city_display || 'Visakhapatnam, Andhra Pradesh'}</span>
+              <span className="font-bold text-cyan-600 text-sm mt-0.5 block">{env.city_display || 'Visakhapatnam, Andhra Pradesh'}</span>
             </div>
 
-            <div className="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800">
+            <div className="p-3.5 bg-slate-50/70 rounded-xl border border-slate-200">
               <span className="text-slate-500 block text-[10px]">Environment Tier</span>
-              <span className="font-bold text-slate-200 mt-0.5 block">{env.environment || 'Production Simulation'}</span>
+              <span className="font-bold text-slate-800 mt-0.5 block">{env.environment || 'Production Simulation'}</span>
             </div>
 
-            <div className="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800">
+            <div className="p-3.5 bg-slate-50/70 rounded-xl border border-slate-200">
               <span className="text-slate-500 block text-[10px]">Region / State</span>
-              <span className="font-bold text-slate-200 mt-0.5 block">{env.region || 'Andhra Pradesh'}</span>
+              <span className="font-bold text-slate-800 mt-0.5 block">{env.region || 'Andhra Pradesh'}</span>
             </div>
 
-            <div className="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800">
+            <div className="p-3.5 bg-slate-50/70 rounded-xl border border-slate-200">
               <span className="text-slate-500 block text-[10px]">Country / Jurisdiction</span>
-              <span className="font-bold text-slate-200 mt-0.5 block">{env.country || 'India'} (MoRTH / HSRP)</span>
+              <span className="font-bold text-slate-800 mt-0.5 block">{env.country || 'India'} (MoRTH / HSRP)</span>
             </div>
           </div>
         </div>
 
         {/* 3. GIS CONFIGURATION */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-lg">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-lg">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
               <MapPin className="w-4 h-4 text-emerald-400" />
-              <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
                 GIS Grid &amp; Geodetic Reference Parameters
               </h2>
             </div>
@@ -308,7 +308,7 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono">
             <div>
-              <label className="block text-slate-400 mb-1">Map Center Latitude (° N) [-90 to 90] *</label>
+              <label className="block text-slate-500 mb-1">Map Center Latitude (° N) [-90 to 90] *</label>
               <input
                 type="number"
                 step="0.0001"
@@ -317,13 +317,13 @@ export default function SettingsPage() {
                 value={latitude}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setLatitude(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Map Center Longitude (° E) [-180 to 180] *</label>
+              <label className="block text-slate-500 mb-1">Map Center Longitude (° E) [-180 to 180] *</label>
               <input
                 type="number"
                 step="0.0001"
@@ -332,13 +332,13 @@ export default function SettingsPage() {
                 value={longitude}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setLongitude(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Default Map Zoom Level [5 - 19]</label>
+              <label className="block text-slate-500 mb-1">Default Map Zoom Level [5 - 19]</label>
               <input
                 type="number"
                 min="5"
@@ -346,58 +346,58 @@ export default function SettingsPage() {
                 value={defaultZoom}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setDefaultZoom(parseInt(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Default GIS Grid Structure</label>
+              <label className="block text-slate-500 mb-1">Default GIS Grid Structure</label>
               <input
                 type="text"
                 value={defaultGrid}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setDefaultGrid(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Coordinate Reference System</label>
+              <label className="block text-slate-500 mb-1">Coordinate Reference System</label>
               <input
                 type="text"
                 value="WGS 84 / EPSG:4326"
                 disabled
-                className="w-full bg-slate-950/50 border border-slate-800/80 rounded-xl px-3 py-2 text-slate-400"
+                className="w-full bg-slate-50/50 border border-slate-200/80 rounded-xl px-3 py-2 text-slate-500"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Active Coverage Area</label>
+              <label className="block text-slate-500 mb-1">Active Coverage Area</label>
               <input
                 type="text"
                 value="Visakhapatnam Metropolitan Region"
                 disabled
-                className="w-full bg-slate-950/50 border border-slate-800/80 rounded-xl px-3 py-2 text-slate-400"
+                className="w-full bg-slate-50/50 border border-slate-200/80 rounded-xl px-3 py-2 text-slate-500"
               />
             </div>
           </div>
         </div>
 
         {/* 4. ANPR / OCR PIPELINE */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-lg">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-lg">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
-              <Cpu className="w-4 h-4 text-cyan-400" />
-              <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+              <Cpu className="w-4 h-4 text-cyan-600" />
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
                 ANPR / OCR Pipeline Architecture &amp; Calibration
               </h2>
             </div>
-            <span className="text-[10px] text-cyan-400 font-mono">HSRP Regex Engine</span>
+            <span className="text-[10px] text-cyan-600 font-mono">HSRP Regex Engine</span>
           </div>
 
-          <div className="p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl text-xs font-mono">
-            <span className="text-slate-400 block text-[11px] mb-1">Active Engine Pipeline:</span>
-            <span className="font-bold text-slate-200">{anpr.pipeline_name}</span>
+          <div className="p-3.5 bg-slate-50/70 border border-slate-200 rounded-xl text-xs font-mono">
+            <span className="text-slate-500 block text-[11px] mb-1">Active Engine Pipeline:</span>
+            <span className="font-bold text-slate-800">{anpr.pipeline_name}</span>
           </div>
 
           {/* Pipeline Stages Diagram */}
@@ -407,8 +407,8 @@ export default function SettingsPage() {
             </span>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
               {anpr.stages?.map((st: any) => (
-                <div key={st.step} className="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800 space-y-0.5">
-                  <div className="flex items-center space-x-1.5 text-cyan-400 font-bold text-[11px]">
+                <div key={st.step} className="p-2.5 rounded-xl bg-slate-50/60 border border-slate-200 space-y-0.5">
+                  <div className="flex items-center space-x-1.5 text-cyan-600 font-bold text-[11px]">
                     <span>0{st.step}.</span>
                     <span className="truncate">{st.name}</span>
                   </div>
@@ -421,7 +421,7 @@ export default function SettingsPage() {
           {/* Thresholds */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono pt-2">
             <div>
-              <label className="block text-slate-400 mb-1">OCR Confidence Threshold (%)</label>
+              <label className="block text-slate-500 mb-1">OCR Confidence Threshold (%)</label>
               <input
                 type="number"
                 min="0"
@@ -430,12 +430,12 @@ export default function SettingsPage() {
                 value={ocrThreshold}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setOcrThreshold(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Plate Validation Threshold (%)</label>
+              <label className="block text-slate-500 mb-1">Plate Validation Threshold (%)</label>
               <input
                 type="number"
                 min="0"
@@ -444,45 +444,45 @@ export default function SettingsPage() {
                 value={plateValThreshold}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setPlateValThreshold(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Image Enhancement Filter</label>
+              <label className="block text-slate-500 mb-1">Image Enhancement Filter</label>
               <input
                 type="text"
                 value={anpr.image_enhancement || 'CLAHE'}
                 disabled
-                className="w-full bg-slate-950/50 border border-slate-800/80 rounded-xl px-3 py-2 text-slate-400"
+                className="w-full bg-slate-50/50 border border-slate-200/80 rounded-xl px-3 py-2 text-slate-500"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Target Plate Standard</label>
+              <label className="block text-slate-500 mb-1">Target Plate Standard</label>
               <input
                 type="text"
                 value={anpr.plate_format || 'Indian HSRP Format'}
                 disabled
-                className="w-full bg-slate-950/50 border border-slate-800/80 rounded-xl px-3 py-2 text-slate-400"
+                className="w-full bg-slate-50/50 border border-slate-200/80 rounded-xl px-3 py-2 text-slate-500"
               />
             </div>
           </div>
         </div>
 
         {/* 5. RE-ID ENGINE & SPATIO-TEMPORAL CONTINUITY */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-lg">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-lg">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
               <GitFork className="w-4 h-4 text-purple-400" />
-              <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
                 Multi-Modal Vehicle Re-ID Engine
               </h2>
             </div>
             <span className="text-[10px] text-purple-300 font-mono">{reid.engine_mode}</span>
           </div>
 
-          <p className="text-xs text-slate-400 leading-relaxed font-sans bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+          <p className="text-xs text-slate-500 leading-relaxed font-sans bg-slate-50/60 p-3.5 rounded-xl border border-slate-200">
             {reid.explanation}
           </p>
 
@@ -492,7 +492,7 @@ export default function SettingsPage() {
             </span>
             <div className="flex flex-wrap gap-2">
               {reid.input_signals?.map((sig: string, idx: number) => (
-                <span key={idx} className="px-2.5 py-1 rounded-lg bg-slate-950 text-cyan-300 border border-cyan-900/60 text-xs font-mono">
+                <span key={idx} className="px-2.5 py-1 rounded-lg bg-slate-50 text-cyan-600 border border-cyan-900/60 text-xs font-mono">
                   • {sig}
                 </span>
               ))}
@@ -501,7 +501,7 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono pt-2">
             <div>
-              <label className="block text-slate-400 mb-1">Re-ID Confidence Threshold (%)</label>
+              <label className="block text-slate-500 mb-1">Re-ID Confidence Threshold (%)</label>
               <input
                 type="number"
                 min="0"
@@ -510,13 +510,13 @@ export default function SettingsPage() {
                 value={reidThreshold}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setReidThreshold(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-800 focus:outline-none focus:border-cyan-500 disabled:opacity-60"
               />
             </div>
 
-            <div className="flex items-center justify-between p-3.5 bg-slate-950/70 border border-slate-800 rounded-xl">
+            <div className="flex items-center justify-between p-3.5 bg-slate-50/70 border border-slate-200 rounded-xl">
               <div>
-                <span className="font-bold text-slate-200 block">Spatio-Temporal Trajectory Validation</span>
+                <span className="font-bold text-slate-800 block">Spatio-Temporal Trajectory Validation</span>
                 <span className="text-[10px] text-slate-500">Flags impossible speeds between camera checkpoints</span>
               </div>
               <input
@@ -524,18 +524,18 @@ export default function SettingsPage() {
                 checked={trajectoryValEnabled}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setTrajectoryValEnabled(e.target.checked)}
-                className="w-4 h-4 text-cyan-500 rounded focus:ring-0 bg-slate-900 border-slate-700"
+                className="w-4 h-4 text-cyan-500 rounded focus:ring-0 bg-white border-slate-300"
               />
             </div>
           </div>
         </div>
 
         {/* 6. PHYSICAL SPEED VALIDATION THRESHOLD */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-lg">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-lg">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
               <Gauge className="w-4 h-4 text-rose-400" />
-              <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
                 Maximum Physical Speed Validation Threshold
               </h2>
             </div>
@@ -544,7 +544,7 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
             <div className="sm:col-span-1">
-              <label className="block text-slate-400 mb-1">Max Physical Speed Threshold (km/h) *</label>
+              <label className="block text-slate-500 mb-1">Max Physical Speed Threshold (km/h) *</label>
               <input
                 type="number"
                 min="20"
@@ -553,14 +553,14 @@ export default function SettingsPage() {
                 value={maxSpeedKmh}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setMaxSpeedKmh(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-rose-400 font-bold text-sm focus:outline-none focus:border-rose-500 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-rose-400 font-bold text-sm focus:outline-none focus:border-rose-500 disabled:opacity-60"
                 required
               />
             </div>
 
             <div className="sm:col-span-2 p-3.5 bg-rose-950/20 border border-rose-900/50 rounded-xl text-xs space-y-1">
               <span className="font-bold text-rose-300 block font-mono">Validation Purpose:</span>
-              <p className="text-slate-400 text-[11px] leading-relaxed font-sans">
+              <p className="text-slate-500 text-[11px] leading-relaxed font-sans">
                 {speed.explanation}
               </p>
             </div>
@@ -572,7 +572,7 @@ export default function SettingsPage() {
             </span>
             <div className="flex flex-wrap gap-2 text-xs font-mono">
               {speed.granularity_support?.map((g: string, i: number) => (
-                <span key={i} className="px-2 py-0.5 rounded bg-slate-950 text-slate-300 border border-slate-800 text-[11px]">
+                <span key={i} className="px-2 py-0.5 rounded bg-slate-50 text-slate-700 border border-slate-200 text-[11px]">
                   ✓ {g}
                 </span>
               ))}
@@ -581,11 +581,11 @@ export default function SettingsPage() {
         </div>
 
         {/* 7. CAMERA TELEMETRY PARAMETERS */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-lg">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-lg">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
               <Camera className="w-4 h-4 text-emerald-400" />
-              <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
                 Camera Sensor Telemetry &amp; Quality Thresholds
               </h2>
             </div>
@@ -599,7 +599,7 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs font-mono">
             <div>
-              <label className="block text-slate-400 mb-1">Min FPS</label>
+              <label className="block text-slate-500 mb-1">Min FPS</label>
               <input
                 type="number"
                 min="1"
@@ -607,12 +607,12 @@ export default function SettingsPage() {
                 value={minFps}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setMinFps(parseInt(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 disabled:opacity-60"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Max Latency (ms)</label>
+              <label className="block text-slate-500 mb-1">Max Latency (ms)</label>
               <input
                 type="number"
                 min="10"
@@ -620,12 +620,12 @@ export default function SettingsPage() {
                 value={maxLatency}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setMaxLatency(parseInt(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 disabled:opacity-60"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Max Loss (%)</label>
+              <label className="block text-slate-500 mb-1">Max Loss (%)</label>
               <input
                 type="number"
                 min="0"
@@ -634,12 +634,12 @@ export default function SettingsPage() {
                 value={maxPacketLoss}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setMaxPacketLoss(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 disabled:opacity-60"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Min Uptime (%)</label>
+              <label className="block text-slate-500 mb-1">Min Uptime (%)</label>
               <input
                 type="number"
                 min="0"
@@ -648,12 +648,12 @@ export default function SettingsPage() {
                 value={minUptime}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setMinUptime(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 disabled:opacity-60"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Min OCR Acc (%)</label>
+              <label className="block text-slate-500 mb-1">Min OCR Acc (%)</label>
               <input
                 type="number"
                 min="0"
@@ -662,12 +662,12 @@ export default function SettingsPage() {
                 value={minOcrAcc}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setMinOcrAcc(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 disabled:opacity-60"
               />
             </div>
 
             <div>
-              <label className="block text-slate-400 mb-1">Heartbeat (sec)</label>
+              <label className="block text-slate-500 mb-1">Heartbeat (sec)</label>
               <input
                 type="number"
                 min="5"
@@ -675,18 +675,18 @@ export default function SettingsPage() {
                 value={heartbeatInterval}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setHeartbeatInterval(parseInt(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 disabled:opacity-60"
               />
             </div>
           </div>
         </div>
 
         {/* 8. DETECTION & ALERT PARAMETERS */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-lg">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-lg">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
               <Bell className="w-4 h-4 text-amber-400" />
-              <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
                 Detection &amp; Alert Trigger Parameters
               </h2>
             </div>
@@ -694,63 +694,63 @@ export default function SettingsPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-mono">
-            <div className="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-              <span className="text-slate-300">Watchlist Hotlist Match</span>
+            <div className="flex items-center justify-between p-3 bg-slate-50/60 rounded-xl border border-slate-200">
+              <span className="text-slate-700">Watchlist Hotlist Match</span>
               <input
                 type="checkbox"
                 checked={watchlistEnabled}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setWatchlistEnabled(e.target.checked)}
-                className="w-4 h-4 text-cyan-500 rounded bg-slate-900 border-slate-700"
+                className="w-4 h-4 text-cyan-500 rounded bg-white border-slate-300"
               />
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-              <span className="text-slate-300">Overspeeding Detection</span>
+            <div className="flex items-center justify-between p-3 bg-slate-50/60 rounded-xl border border-slate-200">
+              <span className="text-slate-700">Overspeeding Detection</span>
               <input
                 type="checkbox"
                 checked={overspeedEnabled}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setOverspeedEnabled(e.target.checked)}
-                className="w-4 h-4 text-cyan-500 rounded bg-slate-900 border-slate-700"
+                className="w-4 h-4 text-cyan-500 rounded bg-white border-slate-300"
               />
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-              <span className="text-slate-300">Wrong Direction Violation</span>
+            <div className="flex items-center justify-between p-3 bg-slate-50/60 rounded-xl border border-slate-200">
+              <span className="text-slate-700">Wrong Direction Violation</span>
               <input
                 type="checkbox"
                 checked={wrongDirEnabled}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setWrongDirEnabled(e.target.checked)}
-                className="w-4 h-4 text-cyan-500 rounded bg-slate-900 border-slate-700"
+                className="w-4 h-4 text-cyan-500 rounded bg-white border-slate-300"
               />
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-              <span className="text-slate-300">Suspicious Route Anomaly</span>
+            <div className="flex items-center justify-between p-3 bg-slate-50/60 rounded-xl border border-slate-200">
+              <span className="text-slate-700">Suspicious Route Anomaly</span>
               <input
                 type="checkbox"
                 checked={suspiciousTrajEnabled}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setSuspiciousTrajEnabled(e.target.checked)}
-                className="w-4 h-4 text-cyan-500 rounded bg-slate-900 border-slate-700"
+                className="w-4 h-4 text-cyan-500 rounded bg-white border-slate-300"
               />
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-slate-950/60 rounded-xl border border-slate-800">
-              <span className="text-slate-300">Impossible Travel Hop Detection</span>
+            <div className="flex items-center justify-between p-3 bg-slate-50/60 rounded-xl border border-slate-200">
+              <span className="text-slate-700">Impossible Travel Hop Detection</span>
               <input
                 type="checkbox"
                 checked={impossibleTravelEnabled}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setImpossibleTravelEnabled(e.target.checked)}
-                className="w-4 h-4 text-cyan-500 rounded bg-slate-900 border-slate-700"
+                className="w-4 h-4 text-cyan-500 rounded bg-white border-slate-300"
               />
             </div>
 
             <div>
-              <label className="block text-[10px] text-slate-400 mb-1">Minimum Alert Confidence (%)</label>
+              <label className="block text-[10px] text-slate-500 mb-1">Minimum Alert Confidence (%)</label>
               <input
                 type="number"
                 min="0"
@@ -759,18 +759,18 @@ export default function SettingsPage() {
                 value={minAlertConfidence}
                 disabled={!isSystemAdmin}
                 onChange={(e) => setMinAlertConfidence(parseFloat(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 disabled:opacity-60"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 disabled:opacity-60"
               />
             </div>
           </div>
         </div>
 
         {/* 9. DATA GOVERNANCE & AUDIT CONFIGURATION */}
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-4 shadow-lg">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 space-y-4 shadow-lg">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
-              <FileCheck className="w-4 h-4 text-cyan-400" />
-              <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider font-mono">
+              <FileCheck className="w-4 h-4 text-cyan-600" />
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider font-mono">
                 Data Governance, Retention &amp; Audit Trail Policy
               </h2>
             </div>
@@ -778,34 +778,34 @@ export default function SettingsPage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-            <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex items-center justify-between">
-              <span className="text-slate-400">Audit Logging</span>
+            <div className="p-3 bg-slate-50/60 rounded-xl border border-slate-200 flex items-center justify-between">
+              <span className="text-slate-500">Audit Logging</span>
               <span className="text-emerald-400 font-bold">Enabled</span>
             </div>
 
-            <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex items-center justify-between">
-              <span className="text-slate-400">Config Change Logging</span>
+            <div className="p-3 bg-slate-50/60 rounded-xl border border-slate-200 flex items-center justify-between">
+              <span className="text-slate-500">Config Change Logging</span>
               <span className="text-emerald-400 font-bold">Enabled</span>
             </div>
 
-            <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex items-center justify-between">
-              <span className="text-slate-400">CSV Export Logging</span>
+            <div className="p-3 bg-slate-50/60 rounded-xl border border-slate-200 flex items-center justify-between">
+              <span className="text-slate-500">CSV Export Logging</span>
               <span className="text-emerald-400 font-bold">Enabled</span>
             </div>
 
-            <div className="p-3 bg-slate-950/60 rounded-xl border border-slate-800 flex items-center justify-between">
-              <span className="text-slate-400">Data Retention</span>
-              <span className="text-cyan-300 font-bold">{retentionDays} Days</span>
+            <div className="p-3 bg-slate-50/60 rounded-xl border border-slate-200 flex items-center justify-between">
+              <span className="text-slate-500">Data Retention</span>
+              <span className="text-cyan-600 font-bold">{retentionDays} Days</span>
             </div>
           </div>
         </div>
 
         {/* 10. SAVE ACTION CONTROLS (SYSTEM ADMIN ONLY) */}
         {isSystemAdmin ? (
-          <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4 shadow-xl">
+          <div className="p-6 rounded-2xl bg-white/90 border border-slate-200 space-y-4 shadow-xl">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex-1">
-                <label className="block text-xs font-mono text-slate-400 mb-1">
+                <label className="block text-xs font-mono text-slate-500 mb-1">
                   Reason for System Configuration Modification (Recorded in Audit Trail) *
                 </label>
                 <input
@@ -813,7 +813,7 @@ export default function SettingsPage() {
                   value={updateReason}
                   onChange={(e) => setUpdateReason(e.target.value)}
                   placeholder="e.g. Visakhapatnam corridor GIS recalibration and OCR threshold tune..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 font-mono"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-800 focus:outline-none focus:border-cyan-500 font-mono"
                 />
               </div>
 
@@ -828,7 +828,7 @@ export default function SettingsPage() {
             </div>
           </div>
         ) : (
-          <div className="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 text-xs font-mono text-slate-500 flex items-center space-x-2">
+          <div className="p-4 rounded-2xl bg-white/50 border border-slate-200 text-xs font-mono text-slate-500 flex items-center space-x-2">
             <Lock className="w-4 h-4 text-slate-500" />
             <span>Read-Only Mode: Only System Administrators have permission to modify operational node configurations.</span>
           </div>
@@ -838,11 +838,11 @@ export default function SettingsPage() {
 
       {/* 11. AUDIT HISTORY LOG */}
       {auditLogs && auditLogs.length > 0 && (
-        <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3 font-mono text-xs shadow-lg">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 space-y-3 font-mono text-xs shadow-lg">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <div className="flex items-center space-x-2">
-              <History className="w-4 h-4 text-cyan-400" />
-              <h2 className="text-xs font-bold text-slate-200 uppercase tracking-wider">
+              <History className="w-4 h-4 text-cyan-600" />
+              <h2 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
                 Configuration Modification Audit History
               </h2>
             </div>
@@ -851,9 +851,9 @@ export default function SettingsPage() {
 
           <div className="space-y-2">
             {auditLogs.map((log: any) => (
-              <div key={log.id} className="p-3 rounded-xl bg-slate-950/70 border border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-slate-400">
+              <div key={log.id} className="p-3 rounded-xl bg-slate-50/70 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-slate-500">
                 <div>
-                  <strong className="text-cyan-300 uppercase">{log.action}</strong> by {log.user_name} ({log.role})
+                  <strong className="text-cyan-600 uppercase">{log.action}</strong> by {log.user_name} ({log.role})
                   {log.details?.reason && <span className="text-slate-500 ml-2">— Reason: "{log.details.reason}"</span>}
                 </div>
                 <span className="text-slate-500 text-[10px]">{new Date(log.timestamp).toLocaleString()}</span>

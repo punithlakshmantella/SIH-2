@@ -14,19 +14,19 @@ export default function UsersPage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       <div>
-        <h1 className="text-xl font-bold text-slate-100 flex items-center space-x-2">
+        <h1 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
           <Users className="w-5 h-5 text-purple-400" />
           <span>User Accounts & RBAC Role Directory</span>
         </h1>
-        <p className="text-xs text-slate-400 mt-0.5">
+        <p className="text-xs text-slate-500 mt-0.5">
           Role-Based Access Control directory configured for Bharat Electronics Limited deployment
         </p>
       </div>
 
-      <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+      <div className="p-5 rounded-2xl bg-white/60 border border-slate-200">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-slate-950/80 text-slate-400 font-mono text-[10px] uppercase">
+          <table className="w-full text-left text-xs text-slate-700">
+            <thead className="bg-slate-50/80 text-slate-500 font-mono text-[10px] uppercase">
               <tr>
                 <th className="p-2.5">Name</th>
                 <th className="p-2.5">Email</th>
@@ -35,17 +35,17 @@ export default function UsersPage() {
                 <th className="p-2.5">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 font-sans">
+            <tbody className="divide-y divide-slate-200/60 font-sans">
               {users.map((u, i) => (
-                <tr key={i} className="hover:bg-slate-800/30 transition">
-                  <td className="p-2.5 font-bold text-slate-100">{u.name}</td>
-                  <td className="p-2.5 font-mono text-slate-400">{u.email}</td>
+                <tr key={i} className="hover:bg-slate-100/30 transition">
+                  <td className="p-2.5 font-bold text-slate-900">{u.name}</td>
+                  <td className="p-2.5 font-mono text-slate-500">{u.email}</td>
                   <td className="p-2.5">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-950 border border-slate-800 text-cyan-400">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-50 border border-slate-200 text-cyan-600">
                       {u.role}
                     </span>
                   </td>
-                  <td className="p-2.5 font-mono text-slate-400">{u.badge}</td>
+                  <td className="p-2.5 font-mono text-slate-500">{u.badge}</td>
                   <td className="p-2.5">
                     <span className="flex items-center text-emerald-400 font-semibold text-[11px]">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5"></span>

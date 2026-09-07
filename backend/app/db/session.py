@@ -9,7 +9,17 @@ def create_db_engine(url: str):
     connect_args = {}
     if url.startswith("sqlite"):
         connect_args = {"check_same_thread": False}
-        return create_engine(url, connect_args=connect_args)
+        engine = create_engine(url, connect_args=connect_args)
+        from sqlalchemy import event
+        @event.listens_for(engine, "connect")
+        def set_sqlite_pragma(dbapi_connection, connection_record):
+            if type(dbapi_connection).__name__ == "Connection":
+                cursor = dbapi_connection.cursor()
+                cursor.execute("PRAGMA journal_mode=WAL")
+                cursor.execute("PRAGMA synchronous=NORMAL")
+                cursor.execute("PRAGMA busy_timeout=5000")
+                cursor.close()
+        return engine
     else:
         return create_engine(url, pool_pre_ping=True, connect_args={"connect_timeout": 3})
 

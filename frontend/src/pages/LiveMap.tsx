@@ -619,24 +619,24 @@ export default function LiveMap() {
   return (
     <div className="h-[calc(100vh-7.5rem)] flex flex-col space-y-3">
       {/* 1. TOP COMMAND BAR: STATUS & REFRESH */}
-      <div className="bg-slate-900/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-800 flex flex-wrap items-center justify-between gap-3 shrink-0 shadow-lg">
+      <div className="bg-white/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 shrink-0 shadow-lg">
         {/* Title & Badge */}
         <div className="flex items-center space-x-3 min-w-0">
-          <div className="w-8 h-8 rounded-xl bg-cyan-950 text-cyan-400 flex items-center justify-center border border-cyan-700/80 shadow-md">
+          <div className="w-8 h-8 rounded-xl bg-cyan-950 text-cyan-600 flex items-center justify-center border border-cyan-700/80 shadow-md">
             <Compass className="w-4 h-4 animate-pulse" />
           </div>
           <div className="min-w-0">
             <div className="flex items-center space-x-2">
-              <h1 className="text-sm font-black text-slate-100 uppercase tracking-tight flex items-center space-x-1.5">
+              <h1 className="text-sm font-black text-slate-900 uppercase tracking-tight flex items-center space-x-1.5">
                 <span>CITY VISION</span>
-                <span className="text-cyan-400 font-mono">—</span>
-                <span className="text-cyan-300">CITY-WIDE GIS INTELLIGENCE MAP</span>
+                <span className="text-cyan-600 font-mono">—</span>
+                <span className="text-cyan-600">CITY-WIDE GIS INTELLIGENCE MAP</span>
               </h1>
               <span className="text-[9.5px] px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 font-mono font-bold">
                 DEMO / SYNTHETIC DATA
               </span>
             </div>
-            <div className="flex items-center space-x-3 text-[11px] text-slate-400 mt-0.5 font-mono">
+            <div className="flex items-center space-x-3 text-[11px] text-slate-500 mt-0.5 font-mono">
               <span className="flex items-center text-emerald-400">
                 <CheckCircle2 className="w-3 h-3 mr-1" />
                 <span>{cameras.filter(c => c.status === 'online').length} / {cameras.length} Online</span>
@@ -663,13 +663,13 @@ export default function LiveMap() {
             }}
             className="relative flex items-center"
           >
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 pointer-events-none" />
+            <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 pointer-events-none" />
             <input
               type="text"
               placeholder="Search vehicle plate (e.g. AP39AB1234)..."
               value={plateInput}
               onChange={(e) => setPlateInput(e.target.value)}
-              className="w-56 sm:w-64 pl-8 pr-16 py-1.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-slate-200 placeholder-slate-500 font-mono uppercase focus:outline-none focus:border-cyan-500 transition"
+              className="w-56 sm:w-64 pl-8 pr-16 py-1.5 bg-slate-50 border border-slate-300/80 rounded-xl text-xs text-slate-800 placeholder-slate-500 font-mono uppercase focus:outline-none focus:border-cyan-500 transition"
             />
             <button
               type="submit"
@@ -681,13 +681,13 @@ export default function LiveMap() {
           </form>
 
           {/* Time Filter Selector */}
-          <div className="hidden md:flex items-center bg-slate-950 border border-slate-800 rounded-xl p-0.5 text-[10px] font-mono">
+          <div className="hidden md:flex items-center bg-slate-50 border border-slate-200 rounded-xl p-0.5 text-[10px] font-mono">
             {(['live', '15m', '1h', 'today'] as const).map(t => (
               <button
                 key={t}
                 onClick={() => setTimeRange(t)}
                 className={`px-2 py-1 rounded-lg uppercase transition ${
-                  timeRange === t ? 'bg-cyan-600 text-slate-950 font-bold' : 'text-slate-400 hover:text-slate-200'
+                  timeRange === t ? 'bg-cyan-600 text-slate-950 font-bold' : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
                 {t === 'live' ? '● LIVE' : t}
@@ -698,20 +698,20 @@ export default function LiveMap() {
           <button
             onClick={loadAllMapData}
             disabled={loading}
-            className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 border border-slate-300 transition"
             title="Refresh map telemetry"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-600' : ''}`} />
           </button>
         </div>
       </div>
 
       {/* 2. LAYER CONTROL & FILTER STRIP */}
-      <div className="bg-slate-900/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs shrink-0">
+      <div className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs shrink-0">
         {/* Layer Toggles */}
         <div className="flex items-center space-x-2 flex-wrap gap-y-1">
-          <span className="font-bold text-slate-400 uppercase tracking-wider font-mono text-[10px] mr-1 flex items-center space-x-1">
-            <Layers className="w-3 h-3 text-cyan-400" />
+          <span className="font-bold text-slate-500 uppercase tracking-wider font-mono text-[10px] mr-1 flex items-center space-x-1">
+            <Layers className="w-3 h-3 text-cyan-600" />
             <span>MAP LAYERS:</span>
           </span>
 
@@ -720,7 +720,7 @@ export default function LiveMap() {
             { key: 'traffic', label: 'Traffic', count: roads.length, color: 'text-amber-400' },
             { key: 'congestion', label: 'Congestion', count: roads.filter(r => r.is_congested).length, color: 'text-orange-400' },
             { key: 'alerts', label: 'Alerts', count: alerts.length, color: 'text-rose-400' },
-            { key: 'routes', label: 'Routes', count: odFlows.length, color: 'text-cyan-400' },
+            { key: 'routes', label: 'Routes', count: odFlows.length, color: 'text-cyan-600' },
             { key: 'vehicles', label: 'Vehicles', count: selectedVehicle ? 1 : 0, color: 'text-purple-400' }
           ].map(layer => {
             const active = layers[layer.key as keyof typeof layers];
@@ -730,8 +730,8 @@ export default function LiveMap() {
                 onClick={() => toggleLayer(layer.key as keyof typeof layers)}
                 className={`px-2.5 py-1 rounded-xl font-mono text-[11px] flex items-center space-x-1.5 border transition ${
                   active 
-                    ? 'bg-slate-800 border-cyan-600/60 text-slate-100 shadow-sm' 
-                    : 'bg-slate-950/60 border-slate-800 text-slate-500 hover:text-slate-300'
+                    ? 'bg-slate-100 border-cyan-600/60 text-slate-900 shadow-sm' 
+                    : 'bg-slate-50/60 border-slate-200 text-slate-500 hover:text-slate-700'
                 }`}
               >
                 <span className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-cyan-400' : 'bg-slate-600'}`}></span>
@@ -747,7 +747,7 @@ export default function LiveMap() {
           <select
             value={selectedZone}
             onChange={(e) => setSelectedZone(e.target.value === 'all' ? 'all' : Number(e.target.value))}
-            className="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1 text-[11px] text-slate-200 focus:outline-none focus:border-cyan-500"
+            className="bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 text-[11px] text-slate-800 focus:outline-none focus:border-cyan-500"
           >
             <option value="all">All Zones ({zones.length})</option>
             {zones.map(z => (
@@ -758,7 +758,7 @@ export default function LiveMap() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value as any)}
-            className="bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1 text-[11px] text-slate-200 focus:outline-none focus:border-cyan-500"
+            className="bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1 text-[11px] text-slate-800 focus:outline-none focus:border-cyan-500"
           >
             <option value="all">All Cameras</option>
             <option value="online">Online Only</option>
@@ -774,7 +774,7 @@ export default function LiveMap() {
             <AlertTriangle className="w-4 h-4 text-rose-400" />
             <span>{searchError}</span>
           </div>
-          <button onClick={() => setSearchError(null)} className="text-slate-400 hover:text-slate-200">
+          <button onClick={() => setSearchError(null)} className="text-slate-500 hover:text-slate-800">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -783,22 +783,22 @@ export default function LiveMap() {
       {/* 3. MAIN INTERACTIVE MAP & SIDE DRAWER */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-4 min-h-0 relative">
         {/* Map Canvas Area */}
-        <div className={`rounded-2xl overflow-hidden border border-slate-800 relative z-0 shadow-2xl transition-all ${
+        <div className={`rounded-2xl overflow-hidden border border-slate-200 relative z-0 shadow-2xl transition-all ${
           drawerType ? 'lg:col-span-8 xl:col-span-9' : 'lg:col-span-12'
         }`}>
           <div ref={mapContainerRef} className="w-full h-full min-h-[460px]" />
 
           {/* DYNAMIC MAP LEGEND HUD */}
-          <div className="absolute bottom-4 left-4 bg-slate-950/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-800 text-[11px] space-y-2 z-[1000] shadow-2xl max-w-sm">
-            <span className="font-black text-slate-300 block text-[10px] uppercase font-mono tracking-wider border-b border-slate-800 pb-1 flex items-center justify-between">
+          <div className="absolute bottom-4 left-4 bg-slate-50/90 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200 text-[11px] space-y-2 z-[1000] shadow-2xl max-w-sm">
+            <span className="font-black text-slate-700 block text-[10px] uppercase font-mono tracking-wider border-b border-slate-200 pb-1 flex items-center justify-between">
               <span>MAP LEGEND</span>
-              <span className="text-cyan-400 font-normal">Active Layers</span>
+              <span className="text-cyan-600 font-normal">Active Layers</span>
             </span>
 
             <div className="space-y-1.5">
               {layers.cameras && (
-                <div className="flex items-center space-x-3 text-slate-300">
-                  <span className="font-mono text-[10px] text-slate-400 uppercase w-14">Cameras:</span>
+                <div className="flex items-center space-x-3 text-slate-700">
+                  <span className="font-mono text-[10px] text-slate-500 uppercase w-14">Cameras:</span>
                   <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span><span>Online</span></span>
                   <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span><span>Warning</span></span>
                   <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-rose-500"></span><span>Offline</span></span>
@@ -806,8 +806,8 @@ export default function LiveMap() {
               )}
 
               {layers.traffic && (
-                <div className="flex items-center space-x-3 text-slate-300 border-t border-slate-800/60 pt-1">
-                  <span className="font-mono text-[10px] text-slate-400 uppercase w-14">Traffic:</span>
+                <div className="flex items-center space-x-3 text-slate-700 border-t border-slate-200/60 pt-1">
+                  <span className="font-mono text-[10px] text-slate-500 uppercase w-14">Traffic:</span>
                   <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-emerald-400"></span><span>Low</span></span>
                   <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-amber-400"></span><span>Moderate</span></span>
                   <span className="flex items-center space-x-1"><span className="w-2 h-2 rounded-full bg-orange-500"></span><span>High</span></span>
@@ -816,8 +816,8 @@ export default function LiveMap() {
               )}
 
               {layers.alerts && (
-                <div className="flex items-center space-x-3 text-slate-300 border-t border-slate-800/60 pt-1">
-                  <span className="font-mono text-[10px] text-slate-400 uppercase w-14">Alerts:</span>
+                <div className="flex items-center space-x-3 text-slate-700 border-t border-slate-200/60 pt-1">
+                  <span className="font-mono text-[10px] text-slate-500 uppercase w-14">Alerts:</span>
                   <span className="flex items-center space-x-1"><span>🚨</span><span>Watchlist</span></span>
                   <span className="flex items-center space-x-1"><span>⚠️</span><span>Anomaly</span></span>
                   <span className="flex items-center space-x-1"><span>🔴</span><span>Offline</span></span>
@@ -825,18 +825,18 @@ export default function LiveMap() {
               )}
 
               {layers.routes && (
-                <div className="flex items-center space-x-3 text-slate-300 border-t border-slate-800/60 pt-1">
-                  <span className="font-mono text-[10px] text-slate-400 uppercase w-14">Routes:</span>
-                  <span className="text-cyan-400 font-mono">━━━➔</span>
+                <div className="flex items-center space-x-3 text-slate-700 border-t border-slate-200/60 pt-1">
+                  <span className="font-mono text-[10px] text-slate-500 uppercase w-14">Routes:</span>
+                  <span className="text-cyan-600 font-mono">━━━➔</span>
                   <span>Major OD Movement</span>
                 </div>
               )}
 
               {vehicleTrajectory && (
-                <div className="flex items-center space-x-3 text-slate-300 border-t border-slate-800/60 pt-1">
-                  <span className="font-mono text-[10px] text-slate-400 uppercase w-14">Target:</span>
-                  <span className="text-cyan-300 font-bold font-mono">🚗 {vehicleTrajectory.primary_plate}</span>
-                  <span className="text-[10px] text-cyan-400">({vehicleTrajectory.points.length} nodes)</span>
+                <div className="flex items-center space-x-3 text-slate-700 border-t border-slate-200/60 pt-1">
+                  <span className="font-mono text-[10px] text-slate-500 uppercase w-14">Target:</span>
+                  <span className="text-cyan-600 font-bold font-mono">🚗 {vehicleTrajectory.primary_plate}</span>
+                  <span className="text-[10px] text-cyan-600">({vehicleTrajectory.points.length} nodes)</span>
                 </div>
               )}
             </div>
@@ -845,22 +845,22 @@ export default function LiveMap() {
 
         {/* RIGHT TELEMETRY DRAWER */}
         {drawerType && (
-          <div className="lg:col-span-4 xl:col-span-3 bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-4 flex flex-col justify-between overflow-y-auto space-y-4 shadow-2xl">
+          <div className="lg:col-span-4 xl:col-span-3 bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl p-4 flex flex-col justify-between overflow-y-auto space-y-4 shadow-2xl">
             {/* 1. CAMERA TELEMETRY DRAWER */}
             {drawerType === 'camera' && selectedCamera && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div>
-                    <span className="text-xs font-mono font-bold text-cyan-400">{selectedCamera.id}</span>
-                    <h3 className="text-sm font-bold text-slate-100">{selectedCamera.name}</h3>
+                    <span className="text-xs font-mono font-bold text-cyan-600">{selectedCamera.id}</span>
+                    <h3 className="text-sm font-bold text-slate-900">{selectedCamera.name}</h3>
                   </div>
-                  <button onClick={() => setDrawerType(null)} className="text-slate-400 hover:text-slate-200">
+                  <button onClick={() => setDrawerType(null)} className="text-slate-500 hover:text-slate-800">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
 
-                <div className="space-y-2 text-xs text-slate-300">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                <div className="space-y-2 text-xs text-slate-700">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Status:</span>
                     <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
                       selectedCamera.status === 'online' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' :
@@ -870,27 +870,27 @@ export default function LiveMap() {
                       {selectedCamera.status}
                     </span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Corridor / Zone:</span>
                     <span className="font-semibold">{selectedCamera.road_name || 'Corridor'} • {selectedCamera.zone_name}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Direction:</span>
                     <span className="font-mono">{selectedCamera.direction}bound</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Stream FPS:</span>
                     <span className="font-mono">{selectedCamera.fps} FPS</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Latency:</span>
                     <span className="font-mono">{selectedCamera.latency_ms} ms</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">OCR Accuracy:</span>
-                    <span className="font-mono font-bold text-cyan-400">{selectedCamera.ocr_accuracy}%</span>
+                    <span className="font-mono font-bold text-cyan-600">{selectedCamera.ocr_accuracy}%</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Throughput:</span>
                     <span className="font-mono">{selectedCamera.vehicles_per_min} vehicles/min</span>
                   </div>
@@ -911,42 +911,42 @@ export default function LiveMap() {
             {/* 2. SELECTED VEHICLE & TRAJECTORY DRAWER */}
             {drawerType === 'vehicle' && selectedVehicle && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div>
-                    <span className="text-xs font-mono font-bold text-cyan-400">VEHICLE INTELLIGENCE</span>
-                    <h3 className="text-lg font-black text-slate-100 font-mono">{selectedVehicle.primary_plate}</h3>
+                    <span className="text-xs font-mono font-bold text-cyan-600">VEHICLE INTELLIGENCE</span>
+                    <h3 className="text-lg font-black text-slate-900 font-mono">{selectedVehicle.primary_plate}</h3>
                   </div>
-                  <button onClick={() => setDrawerType(null)} className="text-slate-400 hover:text-slate-200">
+                  <button onClick={() => setDrawerType(null)} className="text-slate-500 hover:text-slate-800">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
 
-                <div className="space-y-2 text-xs text-slate-300">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                <div className="space-y-2 text-xs text-slate-700">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Vehicle Type:</span>
                     <span className="font-bold capitalize">{selectedVehicle.color} {selectedVehicle.vehicle_type}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">First Seen:</span>
                     <span className="font-mono">{selectedVehicle.first_seen_at ? new Date(selectedVehicle.first_seen_at).toLocaleTimeString() : '08:21'}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Last Seen:</span>
                     <span className="font-mono">{selectedVehicle.last_seen_at ? new Date(selectedVehicle.last_seen_at).toLocaleTimeString() : '15:24'}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Cameras Visited:</span>
-                    <span className="font-mono font-bold text-cyan-400">{selectedVehicle.cameras_visited_count} nodes</span>
+                    <span className="font-mono font-bold text-cyan-600">{selectedVehicle.cameras_visited_count} nodes</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Total Distance:</span>
                     <span className="font-mono">{selectedVehicle.total_distance_km} km</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Avg Corridor Speed:</span>
                     <span className="font-mono">{selectedVehicle.avg_speed_kmh} km/h</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Re-ID Match Confidence:</span>
                     <span className="font-mono font-bold text-emerald-400">91.2% Probabilistic</span>
                   </div>
@@ -954,25 +954,25 @@ export default function LiveMap() {
 
                 {/* Trajectory Step Timeline */}
                 {vehicleTrajectory && (
-                  <div className="space-y-2 pt-2 border-t border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase font-mono tracking-wider block">
+                  <div className="space-y-2 pt-2 border-t border-slate-200">
+                    <span className="text-[11px] font-bold text-slate-500 uppercase font-mono tracking-wider block">
                       Detection Sequence ({vehicleTrajectory.points.length})
                     </span>
                     <div className="space-y-1.5 max-h-44 overflow-y-auto pr-1">
                       {vehicleTrajectory.points.map((pt, i) => (
-                        <div key={i} className="p-2 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px] flex items-center justify-between">
+                        <div key={i} className="p-2 rounded-lg bg-slate-50/70 border border-slate-200 text-[11px] flex items-center justify-between">
                           <div className="min-w-0">
-                            <div className="font-semibold text-slate-200 truncate">{pt.camera_name}</div>
-                            <div className="text-[10px] text-slate-400 font-mono">{new Date(pt.timestamp).toLocaleTimeString()} • {pt.speed_kmh} km/h</div>
+                            <div className="font-semibold text-slate-800 truncate">{pt.camera_name}</div>
+                            <div className="text-[10px] text-slate-500 font-mono">{new Date(pt.timestamp).toLocaleTimeString()} • {pt.speed_kmh} km/h</div>
                           </div>
-                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-950 text-cyan-600 border border-cyan-800">
                             #{i + 1}
                           </span>
                         </div>
                       ))}
                     </div>
 
-                    <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-800 text-[10px] text-slate-400 font-mono leading-relaxed">
+                    <div className="p-2 rounded-lg bg-slate-50/60 border border-slate-200 text-[10px] text-slate-500 font-mono leading-relaxed">
                       ℹ️ Last known detection within available camera network. Probabilistic Re-ID candidate verification active.
                     </div>
                   </div>
@@ -989,10 +989,10 @@ export default function LiveMap() {
 
                   <Link
                     to={`/trajectory?plate=${selectedVehicle.primary_plate}`}
-                    className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition flex items-center justify-center space-x-1.5"
+                    className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 text-xs font-bold border border-slate-300 transition flex items-center justify-center space-x-1.5"
                   >
                     <span>FULL TRAJECTORY VIEW</span>
-                    <RouteIcon className="w-3.5 h-3.5 text-cyan-400" />
+                    <RouteIcon className="w-3.5 h-3.5 text-cyan-600" />
                   </Link>
                 </div>
               </div>
@@ -1001,46 +1001,46 @@ export default function LiveMap() {
             {/* 3. ALERT DRAWER */}
             {drawerType === 'alert' && selectedAlert && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div>
                     <span className="text-xs font-mono font-bold text-rose-400">INCIDENT DISPATCH</span>
-                    <h3 className="text-sm font-bold text-slate-100">{selectedAlert.title}</h3>
+                    <h3 className="text-sm font-bold text-slate-900">{selectedAlert.title}</h3>
                   </div>
-                  <button onClick={() => setDrawerType(null)} className="text-slate-400 hover:text-slate-200">
+                  <button onClick={() => setDrawerType(null)} className="text-slate-500 hover:text-slate-800">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
 
-                <div className="space-y-2 text-xs text-slate-300">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                <div className="space-y-2 text-xs text-slate-700">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Alert Type:</span>
                     <span className="font-mono font-bold uppercase text-rose-400">{selectedAlert.alert_type}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Severity:</span>
                     <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-rose-950 text-rose-400 border border-rose-800">
                       {selectedAlert.severity}
                     </span>
                   </div>
                   {selectedAlert.vehicle_plate && (
-                    <div className="flex justify-between py-1 border-b border-slate-800/60">
+                    <div className="flex justify-between py-1 border-b border-slate-200/60">
                       <span className="text-slate-500">Target Vehicle:</span>
-                      <span className="font-mono font-bold text-cyan-400">{selectedAlert.vehicle_plate}</span>
+                      <span className="font-mono font-bold text-cyan-600">{selectedAlert.vehicle_plate}</span>
                     </div>
                   )}
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Sensor Node:</span>
                     <span>{selectedAlert.camera_name || selectedAlert.camera_id}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Timestamp:</span>
                     <span className="font-mono">{new Date(selectedAlert.timestamp).toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Confidence:</span>
                     <span className="font-mono font-bold text-emerald-400">{Math.round(selectedAlert.confidence * 100)}%</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 pt-2 italic">
+                  <p className="text-[11px] text-slate-500 pt-2 italic">
                     {selectedAlert.description || ''}
                   </p>
                 </div>
@@ -1057,7 +1057,7 @@ export default function LiveMap() {
                   )}
                   <Link
                     to="/alerts"
-                    className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition flex items-center justify-center space-x-1.5"
+                    className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 text-xs font-bold border border-slate-300 transition flex items-center justify-center space-x-1.5"
                   >
                     <span>VIEW IN ALERTS CENTER</span>
                     <Bell className="w-3.5 h-3.5 text-rose-400" />
@@ -1069,26 +1069,26 @@ export default function LiveMap() {
             {/* 4. MAJOR FLOW DRAWER */}
             {drawerType === 'flow' && selectedFlow && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div>
-                    <span className="text-xs font-mono font-bold text-cyan-400">OD TRAFFIC VECTOR</span>
-                    <h3 className="text-sm font-bold text-slate-100">{selectedFlow.origin_name} → {selectedFlow.dest_name}</h3>
+                    <span className="text-xs font-mono font-bold text-cyan-600">OD TRAFFIC VECTOR</span>
+                    <h3 className="text-sm font-bold text-slate-900">{selectedFlow.origin_name} → {selectedFlow.dest_name}</h3>
                   </div>
-                  <button onClick={() => setDrawerType(null)} className="text-slate-400 hover:text-slate-200">
+                  <button onClick={() => setDrawerType(null)} className="text-slate-500 hover:text-slate-800">
                     <X className="w-4 h-4" />
                   </button>
                 </div>
 
-                <div className="space-y-2 text-xs text-slate-300">
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                <div className="space-y-2 text-xs text-slate-700">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Volume Count:</span>
-                    <span className="font-mono font-bold text-cyan-400">{selectedFlow.vehicle_count.toLocaleString()} vehicles</span>
+                    <span className="font-mono font-bold text-cyan-600">{selectedFlow.vehicle_count.toLocaleString()} vehicles</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Average Velocity:</span>
                     <span className="font-mono">{selectedFlow.avg_speed_kmh} km/h</span>
                   </div>
-                  <div className="flex justify-between py-1 border-b border-slate-800/60">
+                  <div className="flex justify-between py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Transit Duration:</span>
                     <span className="font-mono">{Math.round(selectedFlow.avg_travel_time_sec / 60)} mins</span>
                   </div>
@@ -1106,7 +1106,7 @@ export default function LiveMap() {
               </div>
             )}
 
-            <div className="pt-2 border-t border-slate-800 text-[10px] text-slate-500 font-mono">
+            <div className="pt-2 border-t border-slate-200 text-[10px] text-slate-500 font-mono">
               Visakhapatnam Metropolitan GIS • EPSG:4326 WGS84
             </div>
           </div>

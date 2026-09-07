@@ -195,7 +195,7 @@ export default function Reports() {
 
       {/* TOAST NOTIFICATION */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 bg-slate-900 border border-emerald-500/80 text-emerald-300 px-4 py-3 rounded-2xl shadow-2xl z-50 flex items-center space-x-2 text-xs font-mono animate-bounce">
+        <div className="fixed bottom-6 right-6 bg-white border border-emerald-500/80 text-emerald-300 px-4 py-3 rounded-2xl shadow-2xl z-50 flex items-center space-x-2 text-xs font-mono animate-bounce">
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>
@@ -204,17 +204,17 @@ export default function Reports() {
       {/* 1. HEADER */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-bold text-slate-100 flex items-center space-x-2">
-            <FileText className="w-5 h-5 text-cyan-400" />
+          <h1 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
+            <FileText className="w-5 h-5 text-cyan-600" />
             <span>Mobility, Surveillance &amp; Audit Reports</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Export verified municipal traffic data, audit trails, and surveillance logs in standard CSV format
           </p>
         </div>
 
         <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-cyan-400">
+          <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-mono text-cyan-600">
             <Database className="w-3.5 h-3.5" />
             <span>PostgreSQL Verified Ingest</span>
           </div>
@@ -222,19 +222,19 @@ export default function Reports() {
           <button
             onClick={fetchMetadata}
             disabled={loading}
-            className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs transition"
+            className="p-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 text-xs transition"
             title="Refresh Report Metas"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyan-600' : ''}`} />
           </button>
         </div>
       </div>
 
       {/* 2. GLOBAL SEARCH & FILTER TOOLBAR */}
-      <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 space-y-3 shadow-md">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-          <div className="flex items-center space-x-1.5 text-xs font-bold text-slate-200 uppercase font-mono">
-            <SlidersHorizontal className="w-3.5 h-3.5 text-cyan-400" />
+      <div className="p-4 rounded-2xl bg-white/70 border border-slate-200 space-y-3 shadow-md">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+          <div className="flex items-center space-x-1.5 text-xs font-bold text-slate-800 uppercase font-mono">
+            <SlidersHorizontal className="w-3.5 h-3.5 text-cyan-600" />
             <span>Municipal Report Parameters &amp; Filter Scope</span>
           </div>
           <span className="text-[10px] text-slate-500 font-mono">Enforces server-side audit logs</span>
@@ -243,11 +243,11 @@ export default function Reports() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
           {/* Date Range */}
           <div>
-            <label className="block text-[10px] text-slate-400 mb-1">Date Range Scope</label>
+            <label className="block text-[10px] text-slate-500 mb-1">Date Range Scope</label>
             <select
               value={dateRange}
               onChange={(e) => setDateRange(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 focus:outline-none focus:border-cyan-500"
             >
               <option value="today">Today (Last 24 Hours)</option>
               <option value="7d">Last 7 Days</option>
@@ -258,11 +258,11 @@ export default function Reports() {
 
           {/* Zone Filter */}
           <div>
-            <label className="block text-[10px] text-slate-400 mb-1">Operational Zone</label>
+            <label className="block text-[10px] text-slate-500 mb-1">Operational Zone</label>
             <select
               value={selectedZone}
               onChange={(e) => setSelectedZone(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 focus:outline-none focus:border-cyan-500"
             >
               <option value="all">All Operational Zones (City-Wide)</option>
               <option value="gajuwaka">Gajuwaka Industrial</option>
@@ -274,23 +274,23 @@ export default function Reports() {
 
           {/* Subject Plate Search */}
           <div>
-            <label className="block text-[10px] text-slate-400 mb-1">Vehicle Plate Filter</label>
+            <label className="block text-[10px] text-slate-500 mb-1">Vehicle Plate Filter</label>
             <input
               type="text"
               placeholder="e.g. AP39AB1234"
               value={searchPlate}
               onChange={(e) => setSearchPlate(e.target.value.toUpperCase())}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 uppercase focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 uppercase focus:outline-none focus:border-cyan-500"
             />
           </div>
 
           {/* Alert Severity */}
           <div>
-            <label className="block text-[10px] text-slate-400 mb-1">Alert Severity</label>
+            <label className="block text-[10px] text-slate-500 mb-1">Alert Severity</label>
             <select
               value={selectedSeverity}
               onChange={(e) => setSelectedSeverity(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-slate-200 focus:outline-none focus:border-cyan-500"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-800 focus:outline-none focus:border-cyan-500"
             >
               <option value="all">All Severities</option>
               <option value="critical">Critical / Urgent</option>
@@ -309,13 +309,13 @@ export default function Reports() {
           return (
             <div 
               key={r.id} 
-              className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-slate-700/80 transition flex flex-col justify-between space-y-4 shadow-lg"
+              className="p-6 rounded-2xl bg-white/70 border border-slate-200 hover:border-slate-300/80 transition flex flex-col justify-between space-y-4 shadow-lg"
             >
               <div className="space-y-3">
                 {/* Header Badge */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-800 font-bold">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-600 border border-cyan-800 font-bold">
                       CSV DATASET
                     </span>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-800 font-bold">
@@ -327,55 +327,55 @@ export default function Reports() {
 
                 {/* Title & Description */}
                 <div>
-                  <h2 className="text-base font-bold text-slate-100 font-mono">{r.title}</h2>
-                  <p className="text-xs text-slate-400 mt-1 leading-relaxed font-sans">{r.desc}</p>
+                  <h2 className="text-base font-bold text-slate-900 font-mono">{r.title}</h2>
+                  <p className="text-xs text-slate-500 mt-1 leading-relaxed font-sans">{r.desc}</p>
                 </div>
 
                 {/* Metadata Details Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800 text-[11px] font-mono text-slate-400">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 bg-slate-50/60 p-3.5 rounded-xl border border-slate-200 text-[11px] font-mono text-slate-500">
                   <div>
                     <span className="text-slate-500 block text-[10px]">Total Records</span>
-                    <span className="font-bold text-slate-200">{r.records_count.toLocaleString()}</span>
+                    <span className="font-bold text-slate-800">{r.records_count.toLocaleString()}</span>
                   </div>
                   <div>
                     <span className="text-slate-500 block text-[10px]">Data Date Range</span>
-                    <span className="text-slate-300">{r.date_range}</span>
+                    <span className="text-slate-700">{r.date_range}</span>
                   </div>
                   <div>
                     <span className="text-slate-500 block text-[10px]">Last Updated</span>
-                    <span className="text-slate-300">{new Date(r.last_updated).toLocaleTimeString()}</span>
+                    <span className="text-slate-700">{new Date(r.last_updated).toLocaleTimeString()}</span>
                   </div>
                 </div>
 
                 {/* Card 3: OD Visual Summary Mini-bar */}
                 {r.summary && (
                   <div className="p-3 bg-indigo-950/20 border border-indigo-900/40 rounded-xl text-[10px] font-mono text-indigo-300 grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    <div>Top Origin: <strong className="text-slate-200">{r.summary.top_origin_zone}</strong></div>
-                    <div>Top Dest: <strong className="text-slate-200">{r.summary.top_dest_zone}</strong></div>
-                    <div className="truncate">Busiest Route: <strong className="text-cyan-300">{r.summary.highest_volume_route}</strong></div>
+                    <div>Top Origin: <strong className="text-slate-800">{r.summary.top_origin_zone}</strong></div>
+                    <div>Top Dest: <strong className="text-slate-800">{r.summary.top_dest_zone}</strong></div>
+                    <div className="truncate">Busiest Route: <strong className="text-cyan-600">{r.summary.highest_volume_route}</strong></div>
                     <div>Avg Transit: <strong className="text-emerald-300">{r.summary.avg_transit_time_minutes}m</strong></div>
                   </div>
                 )}
 
                 {/* Card 4: Camera Health Breakdown Mini-bar */}
                 {r.breakdown && (
-                  <div className="p-3 bg-emerald-950/20 border border-emerald-900/40 rounded-xl text-[10px] font-mono text-slate-300 flex items-center justify-between">
+                  <div className="p-3 bg-emerald-950/20 border border-emerald-900/40 rounded-xl text-[10px] font-mono text-slate-700 flex items-center justify-between">
                     <div>Healthy: <strong className="text-emerald-400">{r.breakdown.healthy}</strong></div>
                     <div>Warning: <strong className="text-amber-400">{r.breakdown.warning}</strong></div>
                     <div>Critical: <strong className="text-rose-400">{r.breakdown.critical}</strong></div>
-                    <div>Offline: <strong className="text-slate-400">{r.breakdown.offline}</strong></div>
-                    <div>Total Sensors: <strong className="text-cyan-400">{r.breakdown.total}</strong></div>
+                    <div>Offline: <strong className="text-slate-500">{r.breakdown.offline}</strong></div>
+                    <div>Total Sensors: <strong className="text-cyan-600">{r.breakdown.total}</strong></div>
                   </div>
                 )}
               </div>
 
               {/* Action Buttons: Preview Data + Download CSV */}
-              <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-3">
+              <div className="pt-3 border-t border-slate-200 flex items-center justify-between gap-3">
                 <button
                   onClick={() => openPreview(r)}
-                  className="flex items-center space-x-1.5 py-2 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold transition border border-slate-700 shadow-sm"
+                  className="flex items-center space-x-1.5 py-2 px-4 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-800 text-xs font-mono font-bold transition border border-slate-300 shadow-sm"
                 >
-                  <Eye className="w-3.5 h-3.5 text-cyan-400" />
+                  <Eye className="w-3.5 h-3.5 text-cyan-600" />
                   <span>Preview Data</span>
                 </button>
 
@@ -395,21 +395,21 @@ export default function Reports() {
 
       {/* 4. PREVIEW DATA MODAL */}
       {previewDataset && (
-        <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-6xl w-full h-[85vh] flex flex-col justify-between shadow-2xl overflow-hidden">
+        <div className="fixed inset-0 bg-slate-50/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-3xl max-w-6xl w-full h-[85vh] flex flex-col justify-between shadow-2xl overflow-hidden">
             
             {/* Modal Header */}
-            <div className="p-6 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-950/40">
+            <div className="p-6 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-50/40">
               <div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-600 border border-cyan-800">
                     DATASET PREVIEW
                   </span>
                   <span className="text-xs text-slate-500 font-mono">
                     Showing top 50 verified records (Page {previewPage})
                   </span>
                 </div>
-                <h2 className="text-base font-bold text-slate-100 font-mono mt-1">{previewDataset.title}</h2>
+                <h2 className="text-base font-bold text-slate-900 font-mono mt-1">{previewDataset.title}</h2>
               </div>
 
               <div className="flex items-center space-x-3">
@@ -424,7 +424,7 @@ export default function Reports() {
 
                 <button 
                   onClick={() => setPreviewDataset(null)}
-                  className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200"
+                  className="p-2 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-500 hover:text-slate-800"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -432,7 +432,7 @@ export default function Reports() {
             </div>
 
             {/* In-Modal Search Bar */}
-            <div className="px-6 py-3 border-b border-slate-800 bg-slate-950/60 flex items-center justify-between">
+            <div className="px-6 py-3 border-b border-slate-200 bg-slate-50/60 flex items-center justify-between">
               <div className="relative w-full max-w-sm">
                 <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
                 <input
@@ -443,12 +443,12 @@ export default function Reports() {
                     setPreviewSearch(e.target.value);
                     fetchPreviewPage(1, e.target.value);
                   }}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-white border border-slate-200 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-800 font-mono focus:outline-none focus:border-cyan-500"
                 />
               </div>
 
-              <div className="text-[11px] font-mono text-slate-400">
-                Total dataset size: <strong className="text-cyan-400">{previewData?.total_records || previewDataset.records_count}</strong> rows
+              <div className="text-[11px] font-mono text-slate-500">
+                Total dataset size: <strong className="text-cyan-600">{previewData?.total_records || previewDataset.records_count}</strong> rows
               </div>
             </div>
 
@@ -456,21 +456,21 @@ export default function Reports() {
             <div className="flex-1 overflow-auto p-6">
               {previewLoading ? (
                 <div className="text-center py-20 text-xs font-mono text-slate-500">
-                  <RefreshCw className="w-6 h-6 animate-spin mx-auto text-cyan-400 mb-2" />
+                  <RefreshCw className="w-6 h-6 animate-spin mx-auto text-cyan-600 mb-2" />
                   <span>Loading dataset records...</span>
                 </div>
               ) : previewData?.rows && previewData.rows.length > 0 ? (
-                <table className="w-full text-left text-xs font-mono text-slate-300">
-                  <thead className="bg-slate-950/90 text-slate-400 text-[10px] uppercase sticky top-0 border-b border-slate-800">
+                <table className="w-full text-left text-xs font-mono text-slate-700">
+                  <thead className="bg-slate-50/90 text-slate-500 text-[10px] uppercase sticky top-0 border-b border-slate-200">
                     <tr>
                       {previewData.columns?.map((col: any) => (
                         <th key={col.key} className="p-3 whitespace-nowrap">{col.label}</th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800/60">
+                  <tbody className="divide-y divide-slate-200/60">
                     {previewData.rows.map((row: any, rIdx: number) => (
-                      <tr key={rIdx} className="hover:bg-slate-800/40 transition">
+                      <tr key={rIdx} className="hover:bg-slate-100/40 transition">
                         {previewData.columns?.map((col: any) => (
                           <td key={col.key} className="p-3 whitespace-nowrap">
                             {col.key.includes('speed') ? (
@@ -479,12 +479,12 @@ export default function Reports() {
                               <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
                                 row[col.key] === 'CRITICAL' ? 'bg-rose-950 text-rose-400 border border-rose-800' :
                                 row[col.key] === 'HIGH' || row[col.key] === 'WARNING' ? 'bg-orange-950 text-orange-400 border border-orange-800' :
-                                'bg-slate-800 text-slate-300'
+                                'bg-slate-100 text-slate-700'
                               }`}>
                                 {row[col.key]}
                               </span>
                             ) : col.key.includes('vehicle_number') || col.key.includes('camera_id') ? (
-                              <span className="font-bold text-cyan-300">{row[col.key]}</span>
+                              <span className="font-bold text-cyan-600">{row[col.key]}</span>
                             ) : (
                               row[col.key] ?? '—'
                             )}
@@ -502,14 +502,14 @@ export default function Reports() {
             </div>
 
             {/* Modal Pagination Footer */}
-            <div className="p-4 border-t border-slate-800 bg-slate-950/80 flex items-center justify-between text-xs font-mono text-slate-400">
+            <div className="p-4 border-t border-slate-200 bg-slate-50/80 flex items-center justify-between text-xs font-mono text-slate-500">
               <span>Showing up to 50 rows per batch</span>
 
               <div className="flex items-center space-x-2">
                 <button
                   disabled={previewPage <= 1 || previewLoading}
                   onClick={() => fetchPreviewPage(previewPage - 1, previewSearch)}
-                  className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 disabled:opacity-40"
+                  className="p-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-700 disabled:opacity-40"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -517,7 +517,7 @@ export default function Reports() {
                 <button
                   disabled={!previewData?.rows || previewData.rows.length < 50 || previewLoading}
                   onClick={() => fetchPreviewPage(previewPage + 1, previewSearch)}
-                  className="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 disabled:opacity-40"
+                  className="p-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-700 disabled:opacity-40"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
