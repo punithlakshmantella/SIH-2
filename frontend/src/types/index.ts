@@ -252,7 +252,7 @@ export interface DashboardStats {
 export interface SampleFootage {
   filename: string;
   title: string;
-  condition: 'clean' | 'degraded';
+  condition: 'clean' | 'degraded' | 'dataset' | string;
   condition_badge: string;
   ground_truth: string;
   description: string;
