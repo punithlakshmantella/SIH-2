@@ -50,6 +50,7 @@ def list_cameras(
             last_heartbeat=c.last_heartbeat,
             ocr_accuracy=c.ocr_accuracy,
             vehicles_per_min=c.vehicles_per_min,
+            video_url=c.video_url,
             is_simulation=c.is_simulation,
             created_at=c.created_at
         ))
@@ -86,6 +87,7 @@ def get_camera_by_id(
         last_heartbeat=camera.last_heartbeat,
         ocr_accuracy=camera.ocr_accuracy,
         vehicles_per_min=camera.vehicles_per_min,
+        video_url=camera.video_url,
         is_simulation=camera.is_simulation,
         created_at=camera.created_at
     )

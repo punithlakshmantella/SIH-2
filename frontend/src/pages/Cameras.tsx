@@ -10,7 +10,10 @@ import {
   RefreshCw, 
   SlidersHorizontal,
   Activity,
-  ArrowUpDown
+  ArrowUpDown,
+  Video,
+  X,
+  Wrench
 } from 'lucide-react';
 import { api } from '../services/api';
 import { Camera, Zone } from '../types';
@@ -89,6 +92,20 @@ interface CameraSummary {
   lowestFpsCam: Camera | null;
 }
 
+export const getMaintenanceDate = (camId: string) => {
+  const hash = camId.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  const day = (hash % 25) + 1;
+  const months = ['Jul', 'Aug', 'Sep'];
+  return `${day} ${months[hash % 3]} 2026`;
+};
+
+export const getDetectionCount = (c: Camera) => {
+  if (c.status === 'offline') return 0;
+  const base = Math.round((c.vehicles_per_min || 12) * 60 * 14.5);
+  const hash = c.id.split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+  return base + (hash % 420);
+};
+
 export default function Cameras() {
   const [cameras, setCameras] = useState<Camera[]>([]);
   const [zones, setZones] = useState<Zone[]>([]);
@@ -100,6 +117,7 @@ export default function Cameras() {
   const [sortBy, setSortBy] = useState<
     'id' | 'ocr_asc' | 'latency_desc' | 'fps_asc' | 'fps_desc' | 'health' | 'status' | 'zone'
   >('id');
+  const [liveFeedCam, setLiveFeedCam] = useState<Camera | null>(null);
 
   const fetchCamerasAndZones = async () => {
     setLoading(true);
@@ -618,22 +636,29 @@ export default function Cameras() {
                 {/* Telemetry Metrics Grid */}
                 <div className="grid grid-cols-3 gap-2 py-2.5 border-y border-slate-200/80 text-[11px] font-mono text-slate-700 bg-slate-50/40 rounded-xl px-2.5">
                   <div>
-                    <span className="text-slate-500 block text-[9px] uppercase font-mono">FPS Rate</span>
-                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.fps < 25 ? 'text-amber-400' : 'text-slate-800'}`}>
+                    <span className="text-slate-500 block text-[9px] uppercase font-mono">Frame Rate</span>
+                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.fps < 25 ? 'text-amber-500' : 'text-slate-800'}`}>
                       {c.fps} FPS
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[9px] uppercase font-mono">Latency</span>
-                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.latency_ms > 70 ? 'text-amber-400' : 'text-slate-800'}`}>
-                      {isOffline ? 'N/A' : `${c.latency_ms} ms`}
+                    <span className="text-slate-500 block text-[9px] uppercase font-mono">Detections Today</span>
+                    <span className="font-bold text-cyan-600">
+                      {isOffline ? '0' : `${getDetectionCount(c).toLocaleString()}`}
                     </span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block text-[9px] uppercase font-mono">OCR Conf</span>
-                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.ocr_accuracy < 93 ? 'text-amber-400' : 'text-cyan-600'}`}>
+                    <span className="text-slate-500 block text-[9px] uppercase font-mono">OCR Accuracy</span>
+                    <span className={`font-bold ${isOffline ? 'text-slate-500' : c.ocr_accuracy < 93 ? 'text-amber-500' : 'text-emerald-600'}`}>
                       {isOffline ? 'N/A' : `${c.ocr_accuracy}%`}
                     </span>
+                  </div>
+                  <div className="col-span-2 pt-1.5 border-t border-slate-200/60 flex items-center space-x-1.5 text-[10px] text-slate-500">
+                    <Wrench className="w-3 h-3 text-slate-400 shrink-0" />
+                    <span>Last Maint: <b className="text-slate-700 font-medium">{getMaintenanceDate(c.id)}</b></span>
+                  </div>
+                  <div className="pt-1.5 border-t border-slate-200/60 text-right text-[10px] text-slate-500">
+                    Latency: <b className="text-slate-700">{isOffline ? '—' : `${c.latency_ms}ms`}</b>
                   </div>
                 </div>
 
@@ -645,13 +670,25 @@ export default function Cameras() {
                     <span>{isOffline ? 'Last: 8m ago' : 'Heartbeat: 12s ago'}</span>
                   </div>
 
-                  <Link
-                    to={`/cameras/${c.id}`}
-                    className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-700 text-xs text-cyan-600 hover:text-cyan-600 font-bold border border-slate-300 transition group-hover:border-cyan-600/60"
-                  >
-                    <span>VIEW TELEMETRY</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
+                  <div className="flex items-center space-x-1.5">
+                    <button
+                      onClick={() => setLiveFeedCam(c)}
+                      className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-bold transition shadow-sm"
+                      title="Open Live RTSP Stream & ANPR Overlay"
+                    >
+                      <Video className="w-3.5 h-3.5" />
+                      <span>Live Feed</span>
+                    </button>
+
+                    <Link
+                      to={`/cameras/${c.id}`}
+                      className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs text-slate-700 font-semibold border border-slate-300 transition"
+                      title="View Detailed Telemetry"
+                    >
+                      <span>Telemetry</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-slate-500" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             );
@@ -676,6 +713,97 @@ export default function Cameras() {
           </div>
         )}
       </div>
+
+      {/* LIVE FEED RTSP MODAL */}
+      {liveFeedCam && (
+        <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-950 border border-slate-800 rounded-2xl max-w-2xl w-full p-5 space-y-4 shadow-2xl text-white">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div className="flex items-center space-x-2">
+                <div className="w-3 h-3 rounded-full bg-rose-500 animate-pulse" />
+                <span className="text-xs font-mono font-bold tracking-wider text-rose-400">LIVE ANPR SENSOR STREAM</span>
+                <span className="text-xs font-mono text-slate-400">| {liveFeedCam.id}</span>
+              </div>
+              <button 
+                onClick={() => setLiveFeedCam(null)}
+                className="text-slate-400 hover:text-white p-1 rounded-lg"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Video Canvas Container */}
+            <div className="relative rounded-xl overflow-hidden bg-slate-900 border border-slate-800 aspect-video flex items-center justify-center">
+              {liveFeedCam.status === 'offline' ? (
+                <div className="text-center space-y-2">
+                  <XCircle className="w-10 h-10 text-rose-500 mx-auto" />
+                  <div className="text-sm font-bold text-rose-400 font-mono">CAMERA FEED OFFLINE</div>
+                  <div className="text-xs text-slate-400">RTSP Stream connection timed out (Port 554)</div>
+                </div>
+              ) : (
+                <>
+                  {/* Streaming Background Grid / Video representation */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-10" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-40">
+                    <div className="w-full h-full bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]" />
+                  </div>
+                  
+                  {/* Simulated bounding boxes */}
+                  <div className="absolute top-1/3 left-1/4 border-2 border-emerald-400 rounded p-1 z-20 animate-pulse bg-emerald-500/10">
+                    <span className="text-[9px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-1 py-0.5 rounded block">
+                      AP31DC0086 • 98.4%
+                    </span>
+                  </div>
+
+                  <div className="absolute top-1/2 right-1/4 border-2 border-cyan-400 rounded p-1 z-20 bg-cyan-500/10">
+                    <span className="text-[9px] font-mono font-bold text-cyan-300 bg-cyan-950/80 px-1 py-0.5 rounded block">
+                      TS09EA1234 • 97.1%
+                    </span>
+                  </div>
+
+                  {/* On-screen telemetry HUD */}
+                  <div className="absolute top-3 left-3 z-20 font-mono text-[10px] space-y-0.5 bg-black/60 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-white/10 text-emerald-400">
+                    <div>FEED: RTSP://192.168.10.{liveFeedCam.id.replace(/\D/g, '') || '12'}:554/live</div>
+                    <div>RES: 1920x1080 @ {liveFeedCam.fps} FPS</div>
+                    <div>BITRATE: 4.2 Mbps • HEVC H.265</div>
+                  </div>
+
+                  <div className="absolute bottom-3 left-3 z-20 font-mono text-[11px] text-white">
+                    <div className="font-bold">{liveFeedCam.name}</div>
+                    <div className="text-slate-400 text-[10px]">{liveFeedCam.road_name || 'Corridor Junction'} • {liveFeedCam.zone_name}</div>
+                  </div>
+
+                  <div className="absolute bottom-3 right-3 z-20 font-mono text-[10px] text-slate-300 bg-black/60 px-2 py-1 rounded">
+                    REC: ON • 24/7 ENCRYPTED
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Modal Footer Controls */}
+            <div className="flex items-center justify-between pt-1">
+              <div className="text-xs text-slate-400 font-mono">
+                Last Maintenance: <span className="text-slate-200">{getMaintenanceDate(liveFeedCam.id)}</span> • Detections Today: <span className="text-cyan-400 font-bold">{getDetectionCount(liveFeedCam).toLocaleString()}</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Link
+                  to={`/cameras/${liveFeedCam.id}`}
+                  className="px-3 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold transition flex items-center space-x-1"
+                >
+                  <span>Full Telemetry</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+                <button
+                  onClick={() => setLiveFeedCam(null)}
+                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

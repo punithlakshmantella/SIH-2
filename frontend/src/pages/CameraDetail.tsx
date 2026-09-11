@@ -164,6 +164,44 @@ export default function CameraDetail() {
           </div>
         </div>
 
+        {/* Live CCTV Video Feed Card */}
+        {camera.video_url ? (
+          <div className="p-4 rounded-2xl bg-slate-950 border border-cyan-800/60 shadow-xl space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                </span>
+                <span className="text-xs font-mono font-bold text-white tracking-wider uppercase">
+                  LIVE CCTV SENSOR FEED — {camera.id}
+                </span>
+              </div>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-700">
+                1080p • 30 FPS • H.264
+              </span>
+            </div>
+            <div className="relative rounded-xl overflow-hidden bg-black aspect-video border border-slate-800 shadow-inner">
+              <video
+                src={camera.video_url}
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/70 backdrop-blur-md text-emerald-400 font-mono text-[10px] font-bold border border-emerald-500/30 flex items-center space-x-1.5 pointer-events-none">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>REC • {camera.name}</span>
+              </div>
+              <div className="absolute bottom-3 right-3 px-2 py-0.5 rounded bg-black/70 backdrop-blur-md text-slate-400 font-mono text-[9px] pointer-events-none">
+                CORRIDOR: {camera.road_name || 'NH16'}
+              </div>
+            </div>
+          </div>
+        ) : null}
+
         {/* Quick Navigation Links */}
         <div className="flex items-center space-x-3 pt-2">
           <Link

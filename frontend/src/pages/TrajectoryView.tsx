@@ -320,7 +320,7 @@ export default function TrajectoryView() {
         <div>
           <h1 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
             <Route className="w-5 h-5 text-cyan-600" />
-            <span>Single-Vehicle Trajectory Reconstruction & Playback</span>
+            <span>Vehicle Route Tracking</span>
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-600 border border-cyan-800 font-mono font-bold">
               SIH26127 FLAGSHIP
             </span>
@@ -347,7 +347,7 @@ export default function TrajectoryView() {
             disabled={loading}
             className="px-4 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold transition disabled:opacity-50 shadow-md shadow-cyan-600/20"
           >
-            {loading ? 'Tracing...' : 'Reconstruct'}
+            {loading ? 'Tracking...' : 'Track Vehicle Route'}
           </button>
         </form>
       </div>
@@ -731,8 +731,9 @@ export default function TrajectoryView() {
 
                 <button
                   type="button"
-                  onClick={() => alert(`Trajectory lead for vehicle ${trajectory.primary_plate} staged for investigation case packet.`)}
+                  onClick={() => navigate('/investigations', { state: { prefillPlate: trajectory.primary_plate } })}
                   className="p-2.5 rounded-xl bg-cyan-950/80 hover:bg-cyan-900/80 text-cyan-600 border border-cyan-800 text-[11px] font-bold transition flex items-center justify-center space-x-1.5"
+                  title="Open Investigation Dossier with this Vehicle Route"
                 >
                   <FileText className="w-3.5 h-3.5 text-cyan-600" />
                   <span>Add to Case</span>
@@ -742,13 +743,13 @@ export default function TrajectoryView() {
           ) : (
             <div className="flex flex-col items-center justify-center h-full text-center p-6 text-slate-500 space-y-2">
               <Route className="w-8 h-8 text-slate-600" />
-              <p className="text-xs">Enter a license plate to reconstruct and animate continuous trajectory.</p>
+              <p className="text-xs">Enter a license plate to track vehicle route across corridor cameras.</p>
             </div>
           )}
 
           {/* 17, 18. CONFIDENCE & EVIDENCE FOOTER */}
           <div className="pt-3 border-t border-slate-200 text-[10px] text-slate-500 font-mono flex items-center justify-between">
-            <span>Visakhapatnam Trajectory Graph</span>
+            <span>Visakhapatnam Vehicle Route Tracking Graph</span>
             <span>Physics-Validated Continuity</span>
           </div>
         </div>
@@ -760,7 +761,7 @@ export default function TrajectoryView() {
           <div className="flex items-center justify-between border-b border-slate-200 pb-3">
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700 font-mono flex items-center space-x-1.5">
               <Route className="w-4 h-4 text-cyan-600" />
-              <span>Visakhapatnam Trajectory Node Sequence ({trajectory.points.length} Checkpoints)</span>
+              <span>Visakhapatnam Vehicle Route Sequence ({trajectory.points.length} Checkpoints)</span>
             </h2>
             <span className="text-[10px] text-slate-500 font-mono">Chronological Spatio-Temporal Sequence</span>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   ShieldAlert, 
   Plus, 
@@ -29,7 +29,9 @@ import {
   ExternalLink,
   HelpCircle,
   Flame,
-  Camera
+  Camera,
+  UserCheck,
+  UserPlus
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -93,7 +95,16 @@ function priorityBadge(pri: string) {
   }
 }
 
+const INVESTIGATION_OFFICERS = [
+  { id: 'off-1', name: 'Inspector K. Sharma', rank: 'Inspector', dept: 'CID Crime Intelligence', badge: 'AP-CID-4091' },
+  { id: 'off-2', name: 'Sub-Inspector M. Rao', rank: 'Sub-Inspector', dept: 'Traffic Law Enforcement', badge: 'AP-TP-1082' },
+  { id: 'off-3', name: 'DSP R. Reddy', rank: 'DSP', dept: 'East Division Surveillance', badge: 'AP-POL-0034' },
+  { id: 'off-4', name: 'Inspector Ananya Sen', rank: 'Inspector', dept: 'Cyber & ANPR Intelligence', badge: 'AP-CYB-8821' },
+  { id: 'off-5', name: 'ACP V. Prasad', rank: 'ACP', dept: 'Central Traffic Command', badge: 'AP-ACP-0112' }
+];
+
 export default function Watchlist() {
+  const navigate = useNavigate();
   const [watchlist, setWatchlist] = useState<any[]>([]);
   const [summary, setSummary] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
@@ -106,6 +117,19 @@ export default function Watchlist() {
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
+
+  // Officer Assignment State
+  const [assignedOfficers, setAssignedOfficers] = useState<Record<string, string>>({
+    'AP31DC0086': 'Inspector K. Sharma',
+    'TS09EA1234': 'Sub-Inspector M. Rao',
+    'AP39AB5566': 'DSP R. Reddy',
+    'MH12DE9876': 'Inspector Ananya Sen',
+    'AP39CX8899': 'Inspector K. Sharma',
+    'DL01AB9999': 'Sub-Inspector M. Rao',
+    'KA03MN4321': 'DSP R. Reddy'
+  });
+  const [assignModalItem, setAssignModalItem] = useState<any | null>(null);
+  const [selectedOfficer, setSelectedOfficer] = useState('Inspector K. Sharma');
 
   // Form States
   const [plate, setPlate] = useState('');
@@ -187,6 +211,7 @@ export default function Watchlist() {
 
       await api.post('/watchlist', payload);
       setSuccessMsg(`License plate ${plate} registered to surveillance watchlist successfully.`);
+      window.dispatchEvent(new CustomEvent('watchlist-vehicle-detected', { detail: { plate } }));
       setPlate('');
       setCaseRef('');
       setNotes('');
@@ -572,14 +597,13 @@ export default function Watchlist() {
           <table className="w-full text-left text-xs text-slate-700 font-mono">
             <thead className="bg-slate-50/80 text-slate-500 text-[10px] uppercase border-b border-slate-200">
               <tr>
-                <th className="p-3">Plate</th>
-                <th className="p-3">Status</th>
-                <th className="p-3">Reason Category</th>
+                <th className="p-3">Vehicle</th>
+                <th className="p-3">Reason</th>
                 <th className="p-3">Priority</th>
-                <th className="p-3">Case Reference</th>
-                <th className="p-3">Expiry</th>
-                <th className="p-3">Registered By</th>
-                <th className="p-3 text-right">Actions</th>
+                <th className="p-3">Reported By</th>
+                <th className="p-3">Date</th>
+                <th className="p-3">Assign Officer</th>
+                <th className="p-3 text-right">Investigation &amp; Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200/60">
@@ -587,76 +611,119 @@ export default function Watchlist() {
                 return (
                   <tr key={item.id} className="hover:bg-slate-100/30 transition">
                     
-                    {/* Plate with Demo Badge */}
+                    {/* 1. Vehicle */}
                     <td className="p-3">
-                      <div className="flex items-center space-x-1.5">
-                        <span className="font-bold text-cyan-600 text-sm tracking-wider">{item.plate_number}</span>
-                        {item.is_demo && (
-                          <span className="px-1.5 py-0.5 rounded bg-amber-950/90 text-amber-300 border border-amber-800 text-[9px] font-bold">
-                            DEMO
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center space-x-1.5">
+                          <span className="font-mono font-black text-cyan-800 bg-cyan-50 px-2.5 py-1 rounded border border-cyan-300 text-xs tracking-wider shadow-sm">
+                            {item.plate_number}
                           </span>
-                        )}
+                          {item.is_demo && (
+                            <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300 text-[9px] font-bold">
+                              DEMO
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className={`px-1.5 py-0.5 rounded text-[9px] uppercase border font-bold ${statusBadge(item.status)}`}>
+                            {item.status.replace('_', ' ')}
+                          </span>
+                          {item.case_reference && (
+                            <span className="text-[10px] text-slate-500 font-mono truncate max-w-[110px]" title={item.case_reference}>
+                              {item.case_reference}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </td>
 
-                    {/* Status */}
+                    {/* 2. Reason */}
                     <td className="p-3">
-                      <span className={`px-2 py-0.5 rounded text-[10px] uppercase border ${statusBadge(item.status)}`}>
-                        {item.status.replace('_', ' ')}
-                      </span>
+                      <div className="font-bold text-slate-800 capitalize text-xs">
+                        {item.reason_category.replace(/_/g, ' ')}
+                      </div>
+                      {item.notes ? (
+                        <div className="text-[10px] text-slate-500 line-clamp-1 max-w-[200px]" title={item.notes}>
+                          {item.notes}
+                        </div>
+                      ) : (
+                        <div className="text-[10px] text-slate-400 italic">No notes logged</div>
+                      )}
                     </td>
 
-                    {/* Reason */}
-                    <td className="p-3 capitalize text-slate-800">
-                      {item.reason_category.replace(/_/g, ' ')}
-                    </td>
-
-                    {/* Priority */}
+                    {/* 3. Priority */}
                     <td className="p-3">
-                      <span className={`px-2 py-0.5 rounded text-[10px] uppercase border ${priorityBadge(item.priority)}`}>
+                      <span className={`px-2 py-0.5 rounded text-[10px] uppercase border font-bold ${priorityBadge(item.priority)}`}>
                         {item.priority}
                       </span>
                     </td>
 
-                    {/* Case Reference */}
+                    {/* 4. Reported By */}
                     <td className="p-3">
-                      {item.case_reference ? (
-                        <Link 
-                          to={`/investigations`} 
-                          className="text-indigo-400 hover:text-indigo-300 font-bold underline underline-offset-2 flex items-center space-x-1"
-                        >
-                          <span>{item.case_reference}</span>
-                        </Link>
-                      ) : (
-                        <span className="text-slate-600">—</span>
-                      )}
+                      <div className="text-xs font-semibold text-slate-800">
+                        {item.creator_name || 'Traffic Police Div'}
+                      </div>
+                      <div className="text-[10px] text-slate-400">Command Center</div>
                     </td>
 
-                    {/* Expiry */}
+                    {/* 5. Date */}
                     <td className="p-3">
-                      {item.expiry_date ? (
-                        <div className="space-y-0.5">
-                          <span className="text-slate-700">{new Date(item.expiry_date).toLocaleDateString()}</span>
-                          {item.is_expiring_soon && (
-                            <span className="block text-[9px] text-orange-400 font-bold">
-                              ⚠ {item.days_until_expiry}d left
-                            </span>
-                          )}
+                      <div className="text-xs text-slate-800 font-mono">
+                        {new Date(item.created_at || item.effective_from || Date.now()).toLocaleDateString('en-IN', {
+                          day: '2-digit', month: 'short', year: 'numeric'
+                        })}
+                      </div>
+                      {item.expiry_date && (
+                        <div className="text-[10px] text-slate-400">
+                          Exp: {new Date(item.expiry_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}
                         </div>
-                      ) : (
-                        <span className="text-slate-500">Permanent</span>
                       )}
                     </td>
 
-                    {/* Registered By */}
-                    <td className="p-3 text-slate-500">
-                      {item.creator_name || 'System Administrator'}
+                    {/* 6. Assign Officer */}
+                    <td className="p-3">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="text-xs font-semibold text-slate-800 flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-lg border border-slate-200">
+                          <UserCheck className="w-3.5 h-3.5 text-cyan-600" />
+                          <span className="truncate max-w-[120px]">{assignedOfficers[item.plate_number] || 'Unassigned'}</span>
+                        </span>
+                        <button
+                          onClick={() => {
+                            setAssignModalItem(item);
+                            setSelectedOfficer(assignedOfficers[item.plate_number] || 'Inspector K. Sharma');
+                          }}
+                          className="px-2 py-1 rounded-lg bg-cyan-600 hover:bg-cyan-700 text-white text-[10px] font-bold transition shadow-sm"
+                          title="Assign or reassign investigating officer"
+                        >
+                          Assign
+                        </button>
+                      </div>
                     </td>
 
-                    {/* Row Actions */}
+                    {/* 7. Open Investigation & Row Actions */}
                     <td className="p-3 text-right">
                       <div className="flex items-center justify-end space-x-1.5">
                         
+                        {/* Open Investigation */}
+                        <button
+                          onClick={() => navigate(`/investigations?plate=${encodeURIComponent(item.plate_number)}`)}
+                          className="px-2.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition flex items-center space-x-1 shadow-sm"
+                          title="Open Case Dossier"
+                        >
+                          <FileText className="w-3.5 h-3.5" />
+                          <span>Open Investigation</span>
+                        </button>
+
+                        {/* View Route */}
+                        <button
+                          onClick={() => navigate(`/trajectory?plate=${encodeURIComponent(item.plate_number)}`)}
+                          className="px-2 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition flex items-center space-x-1 border border-slate-300"
+                          title="View Vehicle Route Tracking"
+                        >
+                          <Route className="w-3.5 h-3.5 text-cyan-600" />
+                          <span>Route</span>
+                        </button>
+
                         {/* Verify button if pending */}
                         {item.status === 'pending_verification' && (
                           <button
@@ -664,7 +731,7 @@ export default function Watchlist() {
                               setVerifyModalEntry(item);
                               setActionNotes('');
                             }}
-                            className="px-2 py-1 bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-800 rounded-lg text-[10px] font-bold"
+                            className="px-2 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 rounded-lg text-xs font-bold"
                             title="Verify and activate watchlist entry"
                           >
                             Verify
@@ -675,7 +742,7 @@ export default function Watchlist() {
                         {item.status === 'active' && (
                           <button
                             onClick={() => handleStatusTransition(item.id, 'suspended')}
-                            className="p-1.5 text-slate-500 hover:text-amber-300 transition"
+                            className="p-1.5 text-slate-400 hover:text-amber-600 transition"
                             title="Suspend alert generation"
                           >
                             <PauseCircle className="w-4 h-4" />
@@ -686,7 +753,7 @@ export default function Watchlist() {
                         {(item.status === 'suspended' || item.status === 'expired') && (
                           <button
                             onClick={() => handleStatusTransition(item.id, 'active')}
-                            className="p-1.5 text-slate-500 hover:text-emerald-300 transition"
+                            className="p-1.5 text-slate-400 hover:text-emerald-600 transition"
                             title="Reactivate entry"
                           >
                             <PlayCircle className="w-4 h-4" />
@@ -700,7 +767,7 @@ export default function Watchlist() {
                               setResolveModalEntry(item);
                               setActionNotes('');
                             }}
-                            className="p-1.5 text-slate-500 hover:text-cyan-600 transition"
+                            className="p-1.5 text-slate-400 hover:text-cyan-600 transition"
                             title="Mark as resolved (e.g. vehicle recovered)"
                           >
                             <CheckCircle2 className="w-4 h-4" />
@@ -710,7 +777,7 @@ export default function Watchlist() {
                         {/* View Drawer */}
                         <button
                           onClick={() => setSelectedEntry(item)}
-                          className="p-1.5 text-slate-500 hover:text-cyan-600 transition"
+                          className="p-1.5 text-slate-400 hover:text-cyan-600 transition"
                           title="View Full Surveillance Context"
                         >
                           <Eye className="w-4 h-4" />
@@ -724,6 +791,87 @@ export default function Watchlist() {
           </table>
         </div>
       </div>
+
+      {/* 5.1 ASSIGN OFFICER MODAL */}
+      {assignModalItem && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center space-x-2 text-slate-900 font-bold font-mono text-sm">
+                <UserPlus className="w-5 h-5 text-cyan-600" />
+                <span>Assign Investigating Officer</span>
+              </div>
+              <button 
+                onClick={() => setAssignModalItem(null)}
+                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-3 bg-cyan-50/70 border border-cyan-200/60 rounded-xl text-xs text-cyan-900 space-y-1 font-mono">
+              <span className="text-[10px] uppercase font-bold text-cyan-700 block">Surveillance Target</span>
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-black text-cyan-900">{assignModalItem.plate_number}</span>
+                <span className="text-[10px] px-2 py-0.5 rounded bg-white font-semibold text-cyan-800 border border-cyan-200">
+                  {assignModalItem.reason_category.replace(/_/g, ' ')}
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-xs font-bold text-slate-700 font-mono">
+                Select Department Officer
+              </label>
+              <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+                {INVESTIGATION_OFFICERS.map((off) => (
+                  <div
+                    key={off.id}
+                    onClick={() => setSelectedOfficer(off.name)}
+                    className={`p-3 rounded-xl border cursor-pointer transition flex items-center justify-between ${
+                      selectedOfficer === off.name
+                        ? 'bg-cyan-50 border-cyan-500 ring-1 ring-cyan-500'
+                        : 'bg-slate-50 border-slate-200 hover:bg-slate-100/60'
+                    }`}
+                  >
+                    <div>
+                      <div className="text-xs font-bold text-slate-900">{off.name}</div>
+                      <div className="text-[10px] text-slate-500">{off.dept} • {off.badge}</div>
+                    </div>
+                    {selectedOfficer === off.name && (
+                      <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-2 pt-3 border-t border-slate-100">
+              <button
+                onClick={() => setAssignModalItem(null)}
+                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setAssignedOfficers(prev => ({
+                    ...prev,
+                    [assignModalItem.plate_number]: selectedOfficer
+                  }));
+                  setSuccessMsg(`Officer ${selectedOfficer} successfully assigned to ${assignModalItem.plate_number}`);
+                  setTimeout(() => setSuccessMsg(null), 4000);
+                  setAssignModalItem(null);
+                }}
+                className="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-bold transition shadow-md shadow-cyan-600/20 flex items-center space-x-1.5"
+              >
+                <Check className="w-4 h-4" />
+                <span>Confirm Assignment</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 6. VERIFICATION MODAL (2-Person Approval) */}
       {verifyModalEntry && (
@@ -964,7 +1112,7 @@ export default function Watchlist() {
                 >
                   <div className="flex items-center space-x-2">
                     <Route className="w-4 h-4 text-cyan-600" />
-                    <span>Trajectory</span>
+                    <span>Route Tracking</span>
                   </div>
                   <ChevronRight className="w-4 h-4 text-cyan-600" />
                 </Link>
@@ -1011,7 +1159,7 @@ export default function Watchlist() {
           className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <Route className="w-4 h-4 text-cyan-600" />
-          <span>Trajectory Reconstruction</span>
+          <span>Vehicle Route Tracking</span>
         </Link>
         <Link
           to="/alerts"

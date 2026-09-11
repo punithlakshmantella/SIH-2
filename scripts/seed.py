@@ -223,6 +223,20 @@ def seed_database():
 
         cameras_map = {}
         for c_id, name, lat, lng, road_name, zone_name, direction, status, fps, latency, ocr_acc, vpm in cameras_data:
+            video_url = None
+            if c_id == "CAM-HWY-002":
+                video_url = "/data/sample_footage/cctv_corridor_highway_1.mp4"
+            elif c_id == "CAM-TOL-003":
+                video_url = "/data/sample_footage/cctv_corridor_highway_2.mp4"
+            elif c_id == "CAM-AIR-007":
+                video_url = "/data/sample_footage/cctv_corridor_highway_1.mp4"
+            elif c_id == "CAM-NAD-008":
+                video_url = "/data/sample_footage/cctv_corridor_highway_2.mp4"
+            elif c_id == "CAM-MVP-015":
+                video_url = "/data/sample_footage/cctv_corridor_highway_1.mp4"
+            elif c_id == "CAM-CTR-017":
+                video_url = "/data/sample_footage/cctv_corridor_highway_2.mp4"
+
             cam = Camera(
                 id=c_id,
                 name=name,
@@ -236,6 +250,7 @@ def seed_database():
                 latency_ms=latency,
                 ocr_accuracy=ocr_acc,
                 vehicles_per_min=vpm,
+                video_url=video_url,
                 is_simulation=True,
                 last_heartbeat=datetime.utcnow() - timedelta(minutes=1 if status == "online" else 120)
             )

@@ -13,11 +13,11 @@ export default function NotFound() {
         <p className="text-xs text-slate-500 mt-1">The requested operational route does not exist in City Vision.</p>
       </div>
       <Link
-        to="/dashboard"
+        to="/live-map"
         className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold transition"
       >
         <Home className="w-4 h-4" />
-        <span>Back to Dashboard</span>
+        <span>Back to Live Map</span>
       </Link>
     </div>
   );

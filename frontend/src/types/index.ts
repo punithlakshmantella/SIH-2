@@ -41,6 +41,7 @@ export interface Camera {
   last_heartbeat?: string;
   ocr_accuracy: number;
   vehicles_per_min: number;
+  video_url?: string;
   is_simulation: boolean;
   created_at: string;
 }

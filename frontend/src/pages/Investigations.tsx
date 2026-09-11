@@ -155,7 +155,7 @@ export default function Investigations() {
         <div className="text-xs">
           <strong className="font-bold tracking-wide">⚠ DEMO / SYNTHETIC DATA:</strong>{' '}
           Investigation dossiers are prototype case files created for SIH evaluation.
-          Algorithmic trajectory reconstructions and OCR observations represent probable evidence and require authorized investigator verification.
+          Algorithmic route tracking reconstructions and OCR observations represent probable evidence and require authorized investigator verification.
         </div>
       </div>
 
@@ -309,8 +309,8 @@ export default function Investigations() {
                   <span className="text-slate-800 font-bold">{c.evidence_count} hits • {c.alert_count} alerts</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 block text-[10px]">Trajectory Status</span>
-                  <span className="text-amber-400 font-bold text-[10px] truncate block">{c.trajectory_status}</span>
+                  <span className="text-slate-500 block text-[10px]">Route Tracking Status</span>
+                  <span className="text-amber-500 font-bold text-[10px] truncate block">{c.trajectory_status}</span>
                 </div>
               </div>
 

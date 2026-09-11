@@ -90,6 +90,7 @@ class Camera(Base):
     last_heartbeat = Column(DateTime, default=datetime.utcnow)
     ocr_accuracy = Column(Float, default=0.0)  # Real OCR accuracy from test runs
     vehicles_per_min = Column(Float, default=12.0)
+    video_url = Column(String(500), nullable=True)  # Video footage clip or RTSP/HLS stream URL
     is_simulation = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 

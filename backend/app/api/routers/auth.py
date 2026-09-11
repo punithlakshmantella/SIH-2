@@ -16,10 +16,30 @@ router = APIRouter(prefix="/auth", tags=["Authentication & RBAC"])
 def login(request: Request, login_data: LoginRequest, db: Session = Depends(get_db)):
     """
     Authenticate user with username or email and return JWT access token with role claims.
+    Supports official usernames, emails, and direct role aliases.
     """
+    raw_input = login_data.username_or_email.strip().lower()
+    alias_map = {
+        "police": "police_vizag",
+        "traffic_police": "police_vizag",
+        "traffic police": "police_vizag",
+        "trafficpolice": "police_vizag",
+        "investigator": "investigator_cid",
+        "investigation": "investigator_cid",
+        "cid": "investigator_cid",
+        "analyst": "analyst_urban",
+        "traffic_analyst": "analyst_urban",
+        "traffic analyst": "analyst_urban",
+        "admin": "admin",
+        "administrator": "admin"
+    }
+    canonical_target = alias_map.get(raw_input, login_data.username_or_email.strip())
+
     user = db.query(User).filter(
-        (User.username == login_data.username_or_email) | 
-        (User.email == login_data.username_or_email)
+        (User.username == login_data.username_or_email.strip()) | 
+        (User.username == canonical_target) |
+        (User.email == login_data.username_or_email.strip()) |
+        (User.email == canonical_target)
     ).first()
 
     if not user or not verify_password(login_data.password, user.hashed_password):

@@ -1,3 +1,4 @@
+import os
 try:
     import redis
 except ImportError:
@@ -24,6 +25,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
+    allow_origin_regex=r".*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,6 +33,12 @@ app.add_middleware(
 
 # Include Core API Routers
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# Mount data directory for sample footage and uploaded videos
+from fastapi.staticfiles import StaticFiles
+data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data"))
+if os.path.exists(data_dir):
+    app.mount("/data", StaticFiles(directory=data_dir), name="data")
 
 from app.ws.manager import ws_manager
 

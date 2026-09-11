@@ -24,6 +24,7 @@ import InvestigationDetail from './pages/InvestigationDetail';
 import Reports from './pages/Reports';
 import UsersPage from './pages/UsersPage';
 import SettingsPage from './pages/SettingsPage';
+import AccessDenied from './pages/AccessDenied';
 import NotFound from './pages/NotFound';
 
 export default function App() {
@@ -36,52 +37,55 @@ export default function App() {
         {/* Authenticated Workspace */}
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
-            {/* Overview */}
+            {/* Overview & Landing */}
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/live-map" element={<LiveMap />} />
+            <Route path="/403" element={<AccessDenied />} />
 
-            {/* Cameras & ANPR */}
-            <Route path="/cameras" element={<Cameras />} />
-            <Route path="/cameras/:id" element={<CameraDetail />} />
-            <Route path="/anpr" element={<ANPRModule />} />
-            <Route path="/video-ingestion" element={<VideoIngestion />} />
-            <Route path="/video-tracking" element={<VideoIngestion />} />
-
-            {/* Vehicle Intelligence */}
-            <Route path="/vehicles" element={<Vehicles />} />
-            <Route path="/vehicles/:id" element={<VehicleProfile />} />
-            <Route path="/trajectory" element={<TrajectoryView />} />
-
-            {/* Traffic Analytics */}
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/traffic-flow" element={<TrafficFlow />} />
-            <Route path="/congestion" element={<Congestion />} />
-
-            {/* Alerts & Watchlist */}
-            <Route path="/alerts" element={<Alerts />} />
-            
-            {/* RBAC Protected Routes */}
-            <Route element={<ProtectedRoute allowedRoles={["Traffic Police", "Authorized Investigator", "System Administrator"]} />}>
-              <Route path="/watchlist" element={<Watchlist />} />
+            {/* Core Surveillance: Traffic Police, Administrator */}
+            <Route element={<ProtectedRoute allowedRoles={['Traffic Police', 'Administrator']} />}>
+              <Route path="/live-map" element={<LiveMap />} />
+              <Route path="/cameras" element={<Cameras />} />
+              <Route path="/cameras/:id" element={<CameraDetail />} />
+              <Route path="/alerts" element={<Alerts />} />
             </Route>
 
-            <Route element={<ProtectedRoute allowedRoles={["Authorized Investigator", "Traffic Police", "System Administrator"]} />}>
+            {/* Vehicle Intelligence: Traffic Police, Investigator, Administrator */}
+            <Route element={<ProtectedRoute allowedRoles={['Traffic Police', 'Investigator', 'Administrator']} />}>
+              <Route path="/vehicles" element={<Vehicles />} />
+              <Route path="/vehicles/:id" element={<VehicleProfile />} />
+            </Route>
+
+            {/* Deep Investigation: Investigator, Administrator */}
+            <Route element={<ProtectedRoute allowedRoles={['Investigator', 'Administrator']} />}>
+              <Route path="/trajectory" element={<TrajectoryView />} />
+              <Route path="/video-ingestion" element={<VideoIngestion />} />
+              <Route path="/video-tracking" element={<VideoIngestion />} />
+              <Route path="/watchlist" element={<Watchlist />} />
               <Route path="/investigations" element={<Investigations />} />
               <Route path="/investigations/:id" element={<InvestigationDetail />} />
             </Route>
 
-            <Route element={<ProtectedRoute allowedRoles={["Traffic Police", "Authorized Investigator", "Traffic Analyst", "Municipal/Smart City Authority", "Control Room Operator", "System Administrator"]} />}>
+            {/* Traffic Planning & Analytics: Traffic Analyst, Administrator */}
+            <Route element={<ProtectedRoute allowedRoles={['Traffic Analyst', 'Administrator']} />}>
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/traffic-flow" element={<TrafficFlow />} />
+              <Route path="/congestion" element={<Congestion />} />
               <Route path="/reports" element={<Reports />} />
               <Route path="/mobility-reports" element={<Reports />} />
               <Route path="/traffic-reports" element={<Reports />} />
             </Route>
 
-            <Route element={<ProtectedRoute allowedRoles={["System Administrator"]} />}>
-              <Route path="/users" element={<UsersPage />} />
+            {/* Diagnostics & Lab: Administrator */}
+            <Route element={<ProtectedRoute allowedRoles={['Administrator']} />}>
+              <Route path="/anpr" element={<ANPRModule />} />
             </Route>
 
-            <Route path="/settings" element={<SettingsPage />} />
+            {/* System Administration: Administrator */}
+            <Route element={<ProtectedRoute allowedRoles={['Administrator']} />}>
+              <Route path="/users" element={<UsersPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Route>
 
             {/* Fallback 404 */}
             <Route path="*" element={<NotFound />} />

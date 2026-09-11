@@ -212,7 +212,6 @@ export default function Alerts() {
             Automated detection of watchlist matches, traffic violations, camera failures, and traffic anomalies
           </p>
         </div>
-
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-mono text-emerald-400 shadow-sm">
             <Wifi className="w-3.5 h-3.5 animate-pulse text-emerald-400" />
@@ -511,7 +510,7 @@ export default function Alerts() {
                       className="px-3 py-1.5 rounded-xl bg-cyan-950/80 hover:bg-cyan-900 text-cyan-600 border border-cyan-800 text-xs font-bold transition flex items-center space-x-1"
                     >
                       <Route className="w-3.5 h-3.5" />
-                      <span>Trajectory</span>
+                      <span>Vehicle Route Tracking</span>
                     </Link>
                   )}
 
@@ -789,7 +788,7 @@ export default function Alerts() {
                       to={`/trajectory?plate=${encodeURIComponent(selectedAlert.vehicle_plate)}`}
                       className="p-2.5 rounded-xl bg-cyan-950 hover:bg-cyan-900 text-cyan-600 border border-cyan-800 text-xs font-bold transition flex items-center justify-between font-mono"
                     >
-                      <span>Trajectory View</span>
+                      <span>Vehicle Route Tracking</span>
                       <ChevronRight className="w-4 h-4 text-cyan-600" />
                     </Link>
                   </>
@@ -829,7 +828,7 @@ export default function Alerts() {
           className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <Route className="w-4 h-4 text-cyan-600" />
-          <span>Trajectory Reconstruction</span>
+          <span>Vehicle Route Tracking</span>
         </Link>
         <Link
           to="/traffic-flow"

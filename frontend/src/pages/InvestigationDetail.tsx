@@ -26,7 +26,8 @@ import {
   HelpCircle,
   Activity,
   History,
-  GitFork
+  GitFork,
+  Printer
 } from 'lucide-react';
 import { api } from '../services/api';
 import { useAuthStore } from '../store/authStore';
@@ -310,13 +311,22 @@ export default function InvestigationDetail() {
             </button>
           )}
 
-          {/* Export Button */}
+          {/* Export JSON Button */}
           <button
             onClick={handleExportDossier}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-700 text-cyan-600 border border-slate-300 text-xs font-mono font-bold transition"
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 text-xs font-mono font-bold transition"
           >
-            <FileDown className="w-3.5 h-3.5" />
-            <span>Export Dossier (JSON)</span>
+            <FileDown className="w-3.5 h-3.5 text-cyan-600" />
+            <span>Export (JSON)</span>
+          </button>
+
+          {/* Generate PDF Report Button */}
+          <button
+            onClick={() => window.print()}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-mono font-bold transition shadow-sm"
+          >
+            <Printer className="w-3.5 h-3.5" />
+            <span>Generate PDF Report</span>
           </button>
         </div>
       </div>
@@ -351,7 +361,7 @@ export default function InvestigationDetail() {
               className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold transition shadow-lg shadow-cyan-600/20 font-mono"
             >
               <Route className="w-4 h-4" />
-              <span>Full Trajectory Replay</span>
+              <span>Full Route Tracking Replay</span>
             </Link>
           </div>
         </div>
@@ -395,7 +405,7 @@ export default function InvestigationDetail() {
         </div>
 
         <div className="p-3.5 rounded-2xl bg-white/70 border border-slate-200">
-          <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Trajectory Span</span>
+          <span className="text-[10px] font-bold uppercase text-slate-500 font-mono block">Route Tracking Span</span>
           <span className="text-2xl font-black font-mono text-indigo-400 mt-1 block">{summary.trajectory_distance_km || 23.6} km</span>
           <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">{summary.trajectory_status || 'Probable Route'}</span>
         </div>
@@ -806,7 +816,7 @@ export default function InvestigationDetail() {
           className="flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
         >
           <Route className="w-4 h-4 text-cyan-600" />
-          <span>Trajectory Reconstruction</span>
+          <span>Vehicle Route Tracking</span>
         </Link>
         <Link
           to={`/alerts?search=${encodeURIComponent(dossier.subject_plate)}`}

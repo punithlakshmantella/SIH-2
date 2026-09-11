@@ -31,6 +31,7 @@ class CameraOut(BaseModel):
     last_heartbeat: Optional[datetime] = None
     ocr_accuracy: float
     vehicles_per_min: float
+    video_url: Optional[str] = None
     is_simulation: bool
     created_at: datetime
 
@@ -48,3 +49,4 @@ class CameraCreate(BaseModel):
     status: str = "online"
     fps: float = 30.0
     latency_ms: float = 40.0
+    video_url: Optional[str] = None

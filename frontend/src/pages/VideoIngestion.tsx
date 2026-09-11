@@ -178,14 +178,14 @@ export default function VideoIngestion() {
           <div className="flex items-center space-x-2.5">
             <h1 className="text-xl font-black text-slate-900 uppercase tracking-tight flex items-center space-x-2">
               <Film className="w-5 h-5 text-cyan-600" />
-              <span>CCTV Video Ingestion & Trajectory Tracking</span>
+              <span>CCTV Video Ingestion & Route Tracking</span>
             </h1>
             <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-cyan-950/80 text-cyan-400 border border-cyan-800 font-mono font-bold">
               OPENCV 1-FPS PIPELINE
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-1">
-            Feed multi-camera CCTV MP4 clips to run automated Indian ANPR extraction, vehicle matching, and instant trajectory updates.
+            Feed multi-camera CCTV MP4 clips to run automated Indian ANPR extraction, vehicle matching, and instant route tracking updates.
           </p>
         </div>
 
@@ -202,7 +202,7 @@ export default function VideoIngestion() {
             className="px-3 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold transition flex items-center space-x-1.5 shadow-md shadow-cyan-600/20"
           >
             <Route className="w-3.5 h-3.5" />
-            <span>Trajectory Map</span>
+            <span>Vehicle Route Tracking</span>
           </Link>
         </div>
       </div>
@@ -411,7 +411,7 @@ export default function VideoIngestion() {
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <span className="text-xs font-bold text-slate-700 uppercase tracking-wider font-mono flex items-center space-x-1.5">
                 <CheckCircle2 className="w-4 h-4 text-cyan-600" />
-                <span>Detection & Trajectory Results</span>
+                <span>Detection & Route Tracking Results</span>
               </span>
 
               {jobStatus && (

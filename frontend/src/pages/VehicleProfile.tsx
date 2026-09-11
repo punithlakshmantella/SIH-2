@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { 
   Car, 
   ArrowLeft, 
@@ -24,6 +24,7 @@ import { api } from '../services/api';
 
 export default function VehicleProfile() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<any | null>(null);
   const [detections, setDetections] = useState<any[]>([]);
   const [selectedDetection, setSelectedDetection] = useState<any | null>(null);
@@ -98,11 +99,11 @@ export default function VehicleProfile() {
 
         <div className="flex items-center space-x-3">
           <button
-            onClick={() => alert("Integration point for Case Management / Investigation Module")}
-            className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-700 border border-slate-300 text-slate-800 text-xs font-bold transition"
+            onClick={() => navigate('/investigations', { state: { prefillPlate: profile.primary_plate } })}
+            className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 text-xs font-bold transition shadow-sm"
           >
-            <FileText className="w-4 h-4" />
-            <span>CREATE INVESTIGATION</span>
+            <FileText className="w-4 h-4 text-cyan-600" />
+            <span>OPEN INVESTIGATION</span>
           </button>
           
           <Link
@@ -110,46 +111,46 @@ export default function VehicleProfile() {
             className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-xs font-bold transition shadow-lg shadow-cyan-600/20"
           >
             <Route className="w-4 h-4" />
-            <span>VIEW TRAJECTORY</span>
+            <span>VIEW ROUTE TRACKING</span>
           </Link>
         </div>
       </div>
 
       {/* Vehicle Summary Hero Header */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900/90 to-cyan-950/40 border border-slate-200 space-y-4">
+      <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center space-x-4">
-            <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center flex-shrink-0 text-cyan-600 shadow-inner">
+            <div className="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center flex-shrink-0 text-cyan-600 shadow-sm">
               <Car className="w-7 h-7" />
             </div>
             <div>
               <div className="flex items-center space-x-3">
-                <span className="text-2xl font-black font-mono text-cyan-600 tracking-wider">
+                <span className="text-2xl font-black font-mono text-slate-900 tracking-wider">
                   {profile.primary_plate}
                 </span>
-                <span className="text-xs text-slate-500 font-mono bg-slate-50 px-2 py-0.5 rounded border border-slate-200">
+                <span className="text-xs text-slate-600 font-mono bg-slate-100 px-2 py-0.5 rounded border border-slate-200 font-bold">
                   ID #{profile.id}
                 </span>
               </div>
               <p className="text-xs text-slate-700 capitalize mt-1 flex items-center space-x-2">
-                <span className="inline-block w-2.5 h-2.5 rounded-full border border-slate-600" style={{ backgroundColor: profile.color }}></span>
-                <span>{profile.color} {profile.make} {profile.model}</span>
-                <span className="text-slate-500">•</span>
-                <span className="font-mono text-slate-500">{profile.vehicle_type}</span>
+                <span className="inline-block w-2.5 h-2.5 rounded-full border border-slate-400" style={{ backgroundColor: profile.color }}></span>
+                <span className="font-semibold">{profile.color} {profile.make} {profile.model}</span>
+                <span className="text-slate-400">•</span>
+                <span className="font-mono text-slate-500 capitalize">{profile.vehicle_type}</span>
               </p>
             </div>
           </div>
 
           <div className="text-right">
-            <span className="text-[10px] uppercase text-slate-500 font-bold block">First Seen System Entry</span>
-            <span className="text-[11px] text-slate-700 font-mono block mb-2">
+            <span className="text-[10px] uppercase text-slate-500 font-bold font-mono block">First Seen System Entry</span>
+            <span className="text-[11px] text-slate-700 font-mono block mb-1.5">
               {profile.first_seen_at ? new Date(profile.first_seen_at).toLocaleString() : 'N/A'}
             </span>
-            <span className="text-[10px] uppercase text-slate-500 font-bold block">Last Known Location</span>
-            <span className="text-[12px] font-bold text-slate-800 block truncate max-w-[220px]">
+            <span className="text-[10px] uppercase text-slate-500 font-bold font-mono block">Last Known Location</span>
+            <span className="text-[12px] font-bold text-slate-900 block truncate max-w-[220px]">
               {profile.last_camera_name || profile.last_camera_id || 'Visakhapatnam'}
             </span>
-            <span className="text-[11px] text-cyan-600 font-mono block">
+            <span className="text-[11px] text-cyan-700 font-mono block">
               {profile.last_seen_at ? new Date(profile.last_seen_at).toLocaleString() : 'N/A'}
             </span>
           </div>
@@ -157,23 +158,23 @@ export default function VehicleProfile() {
 
         {/* KPI Metrics Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-slate-200">
-          <div className="p-3 bg-slate-50/60 rounded-xl border border-slate-200">
-            <span className="text-[10px] text-slate-500 uppercase font-mono block tracking-wider">Total Camera Hits</span>
+          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <span className="text-[10px] text-slate-500 uppercase font-mono block font-bold tracking-wider">Total Camera Hits</span>
             <span className="text-base font-bold text-slate-900 font-mono">{profile.total_detections}</span>
           </div>
-          <div className="p-3 bg-slate-50/60 rounded-xl border border-slate-200">
-            <span className="text-[10px] text-slate-500 uppercase font-mono block tracking-wider">Cameras Visited</span>
+          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <span className="text-[10px] text-slate-500 uppercase font-mono block font-bold tracking-wider">Cameras Visited</span>
             <span className="text-base font-bold text-slate-900 font-mono">{profile.cameras_visited_count}</span>
           </div>
-          <div className="p-3 bg-slate-50/60 rounded-xl border border-slate-200">
-            <span className="text-[10px] text-slate-500 uppercase font-mono block tracking-wider">Tracked Distance</span>
-            <span className="text-base font-bold text-cyan-600 font-mono">
+          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <span className="text-[10px] text-slate-500 uppercase font-mono block font-bold tracking-wider">Tracked Distance</span>
+            <span className="text-base font-bold text-cyan-700 font-mono">
               {profile.total_detections > 1 ? `${profile.total_distance_km} km` : 'N/A'}
             </span>
           </div>
-          <div className="p-3 bg-slate-50/60 rounded-xl border border-slate-200">
-            <span className="text-[10px] text-slate-500 uppercase font-mono block tracking-wider">Average Speed</span>
-            <span className="text-base font-bold text-emerald-400 font-mono">
+          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <span className="text-[10px] text-slate-500 uppercase font-mono block font-bold tracking-wider">Average Speed</span>
+            <span className="text-base font-bold text-emerald-600 font-mono">
               {profile.total_detections > 1 ? `${profile.avg_speed_kmh} km/h` : 'N/A'}
             </span>
           </div>

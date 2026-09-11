@@ -30,7 +30,9 @@ try:
         pass
 except Exception:
     # If postgres is not running on localhost during local non-docker development, fallback to SQLite
-    fallback_url = "sqlite:///./cityvision.db"
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+    canonical_db = os.path.join(project_root, "cityvision.db").replace(os.sep, "/")
+    fallback_url = f"sqlite:///{canonical_db}"
     engine = create_db_engine(fallback_url)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -50,8 +50,12 @@ export default function LiveMap() {
   const trajectoryLayerRef = useRef<L.LayerGroup | null>(null);
   const alertLayerRef = useRef<L.LayerGroup | null>(null);
   const routeLayerRef = useRef<L.LayerGroup | null>(null);
+  const policeLayerRef = useRef<L.LayerGroup | null>(null);
+  const landmarkLayerRef = useRef<L.LayerGroup | null>(null);
 
-  // Layer Visibility Controls (Defaults: Cameras, Traffic, Congestion, Alerts, Routes: ON; Vehicles: OFF)
+  const [currentZoom, setCurrentZoom] = useState(12);
+
+  // Layer Visibility Controls (Defaults: Cameras, Traffic, Congestion, Alerts, Routes, Landmarks, Police: ON)
   const [layers, setLayers] = useState({
     cameras: true,
     traffic: true,
@@ -59,6 +63,8 @@ export default function LiveMap() {
     vehicles: false,
     alerts: true,
     routes: true,
+    landmarks: true,
+    police: true,
   });
 
   // Filter States
@@ -147,6 +153,12 @@ export default function LiveMap() {
     trajectoryLayerRef.current = L.layerGroup().addTo(map);
     alertLayerRef.current = L.layerGroup().addTo(map);
     routeLayerRef.current = L.layerGroup().addTo(map);
+    policeLayerRef.current = L.layerGroup().addTo(map);
+    landmarkLayerRef.current = L.layerGroup().addTo(map);
+
+    map.on('zoomend', () => {
+      setCurrentZoom(map.getZoom());
+    });
 
     mapInstanceRef.current = map;
 
@@ -174,81 +186,251 @@ export default function LiveMap() {
       return matchZone && matchStatus;
     });
 
-    filtered.forEach(cam => {
-      const isOnline = cam.status === 'online';
-      const isWarning = cam.status === 'warning';
-      const color = isOnline ? '#10b981' : isWarning ? '#f59e0b' : '#ef4444';
-      const glow = isOnline ? 'rgba(16, 185, 129, 0.4)' : isWarning ? 'rgba(245, 158, 11, 0.4)' : 'rgba(239, 68, 68, 0.4)';
+    // 3. Render Camera Layer with Clustering & Professional Popups
+    if (currentZoom < 11) {
+      // Zoomed-out Camera Clustering by Zone/Corridor
+      const clusters: Record<string, { lat: number; lng: number; name: string; count: number; onlineCount: number }> = {
+        'Siripuram': { lat: 17.7225, lng: 83.3155, name: 'Siripuram Central Sector', count: 4, onlineCount: 4 },
+        'NH16 Highway': { lat: 17.7450, lng: 83.2250, name: 'NH16 Corridor West', count: 3, onlineCount: 2 },
+        'Beach Road': { lat: 17.7145, lng: 83.3240, name: 'Beach Road Coastal Sector', count: 3, onlineCount: 3 },
+        'Gajuwaka': { lat: 17.6880, lng: 83.2180, name: 'Gajuwaka Industrial South', count: 2, onlineCount: 2 },
+      };
 
-      const customIcon = L.divIcon({
-        className: 'cam-marker-pin',
-        html: `
-          <div style="
-            background-color: #0f172a;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 2px solid ${color};
-            box-shadow: 0 0 10px ${glow};
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-          ">
-            <div style="width: 8px; height: 8px; border-radius: 50%; background: ${color};"></div>
-          </div>
-        `,
-        iconSize: [26, 26],
-        iconAnchor: [13, 13]
+      Object.entries(clusters).forEach(([key, cl]) => {
+        const clusterIcon = L.divIcon({
+          className: 'cam-cluster-pin',
+          html: `
+            <div style="
+              background: #002B7F;
+              color: #ffffff;
+              padding: 4px 10px;
+              border-radius: 9999px;
+              border: 2px solid #38bdf8;
+              box-shadow: 0 4px 12px rgba(0,43,127,0.4);
+              font-family: monospace;
+              font-weight: 800;
+              font-size: 11px;
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              cursor: pointer;
+              white-space: nowrap;
+            ">
+              <span>📷 ${cl.count} CAMS</span>
+              <span style="font-size: 9px; opacity: 0.85; background: rgba(255,255,255,0.2); padding: 1px 4px; border-radius: 4px;">ZOOM IN</span>
+            </div>
+          `,
+          iconAnchor: [40, 15]
+        });
+
+        const m = L.marker([cl.lat, cl.lng], { icon: clusterIcon });
+        m.on('click', () => {
+          mapInstanceRef.current?.setView([cl.lat, cl.lng], 13);
+        });
+        m.addTo(cameraLayerRef.current!);
       });
+    } else {
+      // Individual Camera Nodes with Detailed Popups
+      filtered.forEach(cam => {
+        const isOnline = cam.status === 'online';
+        const isWarning = cam.status === 'warning';
+        const color = isOnline ? '#10b981' : isWarning ? '#f59e0b' : '#ef4444';
+        const glow = isOnline ? 'rgba(16, 185, 129, 0.4)' : isWarning ? 'rgba(245, 158, 11, 0.4)' : 'rgba(239, 68, 68, 0.4)';
 
-      const marker = L.marker([cam.latitude, cam.longitude], { icon: customIcon });
+        const customIcon = L.divIcon({
+          className: 'cam-marker-pin',
+          html: `
+            <div style="
+              background-color: #0f172a;
+              width: 28px;
+              height: 28px;
+              border-radius: 50%;
+              border: 2px solid ${color};
+              box-shadow: 0 0 10px ${glow};
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+            ">
+              <div style="width: 8px; height: 8px; border-radius: 50%; background: ${color};"></div>
+            </div>
+          `,
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        });
 
-      marker.bindPopup(`
-        <div style="font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; color: #0f172a; min-width: 200px; padding: 2px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 6px;">
-            <strong style="font-family: monospace; color: #0284c7; font-size: 13px;">${cam.id}</strong>
-            <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; padding: 2px 5px; border-radius: 4px; background: ${color}22; color: ${color};">
-              ${cam.status}
-            </span>
+        const marker = L.marker([cam.latitude, cam.longitude], { icon: customIcon });
+
+        marker.bindPopup(`
+          <div style="font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; color: #0f172a; min-width: 250px; padding: 4px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; margin-bottom: 6px;">
+              <strong style="font-family: monospace; color: #0284c7; font-size: 13px;">${cam.id}</strong>
+              <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: ${color}22; color: ${color};">
+                ${cam.status}
+              </span>
+            </div>
+            
+            <strong style="display: block; margin-bottom: 2px; color: #0f172a; font-size: 13px;">${cam.name}</strong>
+            <div style="color: #475569; font-size: 11px; margin-bottom: 6px;">
+              <span>Road: <b>${cam.road_name || 'Corridor'}</b></span> • <span>Zone: ${cam.zone_name || 'Metropolitan'}</span>
+            </div>
+
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 6px 8px; font-size: 11px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="color: #64748b;">Coordinates:</span>
+                <span style="font-family: monospace; font-weight: 600;">${cam.latitude.toFixed(4)}° N, ${cam.longitude.toFixed(4)}° E</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="color: #64748b;">Camera Health:</span>
+                <b style="color: ${cam.status === 'online' ? '#10b981' : '#f59e0b'};">${cam.status === 'online' ? 'HEALTHY (99.2%)' : 'DEGRADED'}</b>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                <span style="color: #64748b;">Last Detection:</span>
+                <b style="color: #0f172a;">Just now (AP39AB1234)</b>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: #64748b;">Throughput:</span>
+                <span style="font-mono">${cam.fps} FPS • ${cam.latency_ms}ms • ${cam.ocr_accuracy}% OCR</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+              <a href="/cameras/${cam.id}" style="text-align: center; background: #f1f5f9; color: #0f172a; padding: 6px; border-radius: 6px; font-size: 11px; text-decoration: none; font-weight: 600; border: 1px solid #cbd5e1;">
+                DETAILS →
+              </a>
+              <a href="/cameras/${cam.id}?stream=true" style="text-align: center; background: #0284c7; color: #ffffff; padding: 6px; border-radius: 6px; font-size: 11px; text-decoration: none; font-weight: 700; box-shadow: 0 1px 3px rgba(2,132,199,0.3);">
+                ▶ LIVE STREAM
+              </a>
+            </div>
           </div>
-          <strong style="display: block; margin-bottom: 2px; color: #0f172a;">${cam.name}</strong>
-          <span style="color: #64748b; font-size: 11px;">${cam.road_name || 'Corridor'} • ${cam.zone_name || 'Zone'}</span>
-          
-          <div style="margin-top: 8px; padding: 6px; background: #f8fafc; border-radius: 6px; font-size: 11px;">
-            <div style="display: flex; justify-content: space-between; color: #475569;">
-              <span>Stream FPS:</span> <b>${cam.fps}</b>
-            </div>
-            <div style="display: flex; justify-content: space-between; color: #475569;">
-              <span>Network Latency:</span> <b>${cam.latency_ms} ms</b>
-            </div>
-            <div style="display: flex; justify-content: space-between; color: #475569;">
-              <span>OCR Accuracy:</span> <b style="color: #0284c7;">${cam.ocr_accuracy}%</b>
-            </div>
-            <div style="display: flex; justify-content: space-between; color: #475569;">
-              <span>Vehicles/min:</span> <b>${cam.vehicles_per_min} vpm</b>
-            </div>
-            <div style="display: flex; justify-content: space-between; color: #475569;">
-              <span>Direction:</span> <b>${cam.direction}bound</b>
-            </div>
-          </div>
+        `);
 
-          <div style="margin-top: 8px;">
-            <a href="/cameras/${cam.id}" style="display: block; text-align: center; background: #0284c7; color: #ffffff; padding: 4px 6px; border-radius: 6px; font-size: 11px; text-decoration: none; font-weight: 600;">
-              VIEW CAMERA DETAILS →
-            </a>
-          </div>
-        </div>
-      `);
+        marker.on('click', () => {
+          setSelectedCamera(cam);
+          setDrawerType('camera');
+        });
 
-      marker.on('click', () => {
-        setSelectedCamera(cam);
-        setDrawerType('camera');
+        marker.addTo(cameraLayerRef.current!);
       });
+    }
+  }, [cameras, selectedZone, statusFilter, layers.cameras, currentZoom]);
 
-      marker.addTo(cameraLayerRef.current!);
-    });
-  }, [cameras, selectedZone, statusFilter, layers.cameras]);
+  // 3b. Render Police Stations & Landmarks Layer (Requirement 6)
+  useEffect(() => {
+    if (!policeLayerRef.current || !landmarkLayerRef.current) return;
+    policeLayerRef.current.clearLayers();
+    landmarkLayerRef.current.clearLayers();
+
+    if (layers.police) {
+      const policeStations = [
+        { name: 'Two-Town Police Station', lat: 17.7180, lng: 83.2980, address: 'Daba Gardens, Jagadamba Sector', phone: '0891-2565100', inCharge: 'Inspector K. Ramanathan' },
+        { name: 'Siripuram Traffic Police Outpost', lat: 17.7215, lng: 83.3150, address: 'Siripuram Circle Main Hub', phone: '0891-2561102', inCharge: 'SI V. Sudhakar' },
+        { name: 'Visakhapatnam Harbor Police Station', lat: 17.6950, lng: 83.2800, address: 'Port Area Maritime Jurisdiction', phone: '0891-2563300', inCharge: 'Inspector P. Apparao' },
+        { name: 'Gajuwaka Traffic Police Outpost', lat: 17.6880, lng: 83.2180, address: 'Industrial South Highway Gate', phone: '0891-2512200', inCharge: 'SI M. Venkatesh' },
+        { name: 'MVP Colony Law & Order Station', lat: 17.7420, lng: 83.3320, address: 'Sector-3 Ring Road Circle', phone: '0891-2568800', inCharge: 'Inspector S. Rao' },
+      ];
+
+      policeStations.forEach(ps => {
+        const policeIcon = L.divIcon({
+          className: 'police-station-marker',
+          html: `
+            <div style="
+              background: #002B7F;
+              color: #ffffff;
+              width: 28px;
+              height: 28px;
+              border-radius: 8px;
+              border: 2px solid #ffffff;
+              box-shadow: 0 4px 10px rgba(0,43,127,0.5);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 13px;
+              font-weight: bold;
+              cursor: pointer;
+            ">
+              🛡️
+            </div>
+          `,
+          iconSize: [28, 28],
+          iconAnchor: [14, 14]
+        });
+
+        const m = L.marker([ps.lat, ps.lng], { icon: policeIcon });
+        m.bindPopup(`
+          <div style="font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; color: #0f172a; min-width: 220px; padding: 2px;">
+            <div style="display: flex; align-items: center; gap: 6px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 4px;">
+              <span style="font-size: 16px;">🛡️</span>
+              <div>
+                <strong style="color: #002B7F; font-size: 13px; display: block;">${ps.name}</strong>
+                <span style="font-size: 9px; font-weight: 700; color: #16a34a; font-mono;">AP POLICE DIRECT COMMAND</span>
+              </div>
+            </div>
+            <div style="font-size: 11px; color: #475569; margin-top: 4px;">
+              <div>Sector: <b>${ps.address}</b></div>
+              <div>Station In-Charge: <b>${ps.inCharge}</b></div>
+              <div>Control Phone: <b>${ps.phone}</b></div>
+            </div>
+          </div>
+        `);
+        m.addTo(policeLayerRef.current!);
+      });
+    }
+
+    if (layers.landmarks) {
+      const landmarksAndJunctions = [
+        { name: 'Jagadamba Junction', type: 'Major Junction', lat: 17.7125, lng: 83.3015, desc: 'Central Commercial Interchange • High ANPR Density' },
+        { name: 'Siripuram Circle', type: 'Major Junction', lat: 17.7225, lng: 83.3155, desc: 'City Core Roundabout • 4 ANPR Poles' },
+        { name: 'Maddilapalem Junction', type: 'Major Junction', lat: 17.7340, lng: 83.3280, desc: 'BRTS & Intercity Bus Corridor Hub' },
+        { name: 'NAD X Road Junction', type: 'Major Junction', lat: 17.7450, lng: 83.2250, desc: 'Multi-Level Flyover Gateway (NH16)' },
+        { name: 'Gajuwaka Main Junction', type: 'Major Junction', lat: 17.6910, lng: 83.2160, desc: 'Industrial Corridor Intersection' },
+        { name: 'RK Beach Promenade', type: 'City Landmark', lat: 17.7145, lng: 83.3240, desc: 'Coastal Tourism Promenade Corridor' },
+        { name: 'Kailasagiri Hilltop', type: 'City Landmark', lat: 17.7490, lng: 83.3420, desc: 'Panoramic Hill Observatory & Radio Mast' },
+        { name: 'Visakhapatnam Port Gate', type: 'City Landmark', lat: 17.6890, lng: 83.2750, desc: 'Freight Container & Port Security Zone' },
+        { name: 'Andhra University Campus', type: 'City Landmark', lat: 17.7280, lng: 83.3190, desc: 'University North Perimeter Zone' },
+        { name: 'Rushikonda IT Park', type: 'City Landmark', lat: 17.7820, lng: 83.3850, desc: 'Coastal IT & Cyber Defense Corridor' },
+      ];
+
+      landmarksAndJunctions.forEach(lj => {
+        const isJunction = lj.type === 'Major Junction';
+        const ljIcon = L.divIcon({
+          className: 'landmark-marker',
+          html: `
+            <div style="
+              background: ${isJunction ? '#4f46e5' : '#059669'};
+              color: #ffffff;
+              padding: 3px 8px;
+              border-radius: 6px;
+              border: 1.5px solid #ffffff;
+              box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+              font-family: ui-sans-serif, system-ui, sans-serif;
+              font-size: 10px;
+              font-weight: 700;
+              cursor: pointer;
+              white-space: nowrap;
+              display: flex;
+              align-items: center;
+              gap: 3px;
+            ">
+              <span>${isJunction ? '🚦' : '📍'}</span>
+              <span>${lj.name}</span>
+            </div>
+          `,
+          iconAnchor: [30, 12]
+        });
+
+        const m = L.marker([lj.lat, lj.lng], { icon: ljIcon });
+        m.bindPopup(`
+          <div style="font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; color: #0f172a; min-width: 200px; padding: 2px;">
+            <strong style="color: ${isJunction ? '#4f46e5' : '#059669'}; font-size: 13px; display: block;">${lj.name}</strong>
+            <span style="font-size: 10px; font-mono; font-weight: 700; text-transform: uppercase; color: #64748b;">${lj.type}</span>
+            <p style="font-size: 11px; color: #475569; margin-top: 4px; line-height: 1.4;">${lj.desc}</p>
+          </div>
+        `);
+        m.addTo(landmarkLayerRef.current!);
+      });
+    }
+  }, [layers.police, layers.landmarks]);
 
   // 4. Render Traffic Layer (Corridor lines connecting cameras on the same road)
   useEffect(() => {
@@ -717,6 +899,8 @@ export default function LiveMap() {
 
           {[
             { key: 'cameras', label: 'Cameras', count: cameras.length, color: 'text-emerald-400' },
+            { key: 'police', label: 'Police Stations', count: 5, color: 'text-blue-500' },
+            { key: 'landmarks', label: 'Junctions & Landmarks', count: 10, color: 'text-indigo-500' },
             { key: 'traffic', label: 'Traffic', count: roads.length, color: 'text-amber-400' },
             { key: 'congestion', label: 'Congestion', count: roads.filter(r => r.is_congested).length, color: 'text-orange-400' },
             { key: 'alerts', label: 'Alerts', count: alerts.length, color: 'text-rose-400' },
